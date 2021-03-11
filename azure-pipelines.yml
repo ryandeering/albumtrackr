@@ -30,6 +30,15 @@ stages:
             inputs:
               command: build
               projects: '**/albumtrackr.API.csproj'
+          - task: Gradle@2
+            displayName: Building Android App
+            inputs:
+              workingDirectory: 'albumtracker.App'
+              gradleWrapperFile: 'gradlew'
+              tasks: 'build'
+              publishJUnitResults: false
+              javaHomeOption: 'JDKVersion'
+              sonarQubeRunAnalysis: false
   - stage: Release
     displayName: Release stage
     jobs:
