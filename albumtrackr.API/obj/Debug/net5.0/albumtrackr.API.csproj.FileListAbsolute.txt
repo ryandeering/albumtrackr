@@ -1,7 +1,0 @@
-C:\albumtrackr\albumtrackr.API\obj\Debug\net5.0\albumtrackr.API.csprojAssemblyReference.cache
-C:\albumtrackr\albumtrackr.API\obj\Debug\net5.0\albumtrackr.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\albumtrackr\albumtrackr.API\obj\Debug\net5.0\albumtrackr.API.AssemblyInfoInputs.cache
-C:\albumtrackr\albumtrackr.API\obj\Debug\net5.0\albumtrackr.API.AssemblyInfo.cs
-C:\albumtrackr\albumtrackr.API\obj\Debug\net5.0\albumtrackr.API.csproj.CoreCompileInputs.cache
-C:\albumtrackr\albumtrackr.API\obj\Debug\net5.0\albumtrackr.API.MvcApplicationPartsAssemblyInfo.cs
-C:\albumtrackr\albumtrackr.API\obj\Debug\net5.0\albumtrackr.API.MvcApplicationPartsAssemblyInfo.cache
