@@ -59,7 +59,7 @@ stages:
             displayName: Deploy to Azure
             inputs:
               ConnectionType: AzureRM
-              azureSubscription: Azure for Students Starter(5d27ca07-2248-4170-a7a8-870c4c1fdf9a)
+              azureSubscription: albumtrackrAzure
               appType: webApp
               WebAppName: albumtrackrAPI
               packageForLinux: $(System.DefaultWorkingDirectory)/**/*.zip
