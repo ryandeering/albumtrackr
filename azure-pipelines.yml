@@ -38,7 +38,10 @@ stages:
               tasks: 'build'
               publishJUnitResults: false
               javaHomeOption: 'JDKVersion'
-              sonarQubeRunAnalysis: false
+              sonarQubeRunAnalysis: true
+              sqGradlePluginVersionChoice: 'specify'
+              sonarQubeGradlePluginVersion: '2.6.1'
+
   - stage: Release
     displayName: Release stage
     jobs:
