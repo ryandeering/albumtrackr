@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using albumtrackr.API.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace albumtrackr.API.Data
 {
@@ -9,7 +10,8 @@ namespace albumtrackr.API.Data
         {
         }
 
-        //public DbSet<StockListing> StockListing { get; set; } //change
+        public DbSet<AlbumList> ALists { get; set; }
+        public DbSet<Album> Albums { get; set; }
 
         //Add-Migration init
         //Update-Database
