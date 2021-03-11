@@ -60,6 +60,6 @@ stages:
             inputs:
               ConnectionType: AzureRM
               azureSubscription: 'albumtrackr'
-              appType: webApp
-              WebAppName: albumtrackrAPI
-              packageForLinux: $(System.DefaultWorkingDirectory)/**/*.zip
+              appType: 'webApp'
+              WebAppName: 'albumtrackrAPI'
+              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
