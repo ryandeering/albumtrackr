@@ -33,7 +33,7 @@ stages:
           - task: Gradle@2
             displayName: Building Android App
             inputs:
-              workingDirectory: 'albumtracker.App'
+              workingDirectory: 'albumtrackr.App'
               gradleWrapperFile: 'albumtrackr.App/gradlew'
               tasks: 'build'
               publishJUnitResults: false
