@@ -34,7 +34,7 @@ stages:
             displayName: Building Android App
             inputs:
               workingDirectory: 'albumtracker.App'
-              gradleWrapperFile: 'gradlew'
+              gradleWrapperFile: '**/gradlew'
               tasks: 'build'
               publishJUnitResults: false
               javaHomeOption: 'JDKVersion'
