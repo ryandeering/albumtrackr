@@ -71,4 +71,3 @@ stages:
               appType: webApp
               WebAppName: albumtrackrAPI
               packageForLinux: $(System.DefaultWorkingDirectory)/**/*.zip
-© 2021 GitHub, Inc.
