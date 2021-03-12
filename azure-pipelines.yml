@@ -38,10 +38,6 @@ stages:
               tasks: 'build'
               publishJUnitResults: false
               javaHomeOption: 'JDKVersion'
-              sonarQubeRunAnalysis: true
-              sqGradlePluginVersionChoice: 'specify'
-              sonarQubeGradlePluginVersion: '2.6.1'
-
   - stage: Release
     displayName: Release stage
     jobs:
@@ -75,3 +71,4 @@ stages:
               appType: webApp
               WebAppName: albumtrackrAPI
               packageForLinux: $(System.DefaultWorkingDirectory)/**/*.zip
+© 2021 GitHub, Inc.

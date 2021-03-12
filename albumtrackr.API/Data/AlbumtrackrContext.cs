@@ -11,9 +11,14 @@ namespace albumtrackr.API.Data
         }
 
         public DbSet<AlbumList> ALists { get; set; }
+
         public DbSet<Album> Albums { get; set; }
 
         //Add-Migration init
         //Update-Database
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

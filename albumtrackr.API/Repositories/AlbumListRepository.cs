@@ -1,6 +1,7 @@
 ﻿using albumtrackr.API.Data;
 using albumtrackr.API.DTO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace albumtrackr.API.Repositories
 {
@@ -15,7 +16,11 @@ namespace albumtrackr.API.Repositories
 
         public IEnumerable<AlbumList> GetLatestLists()
         {
-            return _albumtrackrContext.ALists;
+            return _albumtrackrContext.ALists.OrderByDescending(al => al.created).Take(5);
         }
+
+
+
+
     }
 }
