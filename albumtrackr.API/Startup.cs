@@ -1,14 +1,14 @@
-using albumtrackr.API.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-
 namespace albumtrackr.API
 {
+    using albumtrackr.API.Data;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.OpenApi.Models;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -29,10 +29,7 @@ namespace albumtrackr.API
             });
 
             services.AddDbContext<AlbumtrackrContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("EadContext")));
-
-
-
+        options.UseSqlServer(Configuration.GetConnectionString("AlbumtrackrContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
