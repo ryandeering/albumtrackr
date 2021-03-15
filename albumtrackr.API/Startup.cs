@@ -39,8 +39,7 @@ namespace albumtrackr.API
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
+                        .AllowAnyHeader());
             });
 
             services.AddDbContext<AlbumtrackrContext>(options =>
