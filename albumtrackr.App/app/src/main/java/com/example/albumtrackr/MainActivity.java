@@ -24,7 +24,7 @@ import com.android.volley.toolbox.*;
 public class MainActivity extends AppCompatActivity {
 
     // uri of RESTful service on Azure, note: https, cleartext support disabled by default
-    private String SERVICE_URI = "";          // or https
+    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/Album?Name=halfaxa&Artist=grimes";          // or https
     private String TAG = "";
 
     @Override
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "Making request");
             try
             {
-                StringRequest strObjRequest = new StringRequest(Request.Method.GET, SERVICE_URI,
+                StringRequest strObjRequest = new StringRequest(Request.Method.POST, SERVICE_URI,
                         new Response.Listener<String>()
                         {
                             @Override
