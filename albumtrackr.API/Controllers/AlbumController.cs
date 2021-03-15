@@ -1,4 +1,5 @@
-﻿using albumtrackr.API.DTO;
+﻿using System.Text.Json;
+using albumtrackr.API.DTO;
 using albumtrackr.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,12 +29,12 @@ namespace _4thYearProject.Api.Controllers
         //}
 
         [HttpPost]
-        public IActionResult CreateAlbum([FromBody] Album foo)
+        public ActionResult<Album> CreateAlbum(string Name, string Artist)
         {
-            if (foo.Name == null)
+            if (Name == null)
                 return BadRequest();
 
-            if (foo.Name == string.Empty || foo.Artist == string.Empty)
+            if (Name == string.Empty || Artist == string.Empty)
             {
                 ModelState.AddModelError("AlbumName/ArtistName", "The album name or artist name shouldn't be empty");
             }
@@ -41,10 +42,15 @@ namespace _4thYearProject.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            Album foo = new Album
+            {
+                Artist = Artist,
+                Name = Name
+            };
 
             var createdAlbum = _albumRepository.AddAlbumAsync(foo);
 
-            return Created("album", createdAlbum);
+            return Ok(createdAlbum.Result);
         }
 
         //[HttpPut]

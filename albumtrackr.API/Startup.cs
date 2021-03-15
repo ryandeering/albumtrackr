@@ -1,3 +1,5 @@
+using albumtrackr.API.Repositories;
+
 namespace albumtrackr.API
 {
     using albumtrackr.API.Data;
@@ -27,6 +29,9 @@ namespace albumtrackr.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "albumtrackr.API", Version = "v1" });
             });
+
+            services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddScoped<IAlbumListRepository, AlbumListRepository>();
 
             services.AddDbContext<AlbumtrackrContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("AlbumtrackrContext")));
