@@ -33,6 +33,16 @@ namespace albumtrackr.API
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<IAlbumListRepository, AlbumListRepository>();
 
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
             services.AddDbContext<AlbumtrackrContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("AlbumtrackrContext")));
         }
@@ -46,6 +56,10 @@ namespace albumtrackr.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "albumtrackr.API v1"));
             }
+
+
+            app.UseCors("CorsPolicy");
+
 
             app.UseHttpsRedirection();
 
