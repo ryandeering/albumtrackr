@@ -71,3 +71,4 @@ stages:
               appType: webApp
               WebAppName: albumtrackrAPI
               packageForLinux: $(System.DefaultWorkingDirectory)/**/*.zip
+              deploymentMethod: zipDeploy
