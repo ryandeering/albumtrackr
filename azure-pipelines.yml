@@ -70,5 +70,4 @@ stages:
               azureSubscription: albumtrackrAzure
               appType: webApp
               WebAppName: albumtrackrAPI
-              packageForLinux: $(System.DefaultWorkingDirectory)/**/*.zip
-              deploymentMethod: zipDeploy
+              package: $(System.DefaultWorkingDirectory)/**/*.zip
