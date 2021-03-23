@@ -2,19 +2,29 @@
 
 package com.example.albumtrackr;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
 import com.google.gson.*;
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 
 // in build.gradle for Module:app
@@ -82,9 +92,21 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(String response)
                             {
                                 // parse resulting string containing JSON to Greeting object
-                                Model model = new Gson().fromJson(response, Model.class);
-                                outputTextView.setText(model.toString());
-                                Log.d(TAG, "Displaying data" + model.toString());
+
+                                // model = new Gson().fromJson(response, Model.class);
+                                // outputTextView.setText(model.toString());
+                                // Log.d(TAG, "Displaying data" + model.toString());
+
+            // List BEGIN
+                                Type listType = new TypeToken<List<Model>>() {}.getType();
+                                List<Model> yourList = new Gson().fromJson(response.toString(), listType);
+
+
+
+                                CustomListAdapter adapter = new CustomListAdapter(this, yourList);
+                                ListView listView = (ListView) findViewById(R.id.list);
+
+                                listView.setAdapter(adapter);
                             }
                         },
                         new Response.ErrorListener()
@@ -110,4 +132,52 @@ public class MainActivity extends AppCompatActivity {
             outputTextView.setText(e2.toString());
         }
     }
-}
+
+
+    // Adapter for list
+
+    public class CustomListAdapter extends BaseAdapter {
+        private Context activity;
+        private LayoutInflater inflater;
+        private List<Model> items;
+
+        public CustomListAdapter(Response.Listener<String> activity, List<Model> items) {
+            this.activity = (Context) activity;
+            this.items = items;
+        }
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        @Override
+        public Object getItem(int location) {
+            return items.get(location);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if (inflater == null)
+                inflater = (LayoutInflater) activity
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (convertView == null)
+                convertView = inflater.inflate(R.layout.list_row, null);
+
+            TextView name = (TextView) convertView.findViewById(R.id.outputTextView);
+
+            // getting album data for the row
+            Model m = items.get(position);
+
+            name.setText(m.toString());
+
+            return convertView;
+
+
+        }}}

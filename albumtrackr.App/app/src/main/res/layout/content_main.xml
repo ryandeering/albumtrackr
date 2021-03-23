@@ -42,4 +42,19 @@
         app:layout_constraintTop_toBottomOf="@+id/callServiceButton"
         app:layout_constraintVertical_bias="0.0" />
 
+
+    <ListView
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#555"
+        android:dividerHeight="1dp"
+        android:listSelector="#000" >
+
+    </ListView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
