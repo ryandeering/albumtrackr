@@ -1,7 +1,7 @@
 package com.example.albumtrackr;
 
 // MODEL CLASS - NAME WILL BE CHANGED
-public class Model
+public class Album
 {
     private Integer id;
     private String artist;
@@ -12,5 +12,9 @@ public class Model
     public String toString()
     {
         return "The artist album and name should be: Grimes' Halfaxa." + "RESPONSE: " + artist + name;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
     }
 }

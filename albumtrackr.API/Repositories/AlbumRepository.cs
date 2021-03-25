@@ -20,11 +20,12 @@ namespace albumtrackr.API.Repositories
         }
 
         public Album GetAlbum(int id)
-        {
+        { 
+
             return _albumtrackrContext.Albums.FirstOrDefault(a => a.Id == id);
         }
 
-        public async Task<Album> AddAlbumAsync(Album foo)
+        public async Task<List<Album>> AddAlbumAsync(Album foo)
         {
             string APIKey = _configuration.GetSection("LastFMApiKey").Value;
             string APISecret = _configuration.GetSection("LastFMApiSecret").Key;
@@ -42,7 +43,10 @@ namespace albumtrackr.API.Repositories
 
             _albumtrackrContext.Albums.Add(foo);
 
-            return foo;
+            List<Album> albums = new List<Album>();
+            albums.Add(foo);
+
+            return albums;
          
 
 

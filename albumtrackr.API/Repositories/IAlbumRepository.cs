@@ -9,6 +9,6 @@ namespace albumtrackr.API.Repositories
     public interface IAlbumRepository
     {
         Album GetAlbum(int id);
-        Task<Album> AddAlbumAsync(Album foo);
+        Task<List<Album>> AddAlbumAsync(Album foo);
     }
 }
