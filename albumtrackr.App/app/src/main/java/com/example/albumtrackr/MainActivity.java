@@ -47,13 +47,13 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     // uri of RESTful service on Azure, note: https, cleartext support disabled by default
-    private String SERVICE_URI = "https://192.168.0.234:5001/api/AlbumList/id?id=5";          // or https
+    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/id?id=1";          // or https
     private String TAG = "";
     //https://www.geeksforgeeks.org/how-to-extract-data-from-json-array-in-android-using-volley-library/
 
     private RecyclerView album;
     private AlbumAdapter adapter;
-    private AlbumList albumArrayList;
+    private AlbumList albumList;
     private ProgressBar progressBar;
 
 
@@ -78,28 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-
-//        ArrayAdapter<String> itemsAdapter =
-//                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-//
-//        viewofAlbums = (ListView) findViewById(R.id.AlbumViews);
-//        viewofAlbums.setAdapter(itemsAdapter);
-//
-//        // floating action button, call the service
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                callService(view);
-//            }
-//        });
-
-
-
 
     }
 
@@ -129,27 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, SERVICE_URI, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("eee", response.toString());
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-
-                    }
-                });
-
-// Access the RequestQueue through your singleton class.
-        queue.add(jsonObjectRequest);
-
-
-
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, SERVICE_URI, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -159,25 +116,29 @@ public class MainActivity extends AppCompatActivity {
                 // getting each object from our json array.
                 try {
                     // we are getting each json object.
+                    Log.e("eee", response.toString());
+                    String id = response.getString("id");
                     String username = response.getString("username");
+                    String created = response.getString("created");
                     String name = response.getString("name");
                     String description = response.getString("description");
-                    albumArrayList.setUsername(username);
-                    albumArrayList.setDescription(description);
-                    albumArrayList.setName(name);
+                    String stars = response.getString("stars");
 
-
+                    ArrayList<Album> albumArrayList = new ArrayList<Album>();
                     JSONArray jsonArray = response.getJSONArray("albums");
 
 
                     for (int j = 0; j < jsonArray.length(); j++) {
                         JSONObject obj = jsonArray.getJSONObject(j);
-                        String id = obj.getString("id");
+                        String listid = obj.getString("id");
                         String albumName = obj.getString("name");
                         String artistName = obj.getString("artist");
                         String thumbnail = obj.getString("thumbnail");
-                        albumArrayList.getAlbums().add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                        albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
                     }
+
+                    albumList = new AlbumList(Integer.parseInt(id), username, name, description, created, albumArrayList, Integer.parseInt(stars));
+
 
 
                     buildRecyclerView();
@@ -197,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     private void buildRecyclerView() {
 
         // initializing our adapter class.
-        adapter = new AlbumAdapter(albumArrayList, MainActivity.this);
+        adapter = new AlbumAdapter(albumList, MainActivity.this);
 
         // adding layout manager
         // to our recycler view.
@@ -213,59 +174,4 @@ public class MainActivity extends AppCompatActivity {
         album.setAdapter(adapter);
     }
 
-
-
-
-
-
-
-    // call RESTful service using volley and display results
-    public void callService(View v)
-    {
-        // get TextView for displaying result
-        final TextView outputTextView = (TextView) findViewById(R.id.outputTextView);
-
-        try
-        {
-            // make a string request (JSON request an alternative)
-            RequestQueue queue = Volley.newRequestQueue(this);
-            Log.d(TAG, "Making request");
-            try
-            {
-                StringRequest strObjRequest = new StringRequest(Request.Method.GET, SERVICE_URI,
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response)
-                            {
-                                // parse resulting string containing JSON to Greeting object
-                                Album album = new Gson().fromJson(response, Album.class);
-                                outputTextView.setText(album.toString());
-                                Log.d(TAG, "Displaying data" + album.toString());
-                                //how on earth do we display an image here? lol
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error)
-                            {
-                                outputTextView.setText(error.toString());
-                                Log.d(TAG, "Error" + error.toString());
-                            }
-                        });
-                queue.add(strObjRequest);           // can have multiple in a queue, and can cancel
-            }
-            catch (Exception e1)
-            {
-                Log.d(TAG, e1.toString());
-                outputTextView.setText(e1.toString());
-            }
-        }
-        catch (Exception e2)
-        {
-            Log.d(TAG, e2.toString());
-            outputTextView.setText(e2.toString());
-        }
-    }
 }

@@ -13,19 +13,24 @@ public class AlbumList {
     private String description;
     private Integer stars;
 
-    public AlbumList(Integer id, String username, String name, String description, String created) {
+    public AlbumList(Integer id, String username, String name, String description, String created, ArrayList<Album> albums, int stars) {
         this.id = id;
-        this.albums = new ArrayList<Album>();
+        this.albums = albums;
         this.created = created;
         this.username = username;
         this.name = name;
         this.description = description;
-        this.stars = 0;
+        this.stars = stars;
     }
 
     public AlbumList(){
-
-    }
+        id = 0;
+        username = "";
+        name = "";
+        description = "";
+        stars = 0;
+        albums = new ArrayList<Album>();
+        }
 
 
     public Integer getId() {
