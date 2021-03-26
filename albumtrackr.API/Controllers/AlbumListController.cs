@@ -1,8 +1,9 @@
-﻿using albumtrackr.API.DTO;
+﻿using System.Threading.Tasks;
+using albumtrackr.API.DTO;
 using albumtrackr.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace _4thYearProject.Api.Controllers
+namespace albumtrackr.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,73 +17,55 @@ namespace _4thYearProject.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetLatestLists()
+        public async Task<IActionResult> GetLatestLists()
         {
-            return Ok(_albumListRepository.GetLatestLists());
+            return Ok(await _albumListRepository.GetLatestLists());
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult GetEmployeeById(int id)
-        //{
-        //    return Ok(_employeeRepository.GetEmployeeById(id));
-        //}
+        [HttpGet("userName")]
+        public async Task<IActionResult> GetMyLists(string userName)
+        {
+            if (userName == null) return BadRequest();
 
-        //[HttpPost]
-        //public IActionResult CreateEmployee([FromBody] Employee employee)
-        //{
-        //    if (employee == null)
-        //        return BadRequest();
+            var userLists = await _albumListRepository.GetMyLists(userName);
 
-        //    if (employee.FirstName == string.Empty || employee.LastName == string.Empty)
-        //    {
-        //        ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
-        //    }
+            return Ok(userLists);
+        }
 
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
+        [HttpGet("id")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var userList = await _albumListRepository.GetById(id);
 
-        //    var createdEmployee = _employeeRepository.AddEmployee(employee);
+            if (userList == null) return NotFound();
 
-        //    return Created("employee", createdEmployee);
-        //}
+            return Ok(userList);
+        }
 
-        //[HttpPut]
-        //public IActionResult UpdateEmployee([FromBody] Employee employee)
-        //{
-        //    if (employee == null)
-        //        return BadRequest();
+        [HttpPost]
+        public async Task<IActionResult> AddToList(int id, [FromBody] Album album)
+        {
+            if (album == null) return BadRequest();
 
-        //    if (employee.FirstName == string.Empty || employee.LastName == string.Empty)
-        //    {
-        //        ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
-        //    }
+            if (album.Artist == string.Empty || album.Name == string.Empty)
+                ModelState.AddModelError("Artist/Album Name", "The artist or album name is not correct.");
 
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        //    var employeeToUpdate = _employeeRepository.GetEmployeeById(employee.EmployeeId);
+            var userList = await _albumListRepository.AddToList(id, album);
 
-        //    if (employeeToUpdate == null)
-        //        return NotFound();
+            return Ok(userList);
+        }
 
-        //    _employeeRepository.UpdateEmployee(employee);
+        [HttpPost("albumList")]
+        public async Task<IActionResult> CreateAlbumList([FromBody] AlbumList albumList)
+        {
+            var list = await _albumListRepository.CreateAlbumList(albumList.Username, albumList.Name,
+                albumList.Description);
 
-        //    return NoContent(); //success
-        //}
+            if (list == null) return BadRequest();
 
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteEmployee(int id)
-        //{
-        //    if (id == 0)
-        //        return BadRequest();
-
-        //    var employeeToDelete = _employeeRepository.GetEmployeeById(id);
-        //    if (employeeToDelete == null)
-        //        return NotFound();
-
-        //    _employeeRepository.DeleteEmployee(id);
-
-        //    return NoContent();//success
-        //}
+            return Ok(list);
+        }
     }
 }

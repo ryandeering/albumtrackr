@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-
-namespace albumtrackr.API.DTO
-{ //experimental
+﻿namespace albumtrackr.API.DTO
+{
     public class Album
     {
         public int Id { get; set; }
@@ -12,8 +9,5 @@ namespace albumtrackr.API.DTO
         public string Name { get; set; }
 
         public string Thumbnail { get; set; }
-
-        public virtual ICollection<AlbumList> Lists { get; set; }
-
     }
 }
