@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace albumtrackr.API.DTO
+﻿namespace albumtrackr.API.DTO
 {
+    using System;
+    using System.Collections.Generic;
+
     public class AlbumList
     {
         public int Id { get; set; }

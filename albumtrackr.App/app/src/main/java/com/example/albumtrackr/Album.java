@@ -6,13 +6,14 @@ public class Album
     private Integer id;
     private String artist;
     private String name;
+    private String thumbnail;
+
 
     public Album(Integer id, String artist, String name, String thumbnail) {
         this.id = id;
         this.artist = artist;
         this.name = name;
         this.thumbnail = thumbnail;
-        lists = new Object(); //temp
     }
 
 
@@ -44,26 +45,11 @@ public class Album
         this.thumbnail = thumbnail;
     }
 
-    public Object getLists() {
-        return lists;
-    }
-
-    public void setLists(Object lists) {
-        this.lists = lists;
-    }
-
-    private String thumbnail;
-    private Object lists;
-
-
-
-
-
 
 
     public String toString()
     {
-        return "The artist album and name should be: Grimes' Halfaxa." + "RESPONSE: " + artist + name;
+        return artist + name;
     }
 
     public String getThumbnail() {

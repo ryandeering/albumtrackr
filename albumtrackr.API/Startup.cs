@@ -1,16 +1,16 @@
-using albumtrackr.API.Data;
-using albumtrackr.API.Repositories;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
-
 namespace albumtrackr.API
 {
+    using Data;
+    using Repositories;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.OpenApi.Models;
+    using Newtonsoft.Json;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -26,7 +26,7 @@ namespace albumtrackr.API
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "albumtrackr.API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "albumtrackr.API", Version = "v1" });
             });
 
             services.AddScoped<IAlbumListRepository, AlbumListRepository>();

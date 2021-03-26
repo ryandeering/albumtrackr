@@ -7,24 +7,24 @@ namespace albumtrackr.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                "AlbumAlbumList");
+                name: "AlbumAlbumList");
 
             migrationBuilder.AddColumn<int>(
-                "AlbumListId",
-                "Albums",
-                "int",
+                name: "AlbumListId",
+                table: "Albums",
+                type: "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                "IX_Albums_AlbumListId",
-                "Albums",
-                "AlbumListId");
+                name: "IX_Albums_AlbumListId",
+                table: "Albums",
+                column: "AlbumListId");
 
             migrationBuilder.AddForeignKey(
-                "FK_Albums_ALists_AlbumListId",
-                "Albums",
-                "AlbumListId",
-                "ALists",
+                name: "FK_Albums_ALists_AlbumListId",
+                table: "Albums",
+                column: "AlbumListId",
+                principalTable: "ALists",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -32,45 +32,45 @@ namespace albumtrackr.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                "FK_Albums_ALists_AlbumListId",
-                "Albums");
+                name: "FK_Albums_ALists_AlbumListId",
+                table: "Albums");
 
             migrationBuilder.DropIndex(
-                "IX_Albums_AlbumListId",
-                "Albums");
+                name: "IX_Albums_AlbumListId",
+                table: "Albums");
 
             migrationBuilder.DropColumn(
-                "AlbumListId",
-                "Albums");
+                name: "AlbumListId",
+                table: "Albums");
 
             migrationBuilder.CreateTable(
-                "AlbumAlbumList",
-                table => new
+                name: "AlbumAlbumList",
+                columns: table => new
                 {
-                    AlbumsId = table.Column<int>("int", nullable: false),
-                    ListsId = table.Column<int>("int", nullable: false)
+                    AlbumsId = table.Column<int>(type: "int", nullable: false),
+                    ListsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AlbumAlbumList", x => new {x.AlbumsId, x.ListsId});
+                    table.PrimaryKey("PK_AlbumAlbumList", x => new { x.AlbumsId, x.ListsId });
                     table.ForeignKey(
-                        "FK_AlbumAlbumList_Albums_AlbumsId",
-                        x => x.AlbumsId,
-                        "Albums",
-                        "Id",
+                        name: "FK_AlbumAlbumList_Albums_AlbumsId",
+                        column: x => x.AlbumsId,
+                        principalTable: "Albums",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        "FK_AlbumAlbumList_ALists_ListsId",
-                        x => x.ListsId,
-                        "ALists",
-                        "Id",
+                        name: "FK_AlbumAlbumList_ALists_ListsId",
+                        column: x => x.ListsId,
+                        principalTable: "ALists",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                "IX_AlbumAlbumList_ListsId",
-                "AlbumAlbumList",
-                "ListsId");
+                name: "IX_AlbumAlbumList_ListsId",
+                table: "AlbumAlbumList",
+                column: "ListsId");
         }
     }
 }

@@ -17,11 +17,11 @@ import java.util.ArrayList;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     // creating a variable for array list and context.
-    private ArrayList<Album> AlbumArrayList;
+    private AlbumList AlbumArrayList;
     private Context context;
 
     // creating a constructor for our variables.
-    public AlbumAdapter(ArrayList<Album> albumArrayList, Context context) {
+    public AlbumAdapter(AlbumList albumArrayList, Context context) {
         this.AlbumArrayList = albumArrayList;
         this.context = context;
     }
@@ -37,7 +37,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
         // setting data to our views of recycler view.
-        Album modal = AlbumArrayList.get(position);
+        Album modal = AlbumArrayList.getAlbums().get(position);
         holder.AlbumName.setText(modal.getName());
         holder.ArtistName.setText(modal.getArtist());
         Picasso.get().load(modal.getThumbnail()).into(holder.AlbumCover);
@@ -46,7 +46,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         // returning the size of array list.
-        return AlbumArrayList.size();
+        return AlbumArrayList.getAlbums().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
