@@ -2,29 +2,42 @@
 
 package com.example.albumtrackr;
 
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
+import android.os.Debug;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.google.gson.*;
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 
 // in build.gradle for Module:app
@@ -36,24 +49,53 @@ public class MainActivity extends AppCompatActivity {
     // uri of RESTful service on Azure, note: https, cleartext support disabled by default
     private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/Album?Name=halfaxa&Artist=grimes";          // or https
     private String TAG = "";
+    //https://www.geeksforgeeks.org/how-to-extract-data-from-json-array-in-android-using-volley-library/
+
+    private RecyclerView album;
+    private AlbumAdapter adapter;
+    private ArrayList<Album> albumArrayList;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+
         setContentView(R.layout.activity_main);
+        album = findViewById(R.id.idAlbums);
+        progressBar = findViewById(R.id.idPB);
+        albumArrayList = new ArrayList<>();
+        getData();
+        buildRecyclerView();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // floating action button, call the service
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                callService(view);
-            }
-        });
+
+
+//        ArrayAdapter<String> itemsAdapter =
+//                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+//
+//        viewofAlbums = (ListView) findViewById(R.id.AlbumViews);
+//        viewofAlbums.setAdapter(itemsAdapter);
+//
+//        // floating action button, call the service
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                callService(view);
+//            }
+//        });
+
+
+
+
     }
 
     @Override
@@ -71,6 +113,81 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void getData() {
+        // creating a new variable for our request queue
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        // in this case the data we are getting is in the form
+        // of array so we are making a json array request.
+        // below is the line where we are making an json array
+        // request and then extracting data from each json object.
+
+
+
+
+
+
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, SERVICE_URI, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                progressBar.setVisibility(View.GONE);
+                album.setVisibility(View.VISIBLE);
+                for (int i = 0; i < response.length(); i++) {
+                    // creating a new json object and
+                    // getting each object from our json array.
+                    try {
+                        // we are getting each json object.
+                        JSONObject responseObj = response.getJSONObject(i);
+
+                        // now we get our response from API in json object format.
+                        // in below line we are extracting a string with
+                        // its key value from our json object.
+                        // similarly we are extracting all the strings from our json object.
+                        String id = responseObj.getString("id");
+                        String albumName = responseObj.getString("name");
+                        String artistName = responseObj.getString("artist");
+                        String thumbnail = responseObj.getString("thumbnail");
+                        albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                        buildRecyclerView();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Fail to get the data..", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(jsonArrayRequest);
+    }
+
+    private void buildRecyclerView() {
+
+        // initializing our adapter class.
+        adapter = new AlbumAdapter(albumArrayList, MainActivity.this);
+
+        // adding layout manager
+        // to our recycler view.
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        album.setHasFixedSize(true);
+
+        // setting layout manager
+        // to our recycler view.
+        album.setLayoutManager(manager);
+
+        // setting adapter to
+        // our recycler view.
+        album.setAdapter(adapter);
+    }
+
+
+
+
+
+
 
     // call RESTful service using volley and display results
     public void callService(View v)
@@ -92,21 +209,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(String response)
                             {
                                 // parse resulting string containing JSON to Greeting object
-
-                                // model = new Gson().fromJson(response, Model.class);
-                                // outputTextView.setText(model.toString());
-                                // Log.d(TAG, "Displaying data" + model.toString());
-
-            // List BEGIN
-                                Type listType = new TypeToken<List<Model>>() {}.getType();
-                                List<Model> yourList = new Gson().fromJson(response.toString(), listType);
-
-
-
-                                CustomListAdapter adapter = new CustomListAdapter(this, yourList);
-                                ListView listView = (ListView) findViewById(R.id.list);
-
-                                listView.setAdapter(adapter);
+                                Album album = new Gson().fromJson(response, Album.class);
+                                outputTextView.setText(album.toString());
+                                Log.d(TAG, "Displaying data" + album.toString());
+                                //how on earth do we display an image here? lol
                             }
                         },
                         new Response.ErrorListener()
@@ -132,52 +238,4 @@ public class MainActivity extends AppCompatActivity {
             outputTextView.setText(e2.toString());
         }
     }
-
-
-    // Adapter for list
-
-    public class CustomListAdapter extends BaseAdapter {
-        private Context activity;
-        private LayoutInflater inflater;
-        private List<Model> items;
-
-        public CustomListAdapter(Response.Listener<String> activity, List<Model> items) {
-            this.activity = (Context) activity;
-            this.items = items;
-        }
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        @Override
-        public Object getItem(int location) {
-            return items.get(location);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (inflater == null)
-                inflater = (LayoutInflater) activity
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (convertView == null)
-                convertView = inflater.inflate(R.layout.list_row, null);
-
-            TextView name = (TextView) convertView.findViewById(R.id.outputTextView);
-
-            // getting album data for the row
-            Model m = items.get(position);
-
-            name.setText(m.toString());
-
-            return convertView;
-
-
-        }}}
+}

@@ -16,9 +16,5 @@ namespace albumtrackr.API.Data
 
         //Add-Migration init
         //Update-Database
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }

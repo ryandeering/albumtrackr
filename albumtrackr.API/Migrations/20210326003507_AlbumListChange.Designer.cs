@@ -10,8 +10,8 @@ using albumtrackr.API.Data;
 namespace albumtrackr.API.Migrations
 {
     [DbContext(typeof(AlbumtrackrContext))]
-    [Migration("20210311221546_init")]
-    partial class init
+    [Migration("20210326003507_AlbumListChange")]
+    partial class AlbumListChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,27 +21,15 @@ namespace albumtrackr.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("AlbumAlbumList", b =>
-                {
-                    b.Property<int>("AlbumsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ListsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AlbumsId", "ListsId");
-
-                    b.HasIndex("ListsId");
-
-                    b.ToTable("AlbumAlbumList");
-                });
-
             modelBuilder.Entity("albumtrackr.API.DTO.Album", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<int?>("AlbumListId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Artist")
                         .HasColumnType("nvarchar(max)");
@@ -53,6 +41,8 @@ namespace albumtrackr.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AlbumListId");
 
                     b.ToTable("Albums");
                 });
@@ -84,19 +74,16 @@ namespace albumtrackr.API.Migrations
                     b.ToTable("ALists");
                 });
 
-            modelBuilder.Entity("AlbumAlbumList", b =>
+            modelBuilder.Entity("albumtrackr.API.DTO.Album", b =>
                 {
-                    b.HasOne("albumtrackr.API.DTO.Album", null)
-                        .WithMany()
-                        .HasForeignKey("AlbumsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("albumtrackr.API.DTO.AlbumList", null)
-                        .WithMany()
-                        .HasForeignKey("ListsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Albums")
+                        .HasForeignKey("AlbumListId");
+                });
+
+            modelBuilder.Entity("albumtrackr.API.DTO.AlbumList", b =>
+                {
+                    b.Navigation("Albums");
                 });
 #pragma warning restore 612, 618
         }
