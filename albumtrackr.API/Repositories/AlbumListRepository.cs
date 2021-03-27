@@ -38,7 +38,7 @@ namespace albumtrackr.API.Repositories
 
         public async Task<AlbumList> AddToList(int id, Album album)
         {
-            var list = await _albumtrackrContext.ALists.FirstAsync(al => al.Id == id);
+            var list = await _albumtrackrContext.ALists.Include("Albums").FirstAsync(al => al.Id == id);
 
             if (list == null) return null;
 
@@ -67,6 +67,23 @@ namespace albumtrackr.API.Repositories
 
             return list;
         }
+
+
+        // Delete from list, album seems to still be present
+        public async Task<AlbumList> DeleteFromList(int id, int aid)
+        {
+            var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == id);
+
+            var album = list.Albums.First(a => a.Id == aid);
+
+            if (album == null) return null;
+
+            list.Albums.Remove(album);
+            await _albumtrackrContext.SaveChangesAsync();
+
+            return list;
+        }
+
 
         public async Task<AlbumList> CreateAlbumList(string userName, string name, string description)
         {

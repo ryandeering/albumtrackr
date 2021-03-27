@@ -2,6 +2,8 @@
 using albumtrackr.API.DTO;
 using albumtrackr.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace albumtrackr.API.Controllers
 {
@@ -22,7 +24,7 @@ namespace albumtrackr.API.Controllers
             return Ok(await _albumListRepository.GetLatestLists());
         }
 
-        [HttpGet("userName")]
+        [HttpGet("username/{userName}")]
         public async Task<IActionResult> GetMyLists(string userName)
         {
             if (userName == null) return BadRequest();
@@ -32,7 +34,7 @@ namespace albumtrackr.API.Controllers
             return Ok(userLists);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var userList = await _albumListRepository.GetById(id);
@@ -42,7 +44,8 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
-        [HttpPost]
+
+        [HttpPost("{id}/album/")]
         public async Task<IActionResult> AddToList(int id, [FromBody] Album album)
         {
             if (album == null) return BadRequest();
@@ -57,7 +60,7 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
-        [HttpPost("albumList")]
+        [HttpPost]
         public async Task<IActionResult> CreateAlbumList([FromBody] AlbumList albumList)
         {
             var list = await _albumListRepository.CreateAlbumList(albumList.Username, albumList.Name,
@@ -67,5 +70,42 @@ namespace albumtrackr.API.Controllers
 
             return Ok(list);
         }
+
+
+        /*
+
+        [HttpPut("stars")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]           // not found
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> PutStarAlbum(int id, [FromRoute] string stars)
+        {
+            var starsList = await _albumListRepository.GetById(id);
+
+            if (starsList == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                // starsList = starsList + 1;
+                return NoContent();
+            }
+
+        }
+
+        */
+
+        [HttpDelete("{id}/album/{aid}")]
+        public async Task<IActionResult> DeleteFromList(int id, int aid)
+        {
+            if (id == null) return BadRequest();
+
+            var userList = await _albumListRepository.DeleteFromList(id, aid);
+
+            return Ok(userList);
+        }
+
+        
+
     }
 }
