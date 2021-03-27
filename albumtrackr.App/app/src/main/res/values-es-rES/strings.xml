@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">albumtrackr</string>
+    <string name="call_button_text">" Servicio de llamada"</string>
+    <string name="artist">"Artista "</string>
+    <string name="album_name">"Nombre del álbum "</string>
+    <string name="open">Abierto</string>
+    <string name="close">"Cerrar "</string>
+    <string name="menu_home">"Hogar "</string>
+    <string name="menu_gallery">Galería</string>
+    <string name="menu_slideshow">Diapositivas</string>
+    <string name="menu_tools">Instrumentos</string>
+    <string name="menu_share">"Cuota "</string>
+    <string name="menu_send">Enviar</string>
+</resources>
