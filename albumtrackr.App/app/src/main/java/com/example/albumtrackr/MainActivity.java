@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     // uri of RESTful service on Azure, note: https, cleartext support disabled by default
-    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/id?id=1";          // or https
+    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/1";          // or https
     private String TAG = "";
     //https://www.geeksforgeeks.org/how-to-extract-data-from-json-array-in-android-using-volley-library/
 
