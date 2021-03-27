@@ -38,6 +38,20 @@ stages:
               tasks: 'build'
               publishJUnitResults: false
               javaHomeOption: 'JDKVersion'
+
+          - task: CopyFiles@2
+            inputs:
+              contents: '**/*.apk'
+              targetFolder: '$(build.artifactStagingDirectory)'
+            displayName: Copy .apk files to artifact staging directory
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathToPublish: '$(build.artifactStagingDirectory)'
+              artifactName: 'drop'
+              artifactType: 'container'
+            displayName: Publish artifacts
+
   - stage: Release
     displayName: Release stage
     jobs:
