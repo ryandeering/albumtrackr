@@ -7,8 +7,11 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,16 +58,31 @@ public class MainActivity extends AppCompatActivity {
     private AlbumAdapter adapter;
     private AlbumList albumList;
     private ProgressBar progressBar;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
 
         setContentView(R.layout.activity_main);
+        setSupportActionBar(findViewById(R.id.toolbar));
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(
+                MainActivity.this, drawerLayout, R.string.open,
+                R.string.close
+        );
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
         album = findViewById(R.id.idAlbums);
         progressBar = findViewById(R.id.idPB);
         AlbumList albumArrayList = new AlbumList();
@@ -75,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
            Log.e("aaaaaaa fuck my life", e.getMessage());
        }
         buildRecyclerView();
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
