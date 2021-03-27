@@ -24,7 +24,7 @@ namespace albumtrackr.API.Controllers
             return Ok(await _albumListRepository.GetLatestLists());
         }
 
-        [HttpGet("userName")]
+        [HttpGet("username/{userName}")]
         public async Task<IActionResult> GetMyLists(string userName)
         {
             if (userName == null) return BadRequest();
@@ -34,7 +34,7 @@ namespace albumtrackr.API.Controllers
             return Ok(userLists);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var userList = await _albumListRepository.GetById(id);
@@ -45,7 +45,7 @@ namespace albumtrackr.API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("{id}/album/")]
         public async Task<IActionResult> AddToList(int id, [FromBody] Album album)
         {
             if (album == null) return BadRequest();
@@ -60,7 +60,7 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
-        [HttpPost("albumList")]
+        [HttpPost]
         public async Task<IActionResult> CreateAlbumList([FromBody] AlbumList albumList)
         {
             var list = await _albumListRepository.CreateAlbumList(albumList.Username, albumList.Name,
@@ -95,17 +95,12 @@ namespace albumtrackr.API.Controllers
 
         */
 
-        [HttpDelete("albumList")]
-        public async Task<IActionResult> DeleteFromList(int id, [FromBody] Album album)
+        [HttpDelete("{id}/album/{aid}")]
+        public async Task<IActionResult> DeleteFromList(int id, int aid)
         {
-            if (album == null) return BadRequest();
+            if (id == null) return BadRequest();
 
-            if (album.Artist == string.Empty || album.Name == string.Empty)
-                ModelState.AddModelError("Album Name", "Cannot delete album. Album not found.");
-
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var userList = await _albumListRepository.DeleteFromList(id, album);
+            var userList = await _albumListRepository.DeleteFromList(id, aid);
 
             return Ok(userList);
         }
