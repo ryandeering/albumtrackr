@@ -50,8 +50,27 @@
                 android:text="Artist: "
                 android:textColor="@color/black" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
             <!--text view to display course tracks-->
         </LinearLayout>
+
+        <RatingBar
+            android:id="@+id/ratingBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_delete" />
 
     </LinearLayout>
 

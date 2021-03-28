@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         this.AlbumArrayList = albumArrayList;
         this.context = context;
     }
+
+
 
     @NonNull
     @Override
@@ -48,6 +51,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         // returning the size of array list.
         return AlbumArrayList.getAlbums().size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our views.

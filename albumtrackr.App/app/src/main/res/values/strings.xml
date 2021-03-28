@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">albumtrackr</string>
     <string name="call_button_text">Call Service</string>
+    <string name="button_delete">Delete Album</string>
     <string name="artist">Artist</string>
     <string name="album_name">Album Name</string>
     <string name="open">open</string>

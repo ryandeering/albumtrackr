@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -98,6 +99,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+        // Delete Method
+        Button button = (Button) findViewById(R.id.button_delete);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            // No idea what to put here, outside scope in android anyway
+            }
+        });
     }
 
     @Override
@@ -192,5 +202,9 @@ public class MainActivity extends AppCompatActivity {
         // our recycler view.
         album.setAdapter(adapter);
     }
+
+
+
+
 
 }

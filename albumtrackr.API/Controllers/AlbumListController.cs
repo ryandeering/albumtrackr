@@ -72,28 +72,19 @@ namespace albumtrackr.API.Controllers
         }
 
 
-        /*
-
-        [HttpPut("stars")]
+        // star an album by id
+        [HttpPost("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]           // not found
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> PutStarAlbum(int id, [FromRoute] string stars)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]          // ok no content
+        public async Task<IActionResult> StarAlbumList(int id)
         {
-            var starsList = await _albumListRepository.GetById(id);
 
-            if (starsList == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                // starsList = starsList + 1;
-                return NoContent();
-            }
+            if (id == null) return BadRequest();
 
+            var userList = await _albumListRepository.StarAlbumList(id);
+
+            return Ok(userList);
         }
-
-        */
 
         [HttpDelete("{id}/album/{aid}")]
         public async Task<IActionResult> DeleteFromList(int id, int aid)
@@ -105,7 +96,17 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
-        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditDescription(int id)
+        {
+
+            if (id == null) return BadRequest();
+
+            var userList = await _albumListRepository.EditDescription(id);
+
+            return Ok(userList);
+        }
+
 
     }
 }

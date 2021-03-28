@@ -103,5 +103,41 @@ namespace albumtrackr.API.Repositories
 
             return list;
         }
+
+
+
+        // Find albumlist by ID, and increment the rating (stars)
+        public async Task<AlbumList> StarAlbumList(int id){
+
+            var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == id);
+
+            if (list == null) return null;
+
+            else
+            {
+                list.Stars = list.Stars + 1;
+                await _albumtrackrContext.SaveChangesAsync();
+                return list;
+            }
+        }
+
+        public async Task<AlbumList> EditDescription(int id)
+        {
+
+            var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == id);
+
+            if (list == null) return null;
+
+            else
+            {
+                // Need to pass this in through the Swagger window
+                // Hardcoded for now...
+                list.Description = "UPDATED DESCRIPTION!";
+                await _albumtrackrContext.SaveChangesAsync();
+                return list;
+            }
+        }
+
+
     }
 }
