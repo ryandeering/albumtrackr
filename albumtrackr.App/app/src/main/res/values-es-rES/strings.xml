@@ -12,4 +12,5 @@
     <string name="menu_tools">Instrumentos</string>
     <string name="menu_share">"Cuota "</string>
     <string name="menu_send">Enviar</string>
+    <string name="button_delete">" Borrar"</string>
 </resources>
