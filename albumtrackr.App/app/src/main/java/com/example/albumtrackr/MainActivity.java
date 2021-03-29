@@ -144,28 +144,50 @@ public class MainActivity extends AppCompatActivity {
                 // getting each object from our json array.
                 try {
                     // we are getting each json object.
+                    JSONArray starsActual = new JSONArray();
+                    JSONArray jsonArray = new JSONArray();
+                    ArrayList<Album> albumArrayList = new ArrayList<Album>();
+                    ArrayList<Star> starArrayList = new ArrayList<Star>();
+
+
                     Log.e("eee", response.toString());
                     String id = response.getString("id");
                     String username = response.getString("username");
                     String created = response.getString("created");
                     String name = response.getString("name");
                     String description = response.getString("description");
-                    String stars = response.getString("stars");
-
-                    ArrayList<Album> albumArrayList = new ArrayList<Album>();
-                    JSONArray jsonArray = response.getJSONArray("albums");
 
 
-                    for (int j = 0; j < jsonArray.length(); j++) {
-                        JSONObject obj = jsonArray.getJSONObject(j);
-                        String listid = obj.getString("id");
-                        String albumName = obj.getString("name");
-                        String artistName = obj.getString("artist");
-                        String thumbnail = obj.getString("thumbnail");
-                        albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                    if(response.optJSONArray("albums") != null) {
+                        jsonArray = response.optJSONArray("albums");
                     }
 
-                    albumList = new AlbumList(Integer.parseInt(id), username, name, description, created, albumArrayList, Integer.parseInt(stars));
+                    if(response.optJSONArray("stars") != null) {
+                        starsActual = response.optJSONArray("stars");
+                    }
+
+                    if(jsonArray != null) {
+                        for (int j = 0; j < jsonArray.length(); j++) {
+                            JSONObject obj = jsonArray.getJSONObject(j);
+                            String listid = obj.getString("id");
+                            String albumName = obj.getString("name");
+                            String artistName = obj.getString("artist");
+                            String thumbnail = obj.getString("thumbnail");
+                            albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                        }
+                    }
+
+                    if(starsActual != null) {
+                        for (int j = 0; j < starsActual.length(); j++) {
+                            JSONObject obj2 = starsActual.getJSONObject(j);
+                            String starid = obj2.getString("id");
+                            String usernameStar = obj2.getString("username");
+                            String albumListId = obj2.getString("albumListId");
+                            starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
+                        }
+                    }
+
+                    albumList = new AlbumList(Integer.parseInt(id), username, name, description, created, albumArrayList, starArrayList);
 
 
 

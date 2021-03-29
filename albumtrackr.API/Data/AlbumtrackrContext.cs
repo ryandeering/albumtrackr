@@ -14,8 +14,10 @@
 
         public DbSet<Album> Albums { get; set; }
 
+        public DbSet<Star> Stars { get; set; }
+
         //Add-Migration init
         //Update-Database
-       
+
     }
 }

@@ -73,15 +73,15 @@ namespace albumtrackr.API.Controllers
 
 
         // star an album by id
-        [HttpPost("{id}")]
+        [HttpPost("{albumListId}/{username}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]           // not found
         [ProducesResponseType(StatusCodes.Status204NoContent)]          // ok no content
-        public async Task<IActionResult> StarAlbumList(int id)
+        public async Task<IActionResult> StarAlbumList(string username, int albumListId)
         {
 
-            if (id == null) return BadRequest();
+            if (albumListId == null) return BadRequest();
 
-            var userList = await _albumListRepository.StarAlbumList(id);
+            var userList = await _albumListRepository.StarAlbumList(username, albumListId);
 
             return Ok(userList);
         }

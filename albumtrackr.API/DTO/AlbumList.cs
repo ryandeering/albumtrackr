@@ -17,6 +17,6 @@ namespace albumtrackr.API.DTO
 
         public string Description { get; set; }
 
-        public int Stars { get; set; } //should this be it's own datamodel?
+        public ICollection<Star> Stars { get; set; } //should this be it's own datamodel?
     }
 }
