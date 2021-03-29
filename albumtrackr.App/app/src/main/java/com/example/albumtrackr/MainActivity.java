@@ -102,14 +102,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Delete Method
-        Button button = (Button) findViewById(R.id.button_delete);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            // No idea what to put here, outside scope in android anyway
-            }
-        });
+        //Button button = (Button) findViewById(R.id.button_delete);
+        //button.setOnClickListener(new View.OnClickListener() {
+        //    public void onClick(View v) {
+        //    // No idea what to put here, outside scope in android anyway
+        //    }
+        // });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
