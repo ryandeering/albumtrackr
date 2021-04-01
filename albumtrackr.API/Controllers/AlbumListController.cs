@@ -90,7 +90,7 @@ namespace albumtrackr.API.Controllers
         [HttpDelete("{id}/album/{aid}")]
         public async Task<IActionResult> DeleteFromList(int id, int aid)
         {
-            if (id == null) return BadRequest();
+            if (aid == null) return BadRequest();
 
             var userList = await _albumListRepository.DeleteFromList(id, aid);
 
@@ -101,26 +101,22 @@ namespace albumtrackr.API.Controllers
         public async Task<IActionResult> EditDescription(int id)
         {
 
-            if (id == null) return BadRequest();
-
             var userList = await _albumListRepository.EditDescription(id);
 
             return Ok(userList);
         }
 
        [HttpGet("{albumListId}/{username}")]
-        private async Task<bool> ListAlreadyStarred(int albumListId, string username)
+        public async Task<bool> ListAlreadyStarred(int albumListId, string username)
         {
 
-        if (albumListId == null) return false;
+        if (username == null) return false;
 
          var userList = await _albumListRepository.ListAlreadyStarred(albumListId, username);
 
             return userList;
         }
         
-
-
     /*
         [HttpGet("")]
         public async Task<IActionResult> GetFaveAlbums(Star stars)

@@ -57,8 +57,11 @@ public class MainActivity extends AppCompatActivity {
     //https://www.geeksforgeeks.org/how-to-extract-data-from-json-array-in-android-using-volley-library/
 
     private RecyclerView album;
+    private RecyclerView AlbumList;
     private AlbumAdapter adapter;
+    private AlbumListAdapter adapter2;
     private AlbumList albumList;
+    private ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
     private ProgressBar progressBar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -90,18 +93,18 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        album = findViewById(R.id.idAlbums);
+        AlbumList = findViewById(R.id.idAlbums);
         progressBar = findViewById(R.id.idPB);
         AlbumList albumArrayList = new AlbumList();
 
-        btnAddAlbum = (Button)findViewById(R.id.button_add_album);
+        //btnAddAlbum = (Button)findViewById(R.id.button_add_album);
 
        try {
-        getData();
+        getLists();
        } catch (Exception e){
            Log.e("aaaaaaa fuck my life", e.getMessage());
        }
-        buildRecyclerView();
+        buildRecyclerViewList();
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -117,7 +120,38 @@ public class MainActivity extends AppCompatActivity {
         //    }
         // });
 
-
+//        super.onCreate(savedInstanceState);
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//
+//
+//        setContentView(R.layout.activity_main);
+//        setSupportActionBar(findViewById(R.id.toolbar));
+//        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+//        actionBarDrawerToggle = new ActionBarDrawerToggle(
+//                MainActivity.this, drawerLayout, R.string.open,
+//                R.string.close
+//        );
+//
+//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+//        actionBarDrawerToggle.syncState();
+//
+//        album = findViewById(R.id.idAlbums);
+//        progressBar = findViewById(R.id.idPB);
+//        AlbumList albumArrayList = new AlbumList();
+//
+//        btnAddAlbum = (Button)findViewById(R.id.button_add_album);
+//
+//        try {
+//            getData();
+//        } catch (Exception e){
+//            Log.e("aaaaaaa fuck my life", e.getMessage());
+//        }
+//        buildRecyclerView();
+//
+//
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
 
 
@@ -148,6 +182,14 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+
+
+
 
     private void getData() {
         // creating a new variable for our request queue
@@ -229,6 +271,58 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jsonArrayRequest);
     }
 
+    private void getLists() {
+        // creating a new variable for our request queue
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        // in this case the data we are getting is in the form
+        // of array so we are making a json array request.
+        // below is the line where we are making an json array
+        // request and then extracting data from each json object.
+
+
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/AlbumList/", null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                progressBar.setVisibility(View.GONE);
+                AlbumList.setVisibility(View.VISIBLE);
+                // creating a new json object and
+                // getting each object from our json array.
+                try {
+                    // we are getting each json object.
+
+
+                    if(response != null) {
+                        for (int j = 0; j < response.length(); j++) {
+                            JSONObject obj = response.getJSONObject(j);
+                            String id = obj.getString("id");
+                            String username = obj.getString("username");
+                            String created = obj.getString("created");
+                            String name = obj.getString("name");
+                            String description = obj.getString("description");
+                            lists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), new ArrayList<Star>() ));
+                        }
+                    }
+
+
+                    buildRecyclerViewList();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Fail to get the data..", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(jsonArrayRequest);
+    }
+
+
+
+
+
     private void buildRecyclerView() {
 
         // initializing our adapter class.
@@ -247,6 +341,29 @@ public class MainActivity extends AppCompatActivity {
         // our recycler view.
         album.setAdapter(adapter);
     }
+
+    private void buildRecyclerViewList() {
+
+        // initializing our adapter class.
+        adapter2 = new AlbumListAdapter(lists, MainActivity.this);
+
+        // adding layout manager
+        // to our recycler view.
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        AlbumList.setHasFixedSize(true);
+
+        // setting layout manager
+        // to our recycler view.
+        AlbumList.setLayoutManager(manager);
+
+        // setting adapter to
+        // our recycler view.
+        AlbumList.setAdapter(adapter2);
+    }
+
+
+
+
 
     public void addAlbum(String artistName, String albumName){
 

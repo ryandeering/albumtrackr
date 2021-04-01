@@ -23,6 +23,16 @@ public class AlbumList {
         this.stars = stars;
     }
 
+    public AlbumList(Integer id, String username, String name, String description, String created) {
+        this.id = id;
+        this.albums = null;
+        this.created = created;
+        this.username = username;
+        this.name = name;
+        this.description = description;
+        this.stars = null;
+    }
+
     public AlbumList(){
         id = 0;
         username = "";
