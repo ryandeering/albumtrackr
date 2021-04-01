@@ -65,4 +65,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             AlbumCover = itemView.findViewById(R.id.AlbumCover);
         }
     }
+
+    // public void getStars(AlbumList list){
+    //        list.getStars();
+    //}
+
+    //public void deleteAlbumList(AlbumList list){
+    //
+    //}
 }

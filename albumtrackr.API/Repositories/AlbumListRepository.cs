@@ -149,5 +149,36 @@ namespace albumtrackr.API.Repositories
             await _albumtrackrContext.SaveChangesAsync();
             return list;
         }
+
+
+        // Find albmuslist by id, and if list is already starred, return true, else false
+        public async Task<bool> ListAlreadyStarred(int albumListId, string username)
+        {
+            var list = await _albumtrackrContext.ALists.Include("Stars").FirstOrDefaultAsync(al => al.Id == albumListId);
+
+            if (list == null) return false;
+
+            Star star = new Star { Username = username, albumListId = albumListId };
+
+            if (list.Stars.Any(s => s.Username.Equals(username) && s.albumListId.Equals(albumListId)))
+            {
+                var foundStar = list.Stars.FirstOrDefault(s => s.Username.Equals(username) && s.albumListId.Equals(albumListId));
+                
+
+                return true;
+
+            }
+
+            return false;
+
+        }
+
+
+
+
+
+
+
+
     }
 }

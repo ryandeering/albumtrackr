@@ -14,5 +14,6 @@ namespace albumtrackr.API.Repositories
         Task<AlbumList> EditDescription(int id);
         Task<AlbumList> CreateAlbumList(string userName, string name, string description); 
         Task<AlbumList> StarAlbumList(string username, int albumListId);
+        Task<bool> ListAlreadyStarred(int albumListId, string username);
     }
 }

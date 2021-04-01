@@ -4,6 +4,7 @@ using albumtrackr.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace albumtrackr.API.Controllers
 {
@@ -107,6 +108,35 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
+       [HttpGet("{albumListId}/{username}")]
+        private async Task<bool> ListAlreadyStarred(int albumListId, string username)
+        {
+
+        if (albumListId == null) return false;
+
+         var userList = await _albumListRepository.ListAlreadyStarred(albumListId, username);
+
+            return userList;
+        }
+        
+
+
+    /*
+        [HttpGet("")]
+        public async Task<IActionResult> GetFaveAlbums(Star stars)
+        {
+            var userList = await _albumListRepository.
+                
+                
+
+            if (userList == null)
+            {
+                return NotFound();
+            }
+            return Ok(userList);
+        }
+
+        */
 
     }
 }

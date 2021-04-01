@@ -4,6 +4,7 @@ package com.example.albumtrackr;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -62,10 +63,15 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+    AlbumAdapter albumAdapt;
+
+    Button btnAddAlbum;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         super.onCreate(savedInstanceState);
@@ -88,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.idPB);
         AlbumList albumArrayList = new AlbumList();
 
+        btnAddAlbum = (Button)findViewById(R.id.button_add_album);
+
        try {
         getData();
        } catch (Exception e){
@@ -98,6 +106,22 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+
+        // btnAddAlbum.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //
+        //    }
+        // });
+
+
+
+
+
+
 
 
 
@@ -224,7 +248,9 @@ public class MainActivity extends AppCompatActivity {
         album.setAdapter(adapter);
     }
 
+    public void addAlbum(String artistName, String albumName){
 
+    }
 
 
 

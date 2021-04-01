@@ -13,8 +13,8 @@
         android:layout_width="202dp"
         android:layout_height="204dp"
         android:layout_centerInParent="true" />
-		
-			
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idAlbums"
