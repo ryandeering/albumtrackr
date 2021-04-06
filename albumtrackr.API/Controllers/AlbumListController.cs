@@ -25,6 +25,13 @@ namespace albumtrackr.API.Controllers
             return Ok(await _albumListRepository.GetLatestLists());
         }
 
+
+        [HttpGet("popular/")]
+        public async Task<IActionResult> GetPopularLists()
+        {
+            return Ok(await _albumListRepository.GetPopularLists());
+        }
+
         [HttpGet("username/{userName}")]
         public async Task<IActionResult> GetMyLists(string userName)
         {

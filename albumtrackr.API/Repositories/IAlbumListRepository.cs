@@ -7,6 +7,7 @@ namespace albumtrackr.API.Repositories
     public interface IAlbumListRepository
     {
         Task<List<AlbumList>> GetLatestLists();
+        Task<List<AlbumList>> GetPopularLists();
         Task<List<AlbumList>> GetMyLists(string userName);
         Task<AlbumList> AddToList(int id, Album album);
         Task<AlbumList> DeleteFromList(int id, int aid);

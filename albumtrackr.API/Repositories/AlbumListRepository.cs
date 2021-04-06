@@ -31,6 +31,11 @@ namespace albumtrackr.API.Repositories
             return await _albumtrackrContext.ALists.Where(al => al.Username == userName).ToListAsync();
         }
 
+        public async Task<List<AlbumList>> GetPopularLists()
+        {
+            return await _albumtrackrContext.ALists.OrderBy(al => al.Stars.Count).ToListAsync();
+        }
+
         public async Task<AlbumList> GetById(int id)
         {
             return await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == id);
