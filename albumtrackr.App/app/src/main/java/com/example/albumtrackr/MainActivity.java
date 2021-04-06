@@ -13,8 +13,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Debug;
 import android.os.StrictMode;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.*;
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
@@ -65,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapter pagerAdapter;
 
     AlbumAdapter albumAdapt;
 
@@ -78,116 +84,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-
         setContentView(R.layout.activity_main);
-        setSupportActionBar(findViewById(R.id.toolbar));
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(
-                MainActivity.this, drawerLayout, R.string.open,
-                R.string.close
-        );
 
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
+        tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
+        viewPager = (ViewPager) findViewById(R.id.viewpager_id);
+        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        AlbumList = findViewById(R.id.idAlbums);
-        progressBar = findViewById(R.id.idPB);
-        AlbumList albumArrayList = new AlbumList();
+        pagerAdapter.AddFragment(new FragmentMine(), "My Album Lists");
+        pagerAdapter.AddFragment(new FragmentPopular(), "Popular Album Lists");
+        pagerAdapter.AddFragment(new FragmentLatest(), "Newest Album Lists");;
 
-        //btnAddAlbum = (Button)findViewById(R.id.button_add_album);
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
-       try {
-        getLists();
-       } catch (Exception e){
-           Log.e("aaaaaaa fuck my life", e.getMessage());
-       }
-        buildRecyclerViewList();
-
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-
-
-        // btnAddAlbum.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //
-        //    }
-        // });
-
-//        super.onCreate(savedInstanceState);
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//
-//
-//        setContentView(R.layout.activity_main);
-//        setSupportActionBar(findViewById(R.id.toolbar));
-//        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-//        actionBarDrawerToggle = new ActionBarDrawerToggle(
-//                MainActivity.this, drawerLayout, R.string.open,
-//                R.string.close
-//        );
-//
-//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-//
-//        album = findViewById(R.id.idAlbums);
-//        progressBar = findViewById(R.id.idPB);
-//        AlbumList albumArrayList = new AlbumList();
-//
-//        btnAddAlbum = (Button)findViewById(R.id.button_add_album);
-//
-//        try {
-//            getData();
-//        } catch (Exception e){
-//            Log.e("aaaaaaa fuck my life", e.getMessage());
-//        }
-//        buildRecyclerView();
-//
-//
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-
-
-
-
-
-
-        // Delete Method
-        //Button button = (Button) findViewById(R.id.button_delete);
-        //button.setOnClickListener(new View.OnClickListener() {
-        //    public void onClick(View v) {
-        //    // No idea what to put here, outside scope in android anyway
-        //    }
-        // });
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
-
-
 
 
 
