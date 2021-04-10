@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -86,9 +87,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
         viewPager = (ViewPager) findViewById(R.id.viewpager_id);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        // RecyclerView for Albumlist
+        AlbumList = (RecyclerView) findViewById(R.id.recycler_alist);
+        RecyclerView.LayoutManager aLayoutManager = new LinearLayoutManager(getApplicationContext());
+        AlbumList.setLayoutManager(aLayoutManager);
+        AlbumList.setItemAnimator(new DefaultItemAnimator());
+        AlbumList.setAdapter(adapter2);
 
         pagerAdapter.AddFragment(new FragmentMine(), "My Album Lists");
         pagerAdapter.AddFragment(new FragmentPopular(), "Popular Album Lists");
@@ -96,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+
+
 
     }
 
