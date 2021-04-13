@@ -1,5 +1,6 @@
 package com.example.albumtrackr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +51,9 @@ public class FragmentLatest extends Fragment {
                 AlbumList albumList  = latestAlbumLists.get(position);
 
                 try {
-                    Toast.makeText(getActivity().getApplicationContext(), albumList.getName() + " is selected!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity() , SecondaryActivity.class);
+                    intent.putExtra("albumListID", albumList.getId());
+                    startActivity(intent);
                 } catch (Exception e){
                     Log.e("aaaaaaa fuck my life", e.getMessage());
                 }

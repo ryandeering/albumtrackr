@@ -4,4 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SecondaryActivity"/>
+    tools:context=".SecondaryActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="287dp"
+        android:layout_height="339dp"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="196dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idAlbums"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

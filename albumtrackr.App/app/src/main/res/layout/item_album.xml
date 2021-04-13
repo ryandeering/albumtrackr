@@ -11,10 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="715dp"
-        app:layout_constraintEnd_toEndOf="@+id/ArtistName"
-        app:layout_constraintStart_toEndOf="@+id/ArtistName">
+        android:layout_width="381dp"
+        android:layout_height="100dp">
 
         <!--ImageView to display our course image-->
 
@@ -22,10 +20,10 @@
 
         <ImageView
             android:id="@+id/AlbumCover"
-            android:layout_width="200dp"
-            android:layout_height="181dp"
-            android:layout_marginStart="97dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="TODO"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,12 +32,12 @@
             android:id="@+id/AlbumName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="108dp"
-            android:layout_marginTop="212dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="16dp"
             android:padding="5dp"
             android:text="Album Name:"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,8 +46,8 @@
             android:id="@+id/ArtistName"
             android:layout_width="193dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="108dp"
-            android:layout_marginTop="256dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="48dp"
             android:padding="5dp"
             android:text="Artist: "
             android:textColor="@color/black"
@@ -58,105 +56,11 @@
 
         <Button
             android:id="@+id/button_delete"
-            android:layout_width="165dp"
-            android:layout_height="52dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="300dp"
-            android:text="@string/button_delete"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button_add"
-            android:layout_width="165dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginEnd="28dp"
-            android:text="Add to favourites"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="158dp"
-            android:layout_marginTop="647dp"
-            android:text="AlbumTrackr"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="680dp"
-            android:text="An Android App by James Lynam and Ryan Deering"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_artistName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="460dp"
-            android:text="Artist Name:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_albumName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="493dp"
-            android:text="Album Name:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_add_title"
-            android:layout_width="110dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="142dp"
-            android:layout_marginTop="403dp"
-            android:text="Add Album"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/editText_artistName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="142dp"
-            android:layout_marginTop="437dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Artist Name..."
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/editText_albumName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="142dp"
-            android:layout_marginTop="479dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Album Name..."
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button_add_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="137dp"
-            android:layout_marginTop="546dp"
-            android:text="Add album"
+            android:layout_width="44dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="340dp"
+            android:layout_marginTop="28dp"
+            android:drawableRight="@drawable/ic_baseline_delete_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
