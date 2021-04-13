@@ -1,5 +1,6 @@
 package com.example.albumtrackr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +46,30 @@ public class FragmentPopular extends Fragment {
         v = inflater.inflate(R.layout.popular_fragment,container,false);
         popular = (RecyclerView) v.findViewById(R.id.popular_recyclerview);
         buildRecyclerViewList();
+
+        // row click listener
+        popular.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), popular, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                AlbumList albumList  = popularAlbumLists.get(position);
+
+                try {
+                    Intent intent = new Intent(getActivity() , SecondaryActivity.class);
+                    intent.putExtra("albumListID", albumList.getId());
+                    startActivity(intent);
+                } catch (Exception e){
+                    Log.e("aaaaaaa fuck my life", e.getMessage());
+                }
+
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
         return v;
     }
 

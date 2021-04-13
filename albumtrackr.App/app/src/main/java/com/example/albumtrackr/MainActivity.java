@@ -94,11 +94,11 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // RecyclerView for Albumlist
-        AlbumList = (RecyclerView) findViewById(R.id.recycler_alist);
-        RecyclerView.LayoutManager aLayoutManager = new LinearLayoutManager(getApplicationContext());
-        AlbumList.setLayoutManager(aLayoutManager);
-        AlbumList.setItemAnimator(new DefaultItemAnimator());
-        AlbumList.setAdapter(adapter2);
+        // AlbumList = (RecyclerView) findViewById(R.id.recycler_alist);
+        // RecyclerView.LayoutManager aLayoutManager = new LinearLayoutManager(getApplicationContext());
+        // AlbumList.setLayoutManager(aLayoutManager);
+        // AlbumList.setItemAnimator(new DefaultItemAnimator());
+        // AlbumList.setAdapter(adapter2);
 
         pagerAdapter.AddFragment(new FragmentMine(), "My Album Lists");
         pagerAdapter.AddFragment(new FragmentPopular(), "Popular Album Lists");

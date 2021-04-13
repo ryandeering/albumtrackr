@@ -42,17 +42,45 @@ public class FragmentLatest extends Fragment {
         v = inflater.inflate(R.layout.popular_fragment,container,false);
         latest = (RecyclerView) v.findViewById(R.id.popular_recyclerview);
         buildRecyclerViewList();
+
+        // row click listener
+        latest.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), latest, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                AlbumList albumList  = latestAlbumLists.get(position);
+
+                try {
+                    Toast.makeText(getActivity().getApplicationContext(), albumList.getName() + " is selected!", Toast.LENGTH_SHORT).show();
+                } catch (Exception e){
+                    Log.e("aaaaaaa fuck my life", e.getMessage());
+                }
+
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
         return v;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         try {
             getLists();
         } catch (Exception e){
             Log.e("aaaaaaa fuck my life", e.getMessage());
         }
+
+
     }
 
     private void getLists() {
@@ -92,6 +120,8 @@ public class FragmentLatest extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+
             }
         }, new Response.ErrorListener() {
             @Override
