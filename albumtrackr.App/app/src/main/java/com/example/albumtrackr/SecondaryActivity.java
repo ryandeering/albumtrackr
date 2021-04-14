@@ -1,8 +1,6 @@
 package com.example.albumtrackr;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,17 +17,20 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class SecondaryActivity extends AppCompatActivity {
+public class SecondaryActivity extends AppCompatActivity implements ExampleDialog.ExampleDialogListener {
     Integer id;
     Integer albumId;
 
@@ -40,8 +41,12 @@ public class SecondaryActivity extends AppCompatActivity {
     private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/";
     private ProgressBar progressBar;
 
+    private TextView textView_album_artist;
+    private TextView textView_album_name;
+
     Button albumDelete;
     Button secondaryDelete;
+    FloatingActionButton addAlbum;
 
 
 
@@ -53,10 +58,18 @@ public class SecondaryActivity extends AppCompatActivity {
         id = intent.getIntExtra("albumListID", 0);
         albumId = intent.getIntExtra("albumID", 0);
 
+
+        textView_album_artist = (TextView) findViewById(R.id.textView_artist);
+        textView_album_name = (TextView) findViewById(R.id.textView_name);
+
+
+
+
         album = findViewById(R.id.idAlbums);
         progressBar = findViewById(R.id.progressBar);
         secondaryDelete = (Button)findViewById(R.id.button_delete2);
         albumDelete = (Button)findViewById(R.id.button_deleteAlbum);
+        addAlbum = (FloatingActionButton)findViewById(R.id.fab_add);
 
         getData();
 
@@ -64,6 +77,7 @@ public class SecondaryActivity extends AppCompatActivity {
 
         delete();
         deleteAlbum();;
+        addAlbum();
 
 
 
@@ -228,18 +242,18 @@ public class SecondaryActivity extends AppCompatActivity {
 
 
     public void deleteAlbum() {
-
         secondaryDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Log.e("Tag", "Clicked.");
                 RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
-                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString() + "/" + album.toString(),
-                        new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString() + "/" + album.toString(), new Response.Listener<String>()
+                {
                             @Override
                             public void onResponse(String response) {
 
+                                lists.removeIf(album -> album.getId().equals(id));
                                 Toast.makeText(SecondaryActivity.this, "Album Deleted!", Toast.LENGTH_LONG).show();
 
                                 finish();
@@ -265,9 +279,44 @@ public class SecondaryActivity extends AppCompatActivity {
     }
 
 
+    public void addAlbum(){
+        addAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+    }
 
+    public void openDialog(){
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
 
+    }
 
+    @Override
+    public void applyTexts(String artist, String album) {   // taking in strings from dialogue class
+        // Hashmap storing the variables as two strings
+        HashMap<String, String> params = new HashMap<String, String>();
+        // applying the variables
+        params.put(artist, album);
 
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, SERVICE_URI + id.toString() + "/album", new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            VolleyLog.v("Response:%n %s", response.toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
 
-}
+        }
+    }
