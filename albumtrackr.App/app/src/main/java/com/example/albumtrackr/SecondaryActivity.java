@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,7 +45,6 @@ public class SecondaryActivity extends AppCompatActivity {
 
         album = findViewById(R.id.idAlbums);
         progressBar = findViewById(R.id.progressBar);
-
 
         getData();
     }
@@ -142,6 +142,22 @@ public class SecondaryActivity extends AppCompatActivity {
         // setting layout manager
         // to our recycler view.
         album.setLayoutManager(manager);
+
+        // globally
+        TextView albumListName = (TextView)findViewById(R.id.textView_albumListName);
+
+//in your OnCreate() method
+        albumListName.setText(albumList.getName());
+
+        albumListName.setVisibility(View.VISIBLE);
+
+        // globally
+        TextView albumListDesc = (TextView)findViewById(R.id.textView_albumListDesc);
+
+//in your OnCreate() method
+        albumListDesc.setText(albumList.getDescription());
+
+        albumListDesc.setVisibility(View.VISIBLE);
 
         // setting adapter to
         // our recycler view.

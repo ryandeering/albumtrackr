@@ -22,22 +22,26 @@
         android:id="@+id/textView_albumListName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="681dp"
         android:text="Album List: "
-        android:textSize="24sp"
+        android:visibility="invisible"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView_albumListDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="643dp"
+        android:visibility="invisible"
         android:text="Description: "
-        android:textSize="18sp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,21 +50,25 @@
         android:layout_width="0dp"
         android:layout_height="601dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="144dp"
         android:layout_marginEnd="1dp"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_star"
         android:layout_width="71dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="276dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginBottom="591dp"
         android:drawableRight="@drawable/ic_baseline_star_24"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,19 +76,23 @@
         android:id="@+id/button_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="286dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="304dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="659dp"
         android:text="EDIT"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_delete2"
-        android:layout_width="44dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="312dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="48dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="360dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginBottom="592dp"
         android:drawableRight="@drawable/ic_baseline_delete_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
