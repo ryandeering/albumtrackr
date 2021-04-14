@@ -30,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SecondaryActivity extends AppCompatActivity implements ExampleDialog.ExampleDialogListener {
+public class SecondaryActivity extends AppCompatActivity implements AddAlbumDialog.DialogListener {
     Integer id;
     Integer albumId;
 
@@ -57,11 +57,6 @@ public class SecondaryActivity extends AppCompatActivity implements ExampleDialo
         Intent intent = getIntent();
         id = intent.getIntExtra("albumListID", 0);
         albumId = intent.getIntExtra("albumID", 0);
-
-
-        textView_album_artist = (TextView) findViewById(R.id.textView_artist);
-        textView_album_name = (TextView) findViewById(R.id.textView_name);
-
 
 
 
@@ -289,18 +284,21 @@ public class SecondaryActivity extends AppCompatActivity implements ExampleDialo
     }
 
     public void openDialog(){
-        ExampleDialog exampleDialog = new ExampleDialog();
-        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+        AddAlbumDialog Dialog = new AddAlbumDialog();
+        Dialog.show(getSupportFragmentManager(), "example dialog");
 
     }
 
     @Override
-    public void applyTexts(String artist, String album) {   // taking in strings from dialogue class
+    public void applyTexts(String artist, String name) {   // taking in strings from dialogue class
         // Hashmap storing the variables as two strings
         HashMap<String, String> params = new HashMap<String, String>();
         // applying the variables
-        params.put(artist, album);
+        params.put("artist", artist);
+        params.put("name", name);
 
+        // taking in artist and name to the JSON object parameters
+        RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, SERVICE_URI + id.toString() + "/album", new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -317,6 +315,8 @@ public class SecondaryActivity extends AppCompatActivity implements ExampleDialo
                 VolleyLog.e("Error: ", error.getMessage());
             }
         });
+
+        queue.add(req);
 
         }
     }

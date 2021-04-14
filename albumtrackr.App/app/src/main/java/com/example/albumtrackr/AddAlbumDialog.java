@@ -13,12 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ExampleDialog extends AppCompatDialogFragment {
+public class AddAlbumDialog extends AppCompatDialogFragment {
 
     private Album album;
     private EditText editTextName;
     private EditText editTextArtist;
-    private ExampleDialogListener listener;
+    private DialogListener listener;
 
 
     @Override
@@ -57,14 +57,14 @@ public class ExampleDialog extends AppCompatDialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (ExampleDialogListener) context;
+            listener = (DialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement ExampleDialogListener");
+            throw new ClassCastException(context.toString() + "must implement DialogListener");
         }
     }
 
-    public interface ExampleDialogListener{
-        void applyTexts(String artist, String album);
+    public interface DialogListener{
+        void applyTexts(String artist, String name);
     }
 
 }

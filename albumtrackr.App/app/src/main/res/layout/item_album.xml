@@ -38,13 +38,13 @@
 
         <TextView
             android:id="@+id/ArtistName"
-            android:layout_width="193dp"
-            android:layout_height="wrap_content"
+            android:layout_width="133dp"
+            android:layout_height="26dp"
             android:layout_marginStart="116dp"
             android:layout_marginTop="48dp"
             android:padding="5dp"
-            android:textSize="10sp"
             android:textColor="@color/black"
+            android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,8 +52,9 @@
             android:id="@+id/button_deleteAlbum"
             android:layout_width="44dp"
             android:layout_height="38dp"
-            android:layout_marginStart="340dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginStart="332dp"
+            android:layout_marginTop="4dp"
+            android:background="#00000000"
             android:drawableRight="@drawable/ic_baseline_delete_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
