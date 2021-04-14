@@ -14,17 +14,12 @@
         android:layout_width="381dp"
         android:layout_height="100dp">
 
-        <!--ImageView to display our course image-->
-
-        <!--text view for our course name-->
-
         <ImageView
             android:id="@+id/AlbumCover"
             android:layout_width="84dp"
             android:layout_height="84dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="TODO"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +30,6 @@
             android:layout_marginStart="116dp"
             android:layout_marginTop="16dp"
             android:padding="5dp"
-            android:text="Album Name:"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -49,7 +43,7 @@
             android:layout_marginStart="116dp"
             android:layout_marginTop="48dp"
             android:padding="5dp"
-            android:text="Artist: "
+            android:textSize="10sp"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
