@@ -106,6 +106,16 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteList(int id)
+        {
+            if (id == null) return BadRequest();
+
+            var userList = await _albumListRepository.DeleteList(id);
+
+            return Ok(userList);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> EditDescription(int id)
         {

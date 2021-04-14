@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager_id);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+
+
         // RecyclerView for Albumlist
         // AlbumList = (RecyclerView) findViewById(R.id.recycler_alist);
         // RecyclerView.LayoutManager aLayoutManager = new LinearLayoutManager(getApplicationContext());

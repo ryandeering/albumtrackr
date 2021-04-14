@@ -99,6 +99,18 @@ namespace albumtrackr.API.Repositories
             return list;
         }
 
+        // Delete list
+        public async Task<AlbumList> DeleteList(int id)
+        {
+            var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == id);
+
+            if (list == null) return null;
+
+            _albumtrackrContext.ALists.Remove(list);
+            await _albumtrackrContext.SaveChangesAsync();
+
+            return list;
+        }
 
         public async Task<AlbumList> CreateAlbumList(string userName, string name, string description)
         {

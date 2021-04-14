@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -34,6 +36,7 @@ public class SecondaryActivity extends AppCompatActivity {
     private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/";
     private ProgressBar progressBar;
 
+    Button secondaryDelete;
 
 
     @Override
@@ -45,8 +48,16 @@ public class SecondaryActivity extends AppCompatActivity {
 
         album = findViewById(R.id.idAlbums);
         progressBar = findViewById(R.id.progressBar);
+        secondaryDelete = (Button)findViewById(R.id.button_delete2);
 
         getData();
+
+
+
+        delete();
+
+
+
     }
 
     private void getData() {
@@ -74,7 +85,7 @@ public class SecondaryActivity extends AppCompatActivity {
                     ArrayList<Star> starArrayList = new ArrayList<Star>();
 
 
-                    Log.e("eee", response.toString());
+                    Log.e("toString() error: ", response.toString());
                     String id = response.getString("id");
                     String username = response.getString("username");
                     String created = response.getString("created");
@@ -131,6 +142,7 @@ public class SecondaryActivity extends AppCompatActivity {
 
     private void buildRecyclerView() {
 
+
         // initializing our adapter class.
         adapter = new AlbumAdapter(albumList, SecondaryActivity.this);
 
@@ -162,7 +174,38 @@ public class SecondaryActivity extends AppCompatActivity {
         // setting adapter to
         // our recycler view.
         album.setAdapter(adapter);
+
     }
 
+
+    public void delete() {
+        Log.e("gkg", "Button is being clicked.") ;
+        secondaryDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("gkg", "Button is being clicked.") ;
+                RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
+                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString(),
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.e("gkg", "Button is being clicked.") ;
+                                // Display the first 500 characters of the response string.
+                                Toast.makeText(SecondaryActivity.this, "Response is: "+ response.substring(0,500), Toast.LENGTH_LONG).show();
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("gkg", "Button is being clicked.") ;
+                        Toast.makeText(SecondaryActivity.this, "Fail to get the data..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Log.e("gkg", "Button is being clicked.") ;
+                queue.add(stringRequest);
+            }
+        });
+
+
+    }
 
 }
