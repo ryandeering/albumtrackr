@@ -54,6 +54,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our views.
         private TextView AListName, AListDesc;
+        private TextView AListName2, AListDesc2;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +62,9 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
             // initializing our views with their ids.
             AListName = itemView.findViewById(R.id.aListName);
             AListDesc = itemView.findViewById(R.id.aListDescription);
+
+            AListName2 = itemView.findViewById(R.id.textView_albumListName);
+            AListDesc2 = itemView.findViewById(R.id.textView_albumListDesc);
         }
     }
 

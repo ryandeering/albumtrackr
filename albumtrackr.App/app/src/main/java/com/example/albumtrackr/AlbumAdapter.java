@@ -63,6 +63,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             AlbumName = itemView.findViewById(R.id.AlbumName);
             ArtistName = itemView.findViewById(R.id.ArtistName);
             AlbumCover = itemView.findViewById(R.id.AlbumCover);
+
         }
     }
 
