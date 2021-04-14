@@ -39,6 +39,8 @@ namespace albumtrackr.API.Controllers
 
             var userLists = await _albumListRepository.GetMyLists(userName);
 
+            if (userLists == null) return NoContent();
+
             return Ok(userLists);
         }
 
