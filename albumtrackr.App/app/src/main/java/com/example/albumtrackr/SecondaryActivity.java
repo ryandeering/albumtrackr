@@ -1,6 +1,7 @@
 package com.example.albumtrackr;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SecondaryActivity extends AppCompatActivity implements AddAlbumDialog.DialogListener {
+public class SecondaryActivity extends AppCompatActivity implements AddAlbumDialog.DialogListener{
     Integer id;
     Integer albumId;
 
@@ -49,6 +51,10 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
     FloatingActionButton addAlbum;
 
 
+    ConstraintLayout layout1;
+    LinearLayout layout2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         id = intent.getIntExtra("albumListID", 0);
         albumId = intent.getIntExtra("albumID", 0);
 
-
+        layout1 = findViewById(R.id.secondary_layout);
+        layout2 = findViewById(R.id.linearLayout3);
 
         album = findViewById(R.id.idAlbums);
         progressBar = findViewById(R.id.progressBar);
@@ -70,8 +77,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
 
-        delete();
-        deleteAlbum();;
+       delete();
+
         addAlbum();
 
 
@@ -85,7 +92,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // of array so we are making a json array request.
         // below is the line where we are making an json array
         // request and then extracting data from each json object.
-
+        ;
 
 
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, SERVICE_URI + id.toString(), null, new Response.Listener<JSONObject>() {
@@ -234,28 +241,31 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
     }
 
-
-
+    /*
     public void deleteAlbum() {
-        secondaryDelete.setOnClickListener(new View.OnClickListener() {
+
+        Log.e("Tag", "CLICKED ALBUM DELETE");
+        albumDelete.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
+
                 Log.e("Tag", "Clicked.");
                 RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
-                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString() + "/" + album.toString(), new Response.Listener<String>()
+                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString() + "/album", new Response.Listener<String>()
                 {
-                            @Override
-                            public void onResponse(String response) {
+                    @Override
+                    public void onResponse(String response) {
 
-                                lists.removeIf(album -> album.getId().equals(id));
-                                Toast.makeText(SecondaryActivity.this, "Album Deleted!", Toast.LENGTH_LONG).show();
+                        lists.removeIf(album -> album.getId().equals(id));
+                        Toast.makeText(SecondaryActivity.this, "Album Deleted!", Toast.LENGTH_LONG).show();
 
-                                finish();
-                                getData();
+                        finish();
+                        getData();
 
-                            }
-                        }, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
@@ -273,6 +283,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
     }
 
+*/
 
     public void addAlbum(){
         addAlbum.setOnClickListener(new View.OnClickListener() {
@@ -319,4 +330,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         queue.add(req);
 
         }
+
+
     }

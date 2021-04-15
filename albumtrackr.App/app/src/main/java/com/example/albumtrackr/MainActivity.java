@@ -47,16 +47,18 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 // in build.gradle for Module:app
 // implementation 'com.android.volley:volley:1.1.1'
 // implementation 'com.google.code.gson:gson:2.8.5'
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddListDialog.DialogListener2 {
 
     // uri of RESTful service on Azure, note: https, cleartext support disabled by default
     private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/1";          // or https
+    private String SERVICE_URI_addlist = "https://albumtrackrapi.azurewebsites.net/api/AlbumList";
     private String TAG = "";
     //https://www.geeksforgeeks.org/how-to-extract-data-from-json-array-in-android-using-volley-library/
 
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
+
+    FloatingActionButton addList;
 
     AlbumAdapter albumAdapt;
 
@@ -109,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        addList = (FloatingActionButton)findViewById(R.id.fab_add_list);
 
+        addAlbumList();
 
 
     }
@@ -288,9 +294,49 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public void addAlbumList(){
+        addList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog2();
+            }
+        });
+    }
 
+    public void openDialog2(){
+        AddListDialog Dialog = new AddListDialog();
+        Dialog.show(getSupportFragmentManager(), "example dialog");
 
-    public void addAlbum(String artistName, String albumName){
+    }
+
+    @Override
+    public void applyTexts2(String name, String description) {   // taking in strings from dialogue class
+        // Hashmap storing the variables as two strings
+        HashMap<String, String> params = new HashMap<String, String>();
+        // applying the variables
+        params.put("Name", name);
+        params.put("Description", description);
+
+        // taking in artist and name to the JSON object parameters
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, SERVICE_URI_addlist, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            VolleyLog.v("Response:%n %s", response.toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        queue.add(req);
 
     }
 
