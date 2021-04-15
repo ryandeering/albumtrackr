@@ -135,23 +135,6 @@ namespace albumtrackr.API.Controllers
 
             return userList;
         }
-        
-    /*
-        [HttpGet("")]
-        public async Task<IActionResult> GetFaveAlbums(Star stars)
-        {
-            var userList = await _albumListRepository.
-                
-                
-
-            if (userList == null)
-            {
-                return NotFound();
-            }
-            return Ok(userList);
-        }
-
-        */
 
     }
 }

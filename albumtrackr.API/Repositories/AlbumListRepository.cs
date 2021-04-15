@@ -139,7 +139,7 @@ namespace albumtrackr.API.Repositories
 
             // Need to pass this in through the Swagger window
             // Hardcoded for now...
-            list.Description = "UPDATED DESCRIPTION!";
+            list.Description = "UPDATED DESCRIPTION, BAI!";
             await _albumtrackrContext.SaveChangesAsync();
             return list;
         }
@@ -168,7 +168,7 @@ namespace albumtrackr.API.Repositories
         }
 
 
-        // Find albmuslist by id, and if list is already starred, return true, else false
+        // Find albumlist by id, and if list is already starred, return true, else false
         public async Task<bool> ListAlreadyStarred(int albumListId, string username)
         {
             var list = await _albumtrackrContext.ALists.Include("Stars").FirstOrDefaultAsync(al => al.Id == albumListId);
