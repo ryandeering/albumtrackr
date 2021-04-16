@@ -6,7 +6,7 @@ import java.util.List;
 public class AlbumList {
 
     private Integer id;
-    private List<Album> albums;
+    List<Album> albums;
     private List<Star> stars;
     private String created;
     private String username;

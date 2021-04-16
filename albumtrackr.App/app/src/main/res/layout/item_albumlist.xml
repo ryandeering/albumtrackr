@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/aListName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="386dp"
+        android:layout_height="27dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="18dp"
         android:text="aListName:"
@@ -24,8 +24,8 @@
 
     <TextView
         android:id="@+id/aListDescription"
-        android:layout_width="91dp"
-        android:layout_height="25dp"
+        android:layout_width="386dp"
+        android:layout_height="27dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="60dp"
         android:text="aListDesc:"

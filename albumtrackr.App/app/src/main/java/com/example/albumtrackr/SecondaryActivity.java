@@ -232,8 +232,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                 });
 
                 queue.add(stringRequest);
-                adapter.notifyDataSetChanged();
-                buildRecyclerView();
 
             }
         });
