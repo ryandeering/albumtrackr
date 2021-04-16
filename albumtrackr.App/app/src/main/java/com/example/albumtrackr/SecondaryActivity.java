@@ -61,6 +61,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secondary);
         Intent intent = getIntent();
+
         id = intent.getIntExtra("albumListID", 0);
         albumId = intent.getIntExtra("albumID", 0);
 
@@ -220,7 +221,10 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                                 Toast.makeText(SecondaryActivity.this, "List Deleted!", Toast.LENGTH_LONG).show();
 
                                 finish();
-                                getData();
+
+
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
 
                             }
                         }, new Response.ErrorListener() {
@@ -315,6 +319,53 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         try {
                             VolleyLog.v("Response:%n %s", response.toString(4));
                             Toast.makeText(SecondaryActivity.this, "Album added!", Toast.LENGTH_LONG).show();
+
+                            JSONArray starsActual = new JSONArray();
+                            JSONArray jsonArray = new JSONArray();
+                            ArrayList<Album> albumArrayList = new ArrayList<Album>();
+                            ArrayList<Star> starArrayList = new ArrayList<Star>();
+
+
+                            Log.e("toString() error: ", response.toString());
+                            String listid = response.getString("id");
+                            String username = response.getString("username");
+                            String created = response.getString("created");
+                            String name = response.getString("name");
+                            String description = response.getString("description");
+
+
+                            if(response.optJSONArray("albums") != null) {
+                                jsonArray = response.optJSONArray("albums");
+                            }
+
+                            if(response.optJSONArray("stars") != null) {
+                                starsActual = response.optJSONArray("stars");
+                            }
+
+                            if(jsonArray != null) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject obj = jsonArray.getJSONObject(j);
+                                    String id = obj.getString("id");
+                                    String albumName = obj.getString("name");
+                                    String artistName = obj.getString("artist");
+                                    String thumbnail = obj.getString("thumbnail");
+                                    albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                                }
+                            }
+
+                            if(starsActual != null) {
+                                for (int j = 0; j < starsActual.length(); j++) {
+                                    JSONObject obj2 = starsActual.getJSONObject(j);
+                                    String starid = obj2.getString("id");
+                                    String usernameStar = obj2.getString("username");
+                                    String albumListId = obj2.getString("albumListId");
+                                    starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
+                                }
+                            }
+
+                            albumList.setAlbums(albumArrayList);
+                            adapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(SecondaryActivity.this, "Unable to add Album!", Toast.LENGTH_SHORT).show();

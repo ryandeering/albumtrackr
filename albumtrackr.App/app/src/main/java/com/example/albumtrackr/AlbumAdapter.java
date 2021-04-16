@@ -89,7 +89,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
                                     Toast.makeText(context, "Album Deleted!", Toast.LENGTH_LONG).show();
 
-
+                                    notifyDataSetChanged();
                                 }
                             }, new Response.ErrorListener() {
                         @Override

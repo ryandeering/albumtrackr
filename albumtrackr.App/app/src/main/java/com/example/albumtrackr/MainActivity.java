@@ -2,6 +2,7 @@
 
 package com.example.albumtrackr;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -232,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                             String name = obj.getString("name");
                             String description = obj.getString("description");
                             lists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), new ArrayList<Star>() ));
+
                         }
                     }
 
@@ -324,6 +326,16 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
+                                JSONObject obj = response;
+                                String id = obj.getString("id");
+                                String username = obj.getString("username");
+                                String created = obj.getString("created");
+                                String name = obj.getString("name");
+                                String description = obj.getString("description");
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+
                             VolleyLog.v("Response:%n %s", response.toString(4));
                         } catch (JSONException e) {
                             e.printStackTrace();
