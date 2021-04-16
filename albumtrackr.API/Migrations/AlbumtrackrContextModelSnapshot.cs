@@ -72,24 +72,6 @@ namespace albumtrackr.API.Migrations
                     b.ToTable("ALists");
                 });
 
-            modelBuilder.Entity("albumtrackr.API.DTO.Star", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("AlbumListId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Stars");
-                });
-
             modelBuilder.Entity("albumtrackr.API.DTO.Album", b =>
                 {
                     b.HasOne("albumtrackr.API.DTO.AlbumList", null)

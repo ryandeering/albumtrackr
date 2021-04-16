@@ -111,7 +111,8 @@ public class FragmentPopular extends Fragment {
                             String created = obj.getString("created");
                             String name = obj.getString("name");
                             String description = obj.getString("description");
-                            popularAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), new ArrayList<Star>() ));
+                            String stars = obj.getString("stars");
+                            popularAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars) ));
                         }
                     }
 

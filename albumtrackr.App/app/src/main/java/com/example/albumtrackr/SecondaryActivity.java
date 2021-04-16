@@ -117,6 +117,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                     String created = response.getString("created");
                     String name = response.getString("name");
                     String description = response.getString("description");
+                    String stars = response.getString("stars");
 
 
                     if(response.optJSONArray("albums") != null) {
@@ -138,17 +139,9 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         }
                     }
 
-                    if(starsActual != null) {
-                        for (int j = 0; j < starsActual.length(); j++) {
-                            JSONObject obj2 = starsActual.getJSONObject(j);
-                            String starid = obj2.getString("id");
-                            String usernameStar = obj2.getString("username");
-                            String albumListId = obj2.getString("albumListId");
-                            starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
-                        }
-                    }
 
-                    albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, starArrayList);
+
+                    albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, Integer.valueOf(stars));
 
 
 

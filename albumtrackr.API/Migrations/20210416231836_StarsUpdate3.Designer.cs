@@ -10,8 +10,8 @@ using albumtrackr.API.Data;
 namespace albumtrackr.API.Migrations
 {
     [DbContext(typeof(AlbumtrackrContext))]
-    [Migration("20210326003507_AlbumListChange")]
-    partial class AlbumListChange
+    [Migration("20210416231836_StarsUpdate3")]
+    partial class StarsUpdate3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,9 @@ namespace albumtrackr.API.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -65,9 +68,6 @@ namespace albumtrackr.API.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

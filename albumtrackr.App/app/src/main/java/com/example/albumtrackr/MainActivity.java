@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                     String created = response.getString("created");
                     String name = response.getString("name");
                     String description = response.getString("description");
+                    String stars = response.getString("stars");
 
 
                     if(response.optJSONArray("albums") != null) {
@@ -175,17 +176,8 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                         }
                     }
 
-                    if(starsActual != null) {
-                        for (int j = 0; j < starsActual.length(); j++) {
-                            JSONObject obj2 = starsActual.getJSONObject(j);
-                            String starid = obj2.getString("id");
-                            String usernameStar = obj2.getString("username");
-                            String albumListId = obj2.getString("albumListId");
-                            starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
-                        }
-                    }
 
-                    albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, starArrayList);
+                    albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, Integer.valueOf(stars));
 
 
 
@@ -232,7 +224,8 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                             String created = obj.getString("created");
                             String name = obj.getString("name");
                             String description = obj.getString("description");
-                            lists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), new ArrayList<Star>() ));
+                            String stars = obj.getString("stars");
+                            lists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars)));
 
                         }
                     }

@@ -7,13 +7,13 @@ public class AlbumList {
 
     private Integer id;
     List<Album> albums;
-    private List<Star> stars;
+    private int stars;
     private String created;
     private String username;
     private String name;
     private String description;
 
-    public AlbumList(Integer id, String username, String name, String description, String created, ArrayList<Album> albums, ArrayList<Star> stars) {
+    public AlbumList(Integer id, String username, String name, String description, String created, ArrayList<Album> albums, int stars) {
         this.id = id;
         this.albums = albums;
         this.created = created;
@@ -23,14 +23,14 @@ public class AlbumList {
         this.stars = stars;
     }
 
-    public AlbumList(Integer id, String username, String name, String description, String created) {
+    public AlbumList(Integer id, String username, String name, String description, String created, int stars) {
         this.id = id;
         this.albums = null;
         this.created = created;
         this.username = username;
         this.name = name;
         this.description = description;
-        this.stars = null;
+        this.stars = stars;
     }
 
     public AlbumList(){
@@ -38,7 +38,7 @@ public class AlbumList {
         username = "";
         name = "";
         description = "";
-        stars = new ArrayList<Star>();
+        stars = 0;
         albums = new ArrayList<Album>();
         }
 
@@ -91,11 +91,11 @@ public class AlbumList {
         this.description = description;
     }
 
-    public List<Star> getStars() {
+    public int getStars() {
         return stars;
     }
 
-    public void setStars(List<Star> stars) {
+    public void setStars(int stars) {
         this.stars = stars;
     }
 

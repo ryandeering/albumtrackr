@@ -10,8 +10,8 @@ using albumtrackr.API.Data;
 namespace albumtrackr.API.Migrations
 {
     [DbContext(typeof(AlbumtrackrContext))]
-    [Migration("20210329175905_starupdate")]
-    partial class starupdate
+    [Migration("20210416222801_StarsUpdate2")]
+    partial class StarsUpdate2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,9 @@ namespace albumtrackr.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
@@ -78,15 +81,13 @@ namespace albumtrackr.API.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("AlbumListId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("albumListId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("albumListId");
 
                     b.ToTable("Stars");
                 });
@@ -98,20 +99,9 @@ namespace albumtrackr.API.Migrations
                         .HasForeignKey("AlbumListId");
                 });
 
-            modelBuilder.Entity("albumtrackr.API.DTO.Star", b =>
-                {
-                    b.HasOne("albumtrackr.API.DTO.AlbumList", null)
-                        .WithMany("Stars")
-                        .HasForeignKey("albumListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("albumtrackr.API.DTO.AlbumList", b =>
                 {
                     b.Navigation("Albums");
-
-                    b.Navigation("Stars");
                 });
 #pragma warning restore 612, 618
         }
