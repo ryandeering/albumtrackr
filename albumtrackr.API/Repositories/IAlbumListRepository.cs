@@ -13,9 +13,9 @@ namespace albumtrackr.API.Repositories
         Task<AlbumList> DeleteFromList(int id, int aid);
         Task<AlbumList> DeleteList(int id);
         Task<AlbumList> GetById(int id);
-        Task<AlbumList> EditDescription(int id);
+        Task<AlbumList> EditDescription(int id, string description);
         Task<AlbumList> CreateAlbumList(string userName, string name, string description); 
-        Task<AlbumList> StarAlbumList(string username, int albumListId);
-        Task<bool> ListAlreadyStarred(int albumListId, string username);
+        Task<AlbumList> StarAlbumList(int albumListId);
+        Task<bool> ListAlreadyStarred(int albumListId);
     }
 }

@@ -11,7 +11,7 @@ namespace albumtrackr.API.DTO
 
         public string Username { get; set; }
 
-        public int albumListId { get; set; }
+        public int AlbumListId { get; set; }
 
     }
 }

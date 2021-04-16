@@ -33,7 +33,7 @@ namespace albumtrackr.API.Repositories
 
         public async Task<List<AlbumList>> GetPopularLists()
         {
-            return await _albumtrackrContext.ALists.OrderBy(al => al.Stars.Count).ToListAsync();
+            return await _albumtrackrContext.ALists.OrderBy(al => al.Stars).ToListAsync();
         }
 
         public async Task<AlbumList> GetById(int id)
@@ -121,7 +121,7 @@ namespace albumtrackr.API.Repositories
                 Description = description,
                 Albums = new List<Album>(),
                 Created = DateTime.Now,
-                Stars = new List<Star>()
+                Stars = 0
             };
 
             await _albumtrackrContext.ALists.AddAsync(list);
@@ -131,58 +131,53 @@ namespace albumtrackr.API.Repositories
             return list;
         }
 
-        public async Task<AlbumList> EditDescription(int id)
+        public async Task<AlbumList> EditDescription(int id, string description)
         {
             var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == id);
 
             if (list == null) return null;
 
-            // Need to pass this in through the Swagger window
-            // Hardcoded for now...
-            list.Description = "UPDATED DESCRIPTION, BAI!";
+            if (description.Length <= 30)
+            {
+                list.Description = description;
+            }
+
             await _albumtrackrContext.SaveChangesAsync();
             return list;
         }
+
+       
 
 
         // Find albumlist by ID, and increment the rating (stars)
-        public async Task<AlbumList> StarAlbumList(string username, int albumListId)
+        public async Task<AlbumList> StarAlbumList(int albumListId)
         {
-            var list = await _albumtrackrContext.ALists.Include("Albums").Include("Stars").FirstOrDefaultAsync(al => al.Id == albumListId);
+
+            var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == albumListId);
 
             if (list == null) return null;
 
-            Star star = new Star {Username = username, albumListId = albumListId};
-
-            if (list.Stars.Any(s => s.Username.Equals(username) && s.albumListId.Equals(albumListId)))
+            else
             {
-                var foundStar = list.Stars.FirstOrDefault(s => s.Username.Equals(username) && s.albumListId.Equals(albumListId));
-                list.Stars.Remove(foundStar);
+                list.Stars = list.Stars + 1;
                 await _albumtrackrContext.SaveChangesAsync();
                 return list;
             }
-
-            list.Stars.Add(star);
-            await _albumtrackrContext.SaveChangesAsync();
-            return list;
         }
 
-
         // Find albumlist by id, and if list is already starred, return true, else false
-        public async Task<bool> ListAlreadyStarred(int albumListId, string username)
+        public async Task<bool> ListAlreadyStarred(int albumListId)
         {
-            var list = await _albumtrackrContext.ALists.Include("Stars").FirstOrDefaultAsync(al => al.Id == albumListId);
+            var list = await _albumtrackrContext.ALists.FirstOrDefaultAsync(al => al.Id == albumListId);
 
             if (list == null) return false;
 
-            Star star = new Star { Username = username, albumListId = albumListId };
-
-            if (list.Stars.Any(s => s.Username.Equals(username) && s.albumListId.Equals(albumListId)))
+            if (list.Stars > 0)
             {
-                var foundStar = list.Stars.FirstOrDefault(s => s.Username.Equals(username) && s.albumListId.Equals(albumListId));
+                var foundStar = true;
                 
 
-                return true;
+                return foundStar;
 
             }
 

@@ -83,15 +83,15 @@ namespace albumtrackr.API.Controllers
 
 
         // star an album by id
-        [HttpPost("{albumListId}/{username}")]
+        [HttpPost("{albumListId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]           // not found
         [ProducesResponseType(StatusCodes.Status204NoContent)]          // ok no content
-        public async Task<IActionResult> StarAlbumList(string username, int albumListId)
+        public async Task<IActionResult> StarAlbumList(int albumListId)
         {
 
             if (albumListId == null) return BadRequest();
 
-            var userList = await _albumListRepository.StarAlbumList(username, albumListId);
+            var userList = await _albumListRepository.StarAlbumList(albumListId);
 
             return Ok(userList);
         }
@@ -117,21 +117,19 @@ namespace albumtrackr.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditDescription(int id)
+        public async Task<IActionResult> EditDescription(int id, string description)
         {
 
-            var userList = await _albumListRepository.EditDescription(id);
+            var userList = await _albumListRepository.EditDescription(id, description);
 
             return Ok(userList);
         }
 
-       [HttpGet("{albumListId}/{username}")]
-        public async Task<bool> ListAlreadyStarred(int albumListId, string username)
+       [HttpGet("stars/{albumListId}")]
+        public async Task<bool> ListAlreadyStarred(int albumListId)
         {
 
-        if (username == null) return false;
-
-         var userList = await _albumListRepository.ListAlreadyStarred(albumListId, username);
+         var userList = await _albumListRepository.ListAlreadyStarred(albumListId);
 
             return userList;
         }
