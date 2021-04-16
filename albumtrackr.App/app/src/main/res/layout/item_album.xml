@@ -48,16 +48,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/AlbumID"
-            android:layout_width="33dp"
-            android:layout_height="26dp"
-            android:layout_marginStart="340dp"
-            android:layout_marginTop="48dp"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
             android:id="@+id/button_deleteAlbum"
             android:layout_width="44dp"

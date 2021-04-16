@@ -53,23 +53,20 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     }
 
+
+
+
+
     @Override
         public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
             // setting data to our views of recycler view.
-            Album modal = AlbumArrayList.getAlbums().get(position);
+            Album modal = AlbumArrayList.getAlbums().get(holder.getAdapterPosition());
             holder.AlbumName.setText(modal.getName());
             holder.ArtistName.setText(modal.getArtist());
 
-            // Displaying the ID for troubleshooting purposes
-            holder.AlbumID.setText(modal.getId().toString());
-
-
-            Album albumtoDelete = AlbumArrayList.getAlbums().get(position);
-
-            // Tried this too, same thing
-            //Integer albumID = modal.getId();
-
-
+            // Getting the position of the item (the album) then getting the ID in the API request below
+            Album albumToDelete = AlbumArrayList.getAlbums().get(holder.getAdapterPosition());
+            // List ID
             Integer listID = AlbumArrayList.getId();
 
 
@@ -80,7 +77,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     RequestQueue queue = Volley.newRequestQueue(context);
-                    StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + listID.toString() + "/album/" + albumtoDelete.getId().toString(),
+                    StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + listID.toString() + "/album/" + albumToDelete.getId().toString(),
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -88,10 +85,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                                     List<Album> albums = AlbumArrayList.getAlbums();
                                     AlbumArrayList.setAlbums(albums);
 
-                                    albums.remove(albumtoDelete);
-
-
-
+                                    albums.remove(albumToDelete);
 
                                     Toast.makeText(context, "Album Deleted!", Toast.LENGTH_LONG).show();
 
@@ -133,7 +127,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our views.
-        private TextView AlbumName, ArtistName, AlbumID;
+        private TextView AlbumName, ArtistName;
         private ImageView AlbumCover;
         Button albumDelete;
 
@@ -144,7 +138,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             AlbumName = itemView.findViewById(R.id.AlbumName);
             ArtistName = itemView.findViewById(R.id.ArtistName);
             AlbumCover = itemView.findViewById(R.id.AlbumCover);
-            AlbumID = itemView.findViewById(R.id.AlbumID);
             albumDelete = itemView.findViewById(R.id.button_deleteAlbum);
 
         }

@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
 
 
                     Log.e("eee", response.toString());
-                    String id = response.getString("id");
+                    String listid = response.getString("id");
                     String username = response.getString("username");
                     String created = response.getString("created");
                     String name = response.getString("name");
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                     if(jsonArray != null) {
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject obj = jsonArray.getJSONObject(j);
-                            String listid = obj.getString("id");
+                            String id = obj.getString("id");
                             String albumName = obj.getString("name");
                             String artistName = obj.getString("artist");
                             String thumbnail = obj.getString("thumbnail");
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                         }
                     }
 
-                    albumList = new AlbumList(Integer.parseInt(id), username, name, description, created, albumArrayList, starArrayList);
+                    albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, starArrayList);
 
 
 
