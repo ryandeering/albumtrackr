@@ -82,6 +82,8 @@ stages:
             inputs:
               ConnectionType: AzureRM
               azureSubscription: albumtrackrAzure
-              appType: webApp
-              WebAppName: albumtrackrAPI
+              appType: 'webApp'
+              WebAppName: 'albumtrackrAPI'
               package: $(System.DefaultWorkingDirectory)/**/*.zip
+              DeploymentType: 'webDeploy'
+              enableCustomDeployment: true
