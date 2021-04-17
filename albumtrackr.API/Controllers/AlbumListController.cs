@@ -116,7 +116,7 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/{name}/{description}")]
         public async Task<IActionResult> EditDescription(int id, string name, string description)
         {
 

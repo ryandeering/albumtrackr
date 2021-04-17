@@ -367,7 +367,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                     public void onResponse(JSONObject response) {
                         try {
                             VolleyLog.v("Response:%n %s", response.toString(4));
-                            Toast.makeText(SecondaryActivity.this, "Album added!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SecondaryActivity.this, "Description Updated!", Toast.LENGTH_LONG).show();
 
                             JSONArray starsActual = new JSONArray();
                             JSONArray jsonArray = new JSONArray();
@@ -417,7 +417,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(SecondaryActivity.this, "Unable to add Album!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SecondaryActivity.this, "Unable to edit description!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {

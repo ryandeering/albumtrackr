@@ -55,12 +55,12 @@ public class AddDescDialog  extends AppCompatDialogFragment{
     }
 
     @Override
-    public void onAttach(Context context3) {
-        super.onAttach(context3);
+    public void onAttach(Context context2) {
+        super.onAttach(context2);
         try {
-            listenerDescription = (DialogListenerDescription) context3;
+            listenerDescription = (DialogListenerDescription) context2;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context3.toString() + "must implement DialogListener");
+            throw new ClassCastException(context2.toString() + "must implement DialogListener");
         }
     }
 
