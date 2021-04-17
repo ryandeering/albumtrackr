@@ -1,8 +1,8 @@
-﻿namespace albumtrackr.API.Data
-{
-    using DTO;
-    using Microsoft.EntityFrameworkCore;
+﻿using albumtrackr.API.DTO;
+using Microsoft.EntityFrameworkCore;
 
+namespace albumtrackr.API.Data
+{
     public class AlbumtrackrContext : DbContext
     {
         public AlbumtrackrContext(DbContextOptions<AlbumtrackrContext> options)
@@ -15,9 +15,7 @@
         public DbSet<Album> Albums { get; set; }
 
 
-
         //Add-Migration init
         //Update-Database
-
     }
 }

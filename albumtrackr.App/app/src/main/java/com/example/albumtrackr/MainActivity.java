@@ -11,21 +11,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

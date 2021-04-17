@@ -7,24 +7,21 @@ namespace albumtrackr.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Stars");
+                "Stars");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Stars",
-                columns: table => new
+                "Stars",
+                table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AlbumListId = table.Column<int>(type: "int", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AlbumListId = table.Column<int>("int", nullable: false),
+                    Username = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stars", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Stars", x => x.Id); });
         }
     }
 }

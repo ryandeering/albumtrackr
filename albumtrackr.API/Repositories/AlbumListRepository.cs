@@ -1,12 +1,12 @@
-﻿using albumtrackr.API.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using albumtrackr.API.Data;
 using albumtrackr.API.DTO;
 using IF.Lastfm.Core.Api;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace albumtrackr.API.Repositories
 {
@@ -66,7 +66,7 @@ namespace albumtrackr.API.Repositories
 
             var response = await client.Album.GetInfoAsync(album.Artist, album.Name);
 
-            if ((response.Content.Name != null) || (response.Content.ArtistName != null))
+            if (response.Content.Name != null || response.Content.ArtistName != null)
             {
                 album.Thumbnail = response.Content.Images.Largest.ToString();
                 album.Name = response.Content.Name;
@@ -154,10 +154,7 @@ namespace albumtrackr.API.Repositories
             var list = await _albumtrackrContext.ALists.Include("Albums")
                 .FirstOrDefaultAsync(al => al.Id == albumListId);
 
-            if (list == null)
-            {
-                return null;
-            }
+            if (list == null) return null;
 
             list.Stars += 1;
             _albumtrackrContext.ALists.Update(list);

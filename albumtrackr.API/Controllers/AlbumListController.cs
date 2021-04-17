@@ -1,10 +1,10 @@
-﻿namespace albumtrackr.API.Controllers
-{
-    using albumtrackr.API.DTO;
-    using albumtrackr.API.Repositories;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using albumtrackr.API.DTO;
+using albumtrackr.API.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
+namespace albumtrackr.API.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     public class AlbumListController : Controller

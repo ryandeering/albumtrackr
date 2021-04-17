@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -112,7 +110,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
             // getting each object from our json array.
             try {
                 // we are getting each json object.
-                JSONArray starsActual = new JSONArray();
                 JSONArray jsonArray = new JSONArray();
                 ArrayList<Album> albumArrayList = new ArrayList<Album>();
 
@@ -129,9 +126,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                     jsonArray = response.optJSONArray("albums");
                 }
 
-                if(response.optJSONArray("stars") != null) {
-                    starsActual = response.optJSONArray("stars");
-                }
 
                 if(jsonArray != null) {
                     for (int j = 0; j < jsonArray.length(); j++) {

@@ -1,6 +1,6 @@
-﻿using albumtrackr.API.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using albumtrackr.API.DTO;
 
 namespace albumtrackr.API.Repositories
 {
