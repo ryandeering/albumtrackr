@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
     private final ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
     private final String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/";
     private ProgressBar progressBar;
+    private String UserId = "";
 
     private TextView textView_album_artist;
     private TextView textView_album_name;
@@ -59,9 +61,11 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secondary);
         Intent intent = getIntent();
+
 
         id = intent.getIntExtra("albumListID", 0);
         albumId = intent.getIntExtra("albumID", 0);
@@ -71,13 +75,14 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
         album = findViewById(R.id.idAlbums);
         progressBar = findViewById(R.id.progressBar);
+
         secondaryDelete = (Button)findViewById(R.id.button_delete2);
         albumDelete = (Button)findViewById(R.id.button_deleteAlbum);
         addAlbum = (FloatingActionButton)findViewById(R.id.fab_add);
         editDescription = (Button)findViewById(R.id.button_edit);
 
-        getData();
 
+        getData();
 
 
         delete();
@@ -85,6 +90,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         addAlbum();
 
         editDescription();
+
+
 
 
     }
@@ -97,7 +104,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // below is the line where we are making an json array
         // request and then extracting data from each json object.
 
-
+        UserId = getUserId();
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, SERVICE_URI + id.toString(), null, response -> {
             progressBar.setVisibility(View.GONE);
             album.setVisibility(View.VISIBLE);
@@ -108,8 +115,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                 JSONArray starsActual = new JSONArray();
                 JSONArray jsonArray = new JSONArray();
                 ArrayList<Album> albumArrayList = new ArrayList<Album>();
-                ArrayList<Star> starArrayList = new ArrayList<Star>();
-
 
                 Log.e("toString() error: ", response.toString());
                 String listid = response.getString("id");
@@ -143,9 +148,9 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
                 albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, Integer.valueOf(stars));
 
-
-
                 buildRecyclerView();
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -188,6 +193,15 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // our recycler view.
         album.setAdapter(adapter);
 
+        if(albumList.getId().equals(UserId)) { //checking if user can modify list
+            secondaryDelete.setVisibility(View.VISIBLE);
+            addAlbum.setVisibility(View.VISIBLE);
+            editDescription.setVisibility(View.VISIBLE);
+        } else {
+            secondaryDelete.setVisibility(View.INVISIBLE);
+            addAlbum.setVisibility(View.INVISIBLE);
+            editDescription.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -248,12 +262,12 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         JSONArray starsActual = new JSONArray();
                         JSONArray jsonArray = new JSONArray();
                         ArrayList<Album> albumArrayList = new ArrayList<Album>();
-                        ArrayList<Star> starArrayList = new ArrayList<Star>();
 
 
                         Log.e("toString() error: ", response.toString());
                         String listid = response.getString("id");
                         String username = response.getString("username");
+                        String stars = response.getString("stars");
                         String created = response.getString("created");
                         String name1 = response.getString("name");
                         String description = response.getString("description");
@@ -263,9 +277,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                             jsonArray = response.optJSONArray("albums");
                         }
 
-                        if(response.optJSONArray("stars") != null) {
-                            starsActual = response.optJSONArray("stars");
-                        }
 
                         if(jsonArray != null) {
                             for (int j = 0; j < jsonArray.length(); j++) {
@@ -278,22 +289,13 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                             }
                         }
 
-                        if(starsActual != null) {
-                            for (int j = 0; j < starsActual.length(); j++) {
-                                JSONObject obj2 = starsActual.getJSONObject(j);
-                                String starid = obj2.getString("id");
-                                String usernameStar = obj2.getString("username");
-                                String albumListId = obj2.getString("albumListId");
-                                starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
-                            }
-                        }
-
                         albumList.setAlbums(albumArrayList);
                         adapter.notifyDataSetChanged();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(SecondaryActivity.this, "Unable to add Album!", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(SecondaryActivity.this, "Unable to add album. Not found in Last.FM database.", Toast.LENGTH_LONG).show();
                     }
                 }, error -> VolleyLog.e("Error: ", error.getMessage()));
 
@@ -331,7 +333,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         JSONArray starsActual = new JSONArray();
                         JSONArray jsonArray = new JSONArray();
                         ArrayList<Album> albumArrayList = new ArrayList<Album>();
-                        ArrayList<Star> starArrayList = new ArrayList<Star>();
 
 
                         Log.e("toString() error: ", response.toString());
@@ -340,15 +341,13 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         String created = response.getString("created");
                         String name1 = response.getString("name");
                         String description1 = response.getString("description");
+                        String stars = response.getString("stars");
 
 
                         if(response.optJSONArray("albums") != null) {
                             jsonArray = response.optJSONArray("albums");
                         }
 
-                        if(response.optJSONArray("stars") != null) {
-                            starsActual = response.optJSONArray("stars");
-                        }
 
                         if(jsonArray != null) {
                             for (int j = 0; j < jsonArray.length(); j++) {
@@ -361,15 +360,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                             }
                         }
 
-                        if(starsActual != null) {
-                            for (int j = 0; j < starsActual.length(); j++) {
-                                JSONObject obj2 = starsActual.getJSONObject(j);
-                                String starid = obj2.getString("id");
-                                String usernameStar = obj2.getString("username");
-                                String albumListId = obj2.getString("albumListId");
-                                starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
-                            }
-                        }
 
                         albumList.setAlbums(albumArrayList);
                         adapter.notifyDataSetChanged();
@@ -394,35 +384,10 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
     }
+    public String getUserId(){
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10+ Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
+    }
 
 
     }

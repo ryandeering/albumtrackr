@@ -1,6 +1,7 @@
 package com.example.albumtrackr;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
 
 
+
             Picasso.get().load(modal.getThumbnail()).into(holder.AlbumCover);
+
+
+            if(AlbumArrayList.getUsername().equals(getUserId())){
+                holder.albumDelete.setVisibility(View.VISIBLE);
+            } else {
+                holder.albumDelete.setVisibility(View.INVISIBLE);
+            }
 
             holder.albumDelete.setOnClickListener(v -> {
                 RequestQueue queue = Volley.newRequestQueue(context);
@@ -131,14 +140,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             AlbumCover = itemView.findViewById(R.id.AlbumCover);
             albumDelete = itemView.findViewById(R.id.button_deleteAlbum);
 
+
+
         }
     }
 
-    // public void getStars(AlbumList list){
-    //        list.getStars();
-    //}
-
-    //public void deleteAlbumList(AlbumList list){
-    //
-    //}
+    public String getUserId(){
+        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10+ Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
+    }
 }

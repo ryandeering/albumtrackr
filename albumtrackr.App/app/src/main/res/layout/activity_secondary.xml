@@ -90,6 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:visibility="visible"
         android:text="EDIT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -100,6 +101,7 @@
         android:layout_height="37dp"
         android:layout_marginStart="207dp"
         android:layout_marginTop="35dp"
+        android:visibility="visible"
         android:drawableLeft="@drawable/ic_baseline_delete_24"
         android:gravity="center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,6 +114,7 @@
         android:layout_marginTop="649dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
