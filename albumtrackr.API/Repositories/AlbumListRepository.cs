@@ -66,7 +66,7 @@ namespace albumtrackr.API.Repositories
 
             var response = await client.Album.GetInfoAsync(album.Artist, album.Name);
 
-            if ((response.Content.Name != null) | (response.Content.ArtistName != null))
+            if ((response.Content.Name != null) || (response.Content.ArtistName != null))
             {
                 album.Thumbnail = response.Content.Images.Largest.ToString();
                 album.Name = response.Content.Name;
