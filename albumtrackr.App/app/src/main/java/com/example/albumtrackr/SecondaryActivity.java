@@ -193,7 +193,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // our recycler view.
         album.setAdapter(adapter);
 
-        if(albumList.getId().equals(UserId)) { //checking if user can modify list
+        if(albumList.getUsername().equals(UserId)) { //checking if user can modify list
             secondaryDelete.setVisibility(View.VISIBLE);
             addAlbum.setVisibility(View.VISIBLE);
             editDescription.setVisibility(View.VISIBLE);
