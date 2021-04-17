@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SecondaryActivity extends AppCompatActivity implements AddAlbumDialog.DialogListener{
+public class SecondaryActivity extends AppCompatActivity implements AddAlbumDialog.DialogListener, AddDescDialog.DialogListenerDescription {
     Integer id;
     Integer albumId;
 
@@ -48,6 +48,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
     Button albumDelete;
     Button secondaryDelete;
+    Button editDescription;
     FloatingActionButton addAlbum;
 
 
@@ -73,15 +74,17 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         secondaryDelete = (Button)findViewById(R.id.button_delete2);
         albumDelete = (Button)findViewById(R.id.button_deleteAlbum);
         addAlbum = (FloatingActionButton)findViewById(R.id.fab_add);
+        editDescription = (Button)findViewById(R.id.button_edit);
 
         getData();
 
 
 
-       delete();
+        delete();
 
         addAlbum();
 
+        editDescription();
 
 
     }
@@ -236,49 +239,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
     }
 
-    /*
-    public void deleteAlbum() {
-
-        Log.e("Tag", "CLICKED ALBUM DELETE");
-        albumDelete.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-
-                Log.e("Tag", "Clicked.");
-                RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
-                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString() + "/album", new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-
-                        lists.removeIf(album -> album.getId().equals(id));
-                        Toast.makeText(SecondaryActivity.this, "Album Deleted!", Toast.LENGTH_LONG).show();
-
-                        finish();
-                        getData();
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Toast.makeText(SecondaryActivity.this, "Unable to delete album!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                queue.add(stringRequest);
-                adapter.notifyDataSetChanged();
-                buildRecyclerView();
-
-            }
-        });
-
-
-    }
-
-*/
 
     public void addAlbum(){
         addAlbum.setOnClickListener(new View.OnClickListener() {
@@ -374,6 +334,131 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         queue.add(req);
 
         }
+
+
+    public void editDescription(){
+        editDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog3();
+            }
+        });
+    }
+
+    public void openDialog3(){
+        AddDescDialog Dialog = new AddDescDialog();
+        Dialog.show(getSupportFragmentManager(), "example dialog");
+
+    }
+
+    @Override
+    public void applyListDescription(String name, String description) {   // taking in strings from dialogue class
+        // Hashmap storing the variables as two strings
+        HashMap<String, String> params = new HashMap<String, String>();
+        // applying the variables
+        params.put("name", name);
+        params.put("description", description);
+
+        // taking in artist and name to the JSON object parameters
+        RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, SERVICE_URI + id.toString(), new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            VolleyLog.v("Response:%n %s", response.toString(4));
+                            Toast.makeText(SecondaryActivity.this, "Album added!", Toast.LENGTH_LONG).show();
+
+                            JSONArray starsActual = new JSONArray();
+                            JSONArray jsonArray = new JSONArray();
+                            ArrayList<Album> albumArrayList = new ArrayList<Album>();
+                            ArrayList<Star> starArrayList = new ArrayList<Star>();
+
+
+                            Log.e("toString() error: ", response.toString());
+                            String listid = response.getString("id");
+                            String username = response.getString("username");
+                            String created = response.getString("created");
+                            String name = response.getString("name");
+                            String description = response.getString("description");
+
+
+                            if(response.optJSONArray("albums") != null) {
+                                jsonArray = response.optJSONArray("albums");
+                            }
+
+                            if(response.optJSONArray("stars") != null) {
+                                starsActual = response.optJSONArray("stars");
+                            }
+
+                            if(jsonArray != null) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject obj = jsonArray.getJSONObject(j);
+                                    String id = obj.getString("id");
+                                    String albumName = obj.getString("name");
+                                    String artistName = obj.getString("artist");
+                                    String thumbnail = obj.getString("thumbnail");
+                                    albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                                }
+                            }
+
+                            if(starsActual != null) {
+                                for (int j = 0; j < starsActual.length(); j++) {
+                                    JSONObject obj2 = starsActual.getJSONObject(j);
+                                    String starid = obj2.getString("id");
+                                    String usernameStar = obj2.getString("username");
+                                    String albumListId = obj2.getString("albumListId");
+                                    starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
+                                }
+                            }
+
+                            albumList.setAlbums(albumArrayList);
+                            adapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(SecondaryActivity.this, "Unable to add Album!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        queue.add(req);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

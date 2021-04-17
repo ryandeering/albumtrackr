@@ -13,7 +13,7 @@ namespace albumtrackr.API.Repositories
         Task<AlbumList> DeleteFromList(int id, int aid);
         Task<AlbumList> DeleteList(int id);
         Task<AlbumList> GetById(int id);
-        Task<AlbumList> EditDescription(int id, string description);
+        Task<AlbumList> EditDescription(int id, string name, string description);
         Task<AlbumList> CreateAlbumList(string userName, string name, string description); 
         Task<AlbumList> StarAlbumList(int albumListId);
         Task<bool> ListAlreadyStarred(int albumListId);

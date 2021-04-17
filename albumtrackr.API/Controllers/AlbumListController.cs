@@ -117,10 +117,10 @@ namespace albumtrackr.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditDescription(int id, string description)
+        public async Task<IActionResult> EditDescription(int id, string name, string description)
         {
 
-            var userList = await _albumListRepository.EditDescription(id, description);
+            var userList = await _albumListRepository.EditDescription(id, name, description);
 
             return Ok(userList);
         }

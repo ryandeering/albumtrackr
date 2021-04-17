@@ -131,7 +131,7 @@ namespace albumtrackr.API.Repositories
             return list;
         }
 
-        public async Task<AlbumList> EditDescription(int id, string description)
+        public async Task<AlbumList> EditDescription(int id, string name, string description)
         {
             var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == id);
 
@@ -139,6 +139,7 @@ namespace albumtrackr.API.Repositories
 
             if (description.Length <= 30)
             {
+                list.Name = name;
                 list.Description = description;
             }
 
