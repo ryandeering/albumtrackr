@@ -1,7 +1,6 @@
 package com.example.albumtrackr;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,17 +25,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     // creating a variable for array list and context.
-    private AlbumList AlbumArrayList;
-    private Context context;
-    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/";
+    private final AlbumList AlbumArrayList;
+    private final Context context;
+    private final String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/";
 
-    private ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
+    private final ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
 
     // creating a constructor for our variables.
     public AlbumAdapter(AlbumList albumArrayList, Context context) {
@@ -73,48 +73,38 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
             Picasso.get().load(modal.getThumbnail()).into(holder.AlbumCover);
 
-            holder.albumDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RequestQueue queue = Volley.newRequestQueue(context);
-                    StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + listID.toString() + "/album/" + albumToDelete.getId().toString(),
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
+            holder.albumDelete.setOnClickListener(v -> {
+                RequestQueue queue = Volley.newRequestQueue(context);
+                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + listID.toString() + "/album/" + albumToDelete.getId().toString(),
+                        response -> {
 
-                                    List<Album> albums = AlbumArrayList.getAlbums();
-                                    AlbumArrayList.setAlbums(albums);
+                            List<Album> albums = AlbumArrayList.getAlbums();
+                            AlbumArrayList.setAlbums(albums);
 
-                                    albums.remove(albumToDelete);
+                            albums.remove(albumToDelete);
 
-                                    Toast.makeText(context, "Album Deleted!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Album Deleted!", Toast.LENGTH_LONG).show();
 
-                                    notifyDataSetChanged();
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            parseVolleyError(error);
-                            Toast.makeText(context, "Unable to delete album!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            notifyDataSetChanged();
+                        }, error -> {
+                    parseVolleyError(error);
+                    Toast.makeText(context, "Unable to delete album!", Toast.LENGTH_SHORT).show();
+                });
 
-                    queue.add(stringRequest);
+                queue.add(stringRequest);
 
-                }
             });
         }
 
     public void parseVolleyError(VolleyError error) {
         try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
+            String responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
             JSONObject data = new JSONObject(responseBody);
             JSONArray errors = data.getJSONArray("errors");
             JSONObject jsonMessage = errors.getJSONObject(0);
             String message = jsonMessage.getString("message");
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
-        } catch (UnsupportedEncodingException errorr) {
         }
     }
 
@@ -125,11 +115,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our views.
-        private TextView AlbumName, ArtistName;
-        private ImageView AlbumCover;
-        Button albumDelete;
+        private final TextView AlbumName;
+        private final TextView ArtistName;
+        private final ImageView AlbumCover;
+        final Button albumDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

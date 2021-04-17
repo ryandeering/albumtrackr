@@ -41,6 +41,7 @@ namespace albumtrackr.UnitTests
 
             Assert.Equal(repo.GetLatestLists().Result, albumListTestData.OrderByDescending(a => a.Created));
             //Asynchronous blocking code IS bad, but in the case of a unit test, no harm done.
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -69,7 +70,7 @@ namespace albumtrackr.UnitTests
             var repo = new AlbumListRepository(context, configuration);
 
             Assert.Equal(repo.GetMyLists("TESTID").Result, albumListTestData);
-
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -97,7 +98,7 @@ namespace albumtrackr.UnitTests
             var repo = new AlbumListRepository(context, configuration);
 
             Assert.Equal(repo.GetPopularLists().Result, albumListTestData.OrderBy(al => al.Stars));
-
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -129,7 +130,7 @@ namespace albumtrackr.UnitTests
                 Assert.Equal(repo.GetById(albumList.Id).Result, albumList);
             }
 
-
+            context.ChangeTracker.Clear();
         }
 
 
@@ -165,7 +166,7 @@ namespace albumtrackr.UnitTests
             await repo.DeleteFromList(album.Id, album.Albums.First().Id);
 
             Assert.Equal(4, album.Albums.Count);
-
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -200,7 +201,7 @@ namespace albumtrackr.UnitTests
             await repo.DeleteList(album.Id);
 
             Assert.Equal(0, context.ALists.Count());
-
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -209,7 +210,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Create List Test")
+                .UseInMemoryDatabase("Creating List Test")
                 .Options;
 
 
@@ -229,9 +230,10 @@ namespace albumtrackr.UnitTests
             var repo = new AlbumListRepository(context, configuration);
 
 
-            await repo.CreateAlbumList(album.Username, album.Name, album.Description);
+           var created = await repo.CreateAlbumList(album.Username, album.Name, album.Description);
 
-            Assert.Equal(album.Username, context.ALists.First().Username);
+            Assert.Equal(album.Username, created.Username);
+            context.ChangeTracker.Clear();
 
         }
 
@@ -241,7 +243,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Create List Test")
+                .UseInMemoryDatabase("Edit Description Test")
                 .Options;
 
 
@@ -260,9 +262,10 @@ namespace albumtrackr.UnitTests
             await context.SaveChangesAsync();
             var repo = new AlbumListRepository(context, configuration);
 
-            await repo.EditDescription(album.Id, "hehe", "test");
+           var successItem = await repo.EditDescription(album.Id, "hehe", "test");
 
-            Assert.Equal(album.Name, context.ALists.First().Name);
+            Assert.Equal(album.Name, successItem.Name);
+            context.ChangeTracker.Clear();
 
         }
 
@@ -272,7 +275,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Create List Test")
+                .UseInMemoryDatabase("Edit Description Fail Test")
                 .Options;
 
 
@@ -294,7 +297,7 @@ namespace albumtrackr.UnitTests
             var failItem = await repo.EditDescription(album.Id, "jasdhsajjkdhaskjhdasjkhdkajshdjdasjkhdkajshdjdasjkhdkajshdjkashdjkhsaasdaskljdklasdkljaslkdjaslkjdaskljdklasjdklasjdkljaskldjaskljdas", "djkshasjkdhsakjhdaskjhdjkashdjkashjkdhasdasjkhdkajshdjdasjkhdkajshdjdasjkhdkajshdjdasjkhdkajshdjdasjkhdkajshdjjkdhasjkhdasjkhdakjshdjkashdjkash");
 
             Assert.Equal(album, failItem);
-
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -303,7 +306,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Create List Test")
+                .UseInMemoryDatabase("Star Album Test")
                 .Options;
 
 
@@ -324,6 +327,7 @@ namespace albumtrackr.UnitTests
 
 
             Assert.NotEqual(album.Stars, repo.StarAlbumList(album.Id).Result.Stars);
+            context.ChangeTracker.Clear();
 
         }
 

@@ -31,8 +31,7 @@ public class FragmentLatest extends Fragment {
 
     View v;
     private RecyclerView latest;
-    private ArrayList<AlbumList> latestAlbumLists = new ArrayList<AlbumList>();
-    private AlbumListAdapter adapter;
+    private final ArrayList<AlbumList> latestAlbumLists = new ArrayList<AlbumList>();
 
     public FragmentLatest() {
     }
@@ -47,7 +46,7 @@ public class FragmentLatest extends Fragment {
         // row click listener
         latest.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), latest, new RecyclerTouchListener.ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(int position) {
                 AlbumList albumList  = latestAlbumLists.get(position);
 
                 try {
@@ -62,7 +61,7 @@ public class FragmentLatest extends Fragment {
             }
 
             @Override
-            public void onLongClick(View view, int position) {
+            public void onLongClick() {
 
             }
         }));
@@ -96,43 +95,35 @@ public class FragmentLatest extends Fragment {
 
 
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/AlbumList/", null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                latest.setVisibility(View.VISIBLE);
-                // creating a new json object and
-                // getting each object from our json array.
-                try {
-                    // we are getting each json object.
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/AlbumList/", null, response -> {
+            latest.setVisibility(View.VISIBLE);
+            // creating a new json object and
+            // getting each object from our json array.
+            try {
+                // we are getting each json object.
 
 
-                    if(response != null) {
-                        for (int j = 0; j < response.length(); j++) {
-                            JSONObject obj = response.getJSONObject(j);
-                            String id = obj.getString("id");
-                            String username = obj.getString("username");
-                            String created = obj.getString("created");
-                            String name = obj.getString("name");
-                            String description = obj.getString("description");
-                            String stars = obj.getString("stars");
-                            latestAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars)));
-                        }
+                if(response != null) {
+                    for (int j = 0; j < response.length(); j++) {
+                        JSONObject obj = response.getJSONObject(j);
+                        String id = obj.getString("id");
+                        String username = obj.getString("username");
+                        String created = obj.getString("created");
+                        String name = obj.getString("name");
+                        String description = obj.getString("description");
+                        String stars = obj.getString("stars");
+                        latestAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars)));
                     }
-
-
-                    buildRecyclerViewList();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
 
+                buildRecyclerViewList();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "Fail to get the data..", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
+        }, error -> Toast.makeText(getActivity().getApplicationContext(), "Fail to get the data..", Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
 
@@ -144,7 +135,7 @@ public class FragmentLatest extends Fragment {
     private void buildRecyclerViewList() {
 
         // initializing our adapter class.
-        adapter = new AlbumListAdapter(latestAlbumLists, getActivity().getApplicationContext());
+        AlbumListAdapter adapter = new AlbumListAdapter(latestAlbumLists, getActivity().getApplicationContext());
 
         // adding layout manager
         // to our recycler view.

@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AddAlbumDialog extends AppCompatDialogFragment {
 
@@ -29,22 +27,16 @@ public class AddAlbumDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.layout_dialog, null);
 
         builder.setView(view).setTitle("Add Album")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
+                .setNegativeButton("cancel", (dialog, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
+                .setPositiveButton("Ok", (dialog, i) -> {
 
-                        String artist = editTextArtist.getText().toString();
-                        String name = editTextName.getText().toString();
+                    String artist = editTextArtist.getText().toString();
+                    String name = editTextName.getText().toString();
 
 
-                        listener.applyTexts(artist, name);
-                    }
+                    listener.applyTexts(artist, name);
                 });
 
         editTextArtist = view.findViewById(R.id.edit_artist);

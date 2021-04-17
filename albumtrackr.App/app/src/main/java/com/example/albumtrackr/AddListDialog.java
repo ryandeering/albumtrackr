@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AddListDialog  extends AppCompatDialogFragment{
 
@@ -30,23 +28,17 @@ public class AddListDialog  extends AppCompatDialogFragment{
         View view = inflater.inflate(R.layout.layout_dialog_two, null);
 
         builder.setView(view).setTitle("Add Album List")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
+                .setNegativeButton("cancel", (dialog, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
+                .setPositiveButton("Ok", (dialog, i) -> {
 
 
-                        String name = editTextName.getText().toString();
-                        String description = editTextDescription.getText().toString();
+                    String name = editTextName.getText().toString();
+                    String description = editTextDescription.getText().toString();
 
 
-                        listener2.applyTexts2(name, description);
-                    }
+                    listener2.applyTexts2(name, description);
                 });
 
 

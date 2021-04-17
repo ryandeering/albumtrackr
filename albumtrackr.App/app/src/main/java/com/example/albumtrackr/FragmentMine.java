@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +25,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -34,9 +32,8 @@ public class FragmentMine extends Fragment {
 
     View v;
     private RecyclerView mine;
-    private ArrayList<AlbumList> myAlbumLists = new ArrayList<AlbumList>();
-    private AlbumListAdapter adapter;
-    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/username/";
+    private final ArrayList<AlbumList> myAlbumLists = new ArrayList<AlbumList>();
+    private final String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/username/";
     public FragmentMine() {
 
 
@@ -52,7 +49,7 @@ public class FragmentMine extends Fragment {
         // row click listener
         mine.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), mine, new RecyclerTouchListener.ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(int position) {
                 AlbumList albumList  = myAlbumLists.get(position);
 
                 try {
@@ -67,7 +64,7 @@ public class FragmentMine extends Fragment {
             }
 
             @Override
-            public void onLongClick(View view, int position) {
+            public void onLongClick() {
 
             }
         }));
@@ -103,45 +100,37 @@ public class FragmentMine extends Fragment {
 
 
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/albumlist/username/"+getUserId(), null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                mine.setVisibility(View.VISIBLE);
-                // creating a new json object and
-                // getting each object from our json array.
-                try {
-                    // we are getting each json object.
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/albumlist/username/"+getUserId(), null, response -> {
+            mine.setVisibility(View.VISIBLE);
+            // creating a new json object and
+            // getting each object from our json array.
+            try {
+                // we are getting each json object.
 
-                    if(response != null) {
+                if(response != null) {
 
-                        if(response.length() == 0){
-                            Toast.makeText(getActivity().getApplicationContext(), "No lists were found by you.", Toast.LENGTH_LONG).show();
-                        }
-
-                        for (int j = 0; j < response.length(); j++) {
-                            JSONObject obj = response.getJSONObject(j);
-                            String id = obj.getString("id");
-                            String username = obj.getString("username");
-                            String created = obj.getString("created");
-                            String name = obj.getString("name");
-                            String description = obj.getString("description");
-                            String stars = obj.getString("stars");
-                            myAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars) ));
-                        }
+                    if(response.length() == 0){
+                        Toast.makeText(getActivity().getApplicationContext(), "No lists were found by you.", Toast.LENGTH_LONG).show();
                     }
 
-
-                    buildRecyclerViewList();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    for (int j = 0; j < response.length(); j++) {
+                        JSONObject obj = response.getJSONObject(j);
+                        String id = obj.getString("id");
+                        String username = obj.getString("username");
+                        String created = obj.getString("created");
+                        String name = obj.getString("name");
+                        String description = obj.getString("description");
+                        String stars = obj.getString("stars");
+                        myAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars) ));
+                    }
                 }
+
+
+                buildRecyclerViewList();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "Failed to get the data.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }, error -> Toast.makeText(getActivity().getApplicationContext(), "Failed to get the data.", Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
 
@@ -149,7 +138,7 @@ public class FragmentMine extends Fragment {
     private void buildRecyclerViewList() {
 
         // initializing our adapter class.
-        adapter = new AlbumListAdapter(myAlbumLists, getActivity().getApplicationContext());
+        AlbumListAdapter adapter = new AlbumListAdapter(myAlbumLists, getActivity().getApplicationContext());
 
         // adding layout manager
         // to our recycler view.

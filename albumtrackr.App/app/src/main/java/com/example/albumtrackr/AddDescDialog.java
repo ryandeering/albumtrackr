@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AddDescDialog  extends AppCompatDialogFragment{
 
@@ -30,22 +28,16 @@ public class AddDescDialog  extends AppCompatDialogFragment{
         View view = inflater.inflate(R.layout.layout_dialog_three, null);
 
         builder.setView(view).setTitle("Edit List Description")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
+                .setNegativeButton("Cancel", (dialog, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
+                .setPositiveButton("Ok", (dialog, i) -> {
 
-                        String name = editListName.getText().toString();
-                        String description = editListDescription.getText().toString();
+                    String name = editListName.getText().toString();
+                    String description = editListDescription.getText().toString();
 
 
-                        listenerDescription.applyListDescription(name, description);
-                    }
+                    listenerDescription.applyListDescription(name, description);
                 });
 
         editListDescription = view.findViewById(R.id.edit_list_description);

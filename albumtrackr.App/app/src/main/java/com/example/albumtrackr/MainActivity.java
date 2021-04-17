@@ -3,39 +3,25 @@
 package com.example.albumtrackr;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Debug;
-import android.os.StrictMode;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.*;
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
 
@@ -43,10 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -57,24 +39,16 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements AddListDialog.DialogListener2 {
 
-    // uri of RESTful service on Azure, note: https, cleartext support disabled by default
-    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/1";          // or https
-    private String SERVICE_URI_addlist = "https://albumtrackrapi.azurewebsites.net/api/AlbumList";
-    private String TAG = "";
+    private final String TAG = "";
     //https://www.geeksforgeeks.org/how-to-extract-data-from-json-array-in-android-using-volley-library/
 
     private RecyclerView album;
     private RecyclerView AlbumList;
-    private AlbumAdapter adapter;
-    private AlbumListAdapter adapter2;
     private AlbumList albumList;
-    private ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
+    private final ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
     private ProgressBar progressBar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter pagerAdapter;
 
     FloatingActionButton addList;
 
@@ -93,10 +67,9 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
         setContentView(R.layout.activity_main);
 
 
-
-        tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
-        viewPager = (ViewPager) findViewById(R.id.viewpager_id);
-        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager_id);
+        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
 
 
@@ -109,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
 
         pagerAdapter.AddFragment(new FragmentMine(), "My Album Lists");
         pagerAdapter.AddFragment(new FragmentPopular(), "Popular Album Lists");
-        pagerAdapter.AddFragment(new FragmentLatest(), "Newest Album Lists");;
+        pagerAdapter.AddFragment(new FragmentLatest(), "Newest Album Lists");
 
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -132,7 +105,9 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
         // request and then extracting data from each json object.
 
 
-
+        // uri of RESTful service on Azure, note: https, cleartext support disabled by default
+        // or https
+        String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/1";
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, SERVICE_URI, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -252,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
     private void buildRecyclerView() {
 
         // initializing our adapter class.
-        adapter = new AlbumAdapter(albumList, MainActivity.this);
+        AlbumAdapter adapter = new AlbumAdapter(albumList, MainActivity.this);
 
         // adding layout manager
         // to our recycler view.
@@ -271,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
     private void buildRecyclerViewList() {
 
         // initializing our adapter class.
-        adapter2 = new AlbumListAdapter(lists, MainActivity.this);
+        AlbumListAdapter adapter2 = new AlbumListAdapter(lists, MainActivity.this);
 
         // adding layout manager
         // to our recycler view.
@@ -290,12 +265,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
 
 
     public void addAlbumList(){
-        addList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog2();
-            }
-        });
+        addList.setOnClickListener(v -> openDialog2());
     }
 
     public void openDialog2(){
@@ -311,40 +281,36 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
         // applying the variables
         params.put("Name", name);
         params.put("Description", description);
+        params.put("Username", getUserId());
 
         // taking in artist and name to the JSON object parameters
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        String SERVICE_URI_addlist = "https://albumtrackrapi.azurewebsites.net/api/AlbumList";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, SERVICE_URI_addlist, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
+                response -> {
+                    try {
 
-                                JSONObject obj = response;
-                                String id = obj.getString("id");
-                                String username = obj.getString("username");
-                                String created = obj.getString("created");
-                                String name = obj.getString("name");
-                                String description = obj.getString("description");
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
+                        String id = response.getString("id");
+                            String username = response.getString("username");
+                            String created = response.getString("created");
+                            String name1 = response.getString("name");
+                            String description1 = response.getString("description");
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
 
-                            VolleyLog.v("Response:%n %s", response.toString(4));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        VolleyLog.v("Response:%n %s", response.toString(4));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
-            }
-        });
+                }, error -> VolleyLog.e("Error: ", error.getMessage()));
 
         queue.add(req);
 
     }
 
+    public String getUserId(){
+        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10+ Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
+    }
 
 
 }

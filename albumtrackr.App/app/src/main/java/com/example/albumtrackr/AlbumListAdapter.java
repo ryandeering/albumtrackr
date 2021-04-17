@@ -4,28 +4,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.ViewHolder> {
 
     // creating a variable for array list and context.
-    private ArrayList<AlbumList> AlbumArrayList;
-    private Context context;
+    private final ArrayList<AlbumList> AlbumArrayList;
 
     // creating a constructor for our variables.
     public AlbumListAdapter(ArrayList<AlbumList> albumArrayList, Context context) {
         this.AlbumArrayList = albumArrayList;
-        this.context = context;
     }
 
     @NonNull
@@ -51,10 +44,10 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our views.
-        private TextView AListName, AListDesc;
-        private TextView AListName2, AListDesc2;
+        private final TextView AListName;
+        private final TextView AListDesc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,8 +56,8 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
             AListName = itemView.findViewById(R.id.aListName);
             AListDesc = itemView.findViewById(R.id.aListDescription);
 
-            AListName2 = itemView.findViewById(R.id.textView_albumListName);
-            AListDesc2 = itemView.findViewById(R.id.textView_albumListDesc);
+            TextView AListName2 = itemView.findViewById(R.id.textView_albumListName);
+            TextView AListDesc2 = itemView.findViewById(R.id.textView_albumListDesc);
         }
     }
 

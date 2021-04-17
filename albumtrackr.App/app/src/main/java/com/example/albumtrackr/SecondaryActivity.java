@@ -39,8 +39,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
     private AlbumAdapter adapter;
     private RecyclerView album;
     private AlbumList albumList;
-    private ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
-    private String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/";
+    private final ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
+    private final String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/";
     private ProgressBar progressBar;
 
     private TextView textView_album_artist;
@@ -96,69 +96,60 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // of array so we are making a json array request.
         // below is the line where we are making an json array
         // request and then extracting data from each json object.
-        ;
 
 
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, SERVICE_URI + id.toString(), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                progressBar.setVisibility(View.GONE);
-                album.setVisibility(View.VISIBLE);
-                // creating a new json object and
-                // getting each object from our json array.
-                try {
-                    // we are getting each json object.
-                    JSONArray starsActual = new JSONArray();
-                    JSONArray jsonArray = new JSONArray();
-                    ArrayList<Album> albumArrayList = new ArrayList<Album>();
-                    ArrayList<Star> starArrayList = new ArrayList<Star>();
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, SERVICE_URI + id.toString(), null, response -> {
+            progressBar.setVisibility(View.GONE);
+            album.setVisibility(View.VISIBLE);
+            // creating a new json object and
+            // getting each object from our json array.
+            try {
+                // we are getting each json object.
+                JSONArray starsActual = new JSONArray();
+                JSONArray jsonArray = new JSONArray();
+                ArrayList<Album> albumArrayList = new ArrayList<Album>();
+                ArrayList<Star> starArrayList = new ArrayList<Star>();
 
 
-                    Log.e("toString() error: ", response.toString());
-                    String listid = response.getString("id");
-                    String username = response.getString("username");
-                    String created = response.getString("created");
-                    String name = response.getString("name");
-                    String description = response.getString("description");
-                    String stars = response.getString("stars");
+                Log.e("toString() error: ", response.toString());
+                String listid = response.getString("id");
+                String username = response.getString("username");
+                String created = response.getString("created");
+                String name = response.getString("name");
+                String description = response.getString("description");
+                String stars = response.getString("stars");
 
 
-                    if(response.optJSONArray("albums") != null) {
-                        jsonArray = response.optJSONArray("albums");
-                    }
-
-                    if(response.optJSONArray("stars") != null) {
-                        starsActual = response.optJSONArray("stars");
-                    }
-
-                    if(jsonArray != null) {
-                        for (int j = 0; j < jsonArray.length(); j++) {
-                            JSONObject obj = jsonArray.getJSONObject(j);
-                            String id = obj.getString("id");
-                            String albumName = obj.getString("name");
-                            String artistName = obj.getString("artist");
-                            String thumbnail = obj.getString("thumbnail");
-                            albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
-                        }
-                    }
-
-
-
-                    albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, Integer.valueOf(stars));
-
-
-
-                    buildRecyclerView();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(response.optJSONArray("albums") != null) {
+                    jsonArray = response.optJSONArray("albums");
                 }
+
+                if(response.optJSONArray("stars") != null) {
+                    starsActual = response.optJSONArray("stars");
+                }
+
+                if(jsonArray != null) {
+                    for (int j = 0; j < jsonArray.length(); j++) {
+                        JSONObject obj = jsonArray.getJSONObject(j);
+                        String id = obj.getString("id");
+                        String albumName = obj.getString("name");
+                        String artistName = obj.getString("artist");
+                        String thumbnail = obj.getString("thumbnail");
+                        albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                    }
+                }
+
+
+
+                albumList = new AlbumList(Integer.parseInt(listid), username, name, description, created, albumArrayList, Integer.valueOf(stars));
+
+
+
+                buildRecyclerView();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SecondaryActivity.this, "Fail to get the data..", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }, error -> Toast.makeText(SecondaryActivity.this, "Fail to get the data..", Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
 
@@ -202,38 +193,26 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
     public void delete() {
 
-        secondaryDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        secondaryDelete.setOnClickListener(v -> {
 
-                RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
-                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString(),
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
+            RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + id.toString(),
+                    response -> {
 
 
-                                lists.removeIf(albumList -> albumList.getId().equals(id));
-                                Toast.makeText(SecondaryActivity.this, "List Deleted!", Toast.LENGTH_LONG).show();
+                        lists.removeIf(albumList -> albumList.getId().equals(id));
+                        Toast.makeText(SecondaryActivity.this, "List Deleted!", Toast.LENGTH_LONG).show();
 
-                                finish();
+                        finish();
 
 
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
 
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                    }, error -> Toast.makeText(SecondaryActivity.this, "Unable to delete list!", Toast.LENGTH_SHORT).show());
 
-                        Toast.makeText(SecondaryActivity.this, "Unable to delete list!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            queue.add(stringRequest);
 
-                queue.add(stringRequest);
-
-            }
         });
 
 
@@ -241,12 +220,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
     public void addAlbum(){
-        addAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-            }
-        });
+        addAlbum.setOnClickListener(v -> openDialog());
     }
 
     public void openDialog(){
@@ -266,70 +240,62 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // taking in artist and name to the JSON object parameters
         RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, SERVICE_URI + id.toString() + "/album", new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            VolleyLog.v("Response:%n %s", response.toString(4));
-                            Toast.makeText(SecondaryActivity.this, "Album added!", Toast.LENGTH_LONG).show();
+                response -> {
+                    try {
+                        VolleyLog.v("Response:%n %s", response.toString(4));
+                        Toast.makeText(SecondaryActivity.this, "Album added!", Toast.LENGTH_LONG).show();
 
-                            JSONArray starsActual = new JSONArray();
-                            JSONArray jsonArray = new JSONArray();
-                            ArrayList<Album> albumArrayList = new ArrayList<Album>();
-                            ArrayList<Star> starArrayList = new ArrayList<Star>();
+                        JSONArray starsActual = new JSONArray();
+                        JSONArray jsonArray = new JSONArray();
+                        ArrayList<Album> albumArrayList = new ArrayList<Album>();
+                        ArrayList<Star> starArrayList = new ArrayList<Star>();
 
 
-                            Log.e("toString() error: ", response.toString());
-                            String listid = response.getString("id");
-                            String username = response.getString("username");
-                            String created = response.getString("created");
-                            String name = response.getString("name");
-                            String description = response.getString("description");
+                        Log.e("toString() error: ", response.toString());
+                        String listid = response.getString("id");
+                        String username = response.getString("username");
+                        String created = response.getString("created");
+                        String name1 = response.getString("name");
+                        String description = response.getString("description");
 
 
-                            if(response.optJSONArray("albums") != null) {
-                                jsonArray = response.optJSONArray("albums");
-                            }
-
-                            if(response.optJSONArray("stars") != null) {
-                                starsActual = response.optJSONArray("stars");
-                            }
-
-                            if(jsonArray != null) {
-                                for (int j = 0; j < jsonArray.length(); j++) {
-                                    JSONObject obj = jsonArray.getJSONObject(j);
-                                    String id = obj.getString("id");
-                                    String albumName = obj.getString("name");
-                                    String artistName = obj.getString("artist");
-                                    String thumbnail = obj.getString("thumbnail");
-                                    albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
-                                }
-                            }
-
-                            if(starsActual != null) {
-                                for (int j = 0; j < starsActual.length(); j++) {
-                                    JSONObject obj2 = starsActual.getJSONObject(j);
-                                    String starid = obj2.getString("id");
-                                    String usernameStar = obj2.getString("username");
-                                    String albumListId = obj2.getString("albumListId");
-                                    starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
-                                }
-                            }
-
-                            albumList.setAlbums(albumArrayList);
-                            adapter.notifyDataSetChanged();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(SecondaryActivity.this, "Unable to add Album!", Toast.LENGTH_SHORT).show();
+                        if(response.optJSONArray("albums") != null) {
+                            jsonArray = response.optJSONArray("albums");
                         }
+
+                        if(response.optJSONArray("stars") != null) {
+                            starsActual = response.optJSONArray("stars");
+                        }
+
+                        if(jsonArray != null) {
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                JSONObject obj = jsonArray.getJSONObject(j);
+                                String id = obj.getString("id");
+                                String albumName = obj.getString("name");
+                                String artistName = obj.getString("artist");
+                                String thumbnail = obj.getString("thumbnail");
+                                albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                            }
+                        }
+
+                        if(starsActual != null) {
+                            for (int j = 0; j < starsActual.length(); j++) {
+                                JSONObject obj2 = starsActual.getJSONObject(j);
+                                String starid = obj2.getString("id");
+                                String usernameStar = obj2.getString("username");
+                                String albumListId = obj2.getString("albumListId");
+                                starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
+                            }
+                        }
+
+                        albumList.setAlbums(albumArrayList);
+                        adapter.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(SecondaryActivity.this, "Unable to add Album!", Toast.LENGTH_SHORT).show();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
-            }
-        });
+                }, error -> VolleyLog.e("Error: ", error.getMessage()));
 
         queue.add(req);
 
@@ -337,12 +303,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
     public void editDescription(){
-        editDescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog3();
-            }
-        });
+        editDescription.setOnClickListener(v -> openDialog3());
     }
 
     public void openDialog3(){
@@ -362,80 +323,72 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // taking in artist and name to the JSON object parameters
         RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, SERVICE_URI + id.toString() + "/" + name + "/" + description, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            VolleyLog.v("Response:%n %s", response.toString(4));
-                            Toast.makeText(SecondaryActivity.this, "Description Updated!", Toast.LENGTH_LONG).show();
+                response -> {
+                    try {
+                        VolleyLog.v("Response:%n %s", response.toString(4));
+                        Toast.makeText(SecondaryActivity.this, "Description Updated!", Toast.LENGTH_LONG).show();
 
-                            JSONArray starsActual = new JSONArray();
-                            JSONArray jsonArray = new JSONArray();
-                            ArrayList<Album> albumArrayList = new ArrayList<Album>();
-                            ArrayList<Star> starArrayList = new ArrayList<Star>();
+                        JSONArray starsActual = new JSONArray();
+                        JSONArray jsonArray = new JSONArray();
+                        ArrayList<Album> albumArrayList = new ArrayList<Album>();
+                        ArrayList<Star> starArrayList = new ArrayList<Star>();
 
 
-                            Log.e("toString() error: ", response.toString());
-                            String listid = response.getString("id");
-                            String username = response.getString("username");
-                            String created = response.getString("created");
-                            String name = response.getString("name");
-                            String description = response.getString("description");
+                        Log.e("toString() error: ", response.toString());
+                        String listid = response.getString("id");
+                        String username = response.getString("username");
+                        String created = response.getString("created");
+                        String name1 = response.getString("name");
+                        String description1 = response.getString("description");
 
 
-                            if(response.optJSONArray("albums") != null) {
-                                jsonArray = response.optJSONArray("albums");
-                            }
-
-                            if(response.optJSONArray("stars") != null) {
-                                starsActual = response.optJSONArray("stars");
-                            }
-
-                            if(jsonArray != null) {
-                                for (int j = 0; j < jsonArray.length(); j++) {
-                                    JSONObject obj = jsonArray.getJSONObject(j);
-                                    String id = obj.getString("id");
-                                    String albumName = obj.getString("name");
-                                    String artistName = obj.getString("artist");
-                                    String thumbnail = obj.getString("thumbnail");
-                                    albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
-                                }
-                            }
-
-                            if(starsActual != null) {
-                                for (int j = 0; j < starsActual.length(); j++) {
-                                    JSONObject obj2 = starsActual.getJSONObject(j);
-                                    String starid = obj2.getString("id");
-                                    String usernameStar = obj2.getString("username");
-                                    String albumListId = obj2.getString("albumListId");
-                                    starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
-                                }
-                            }
-
-                            albumList.setAlbums(albumArrayList);
-                            adapter.notifyDataSetChanged();
-
-                            finish();
-
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-
-
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(SecondaryActivity.this, "Unable to edit description!", Toast.LENGTH_SHORT).show();
+                        if(response.optJSONArray("albums") != null) {
+                            jsonArray = response.optJSONArray("albums");
                         }
+
+                        if(response.optJSONArray("stars") != null) {
+                            starsActual = response.optJSONArray("stars");
+                        }
+
+                        if(jsonArray != null) {
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                JSONObject obj = jsonArray.getJSONObject(j);
+                                String id = obj.getString("id");
+                                String albumName = obj.getString("name");
+                                String artistName = obj.getString("artist");
+                                String thumbnail = obj.getString("thumbnail");
+                                albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
+                            }
+                        }
+
+                        if(starsActual != null) {
+                            for (int j = 0; j < starsActual.length(); j++) {
+                                JSONObject obj2 = starsActual.getJSONObject(j);
+                                String starid = obj2.getString("id");
+                                String usernameStar = obj2.getString("username");
+                                String albumListId = obj2.getString("albumListId");
+                                starArrayList.add(new Star(Integer.parseInt(starid), usernameStar, Integer.parseInt(albumListId)));
+                            }
+                        }
+
+                        albumList.setAlbums(albumArrayList);
+                        adapter.notifyDataSetChanged();
+
+                        finish();
+
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(SecondaryActivity.this, "Unable to edit description!", Toast.LENGTH_SHORT).show();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
-            }
-        });
+                }, error -> VolleyLog.e("Error: ", error.getMessage()));
 
         queue.add(req);
 
