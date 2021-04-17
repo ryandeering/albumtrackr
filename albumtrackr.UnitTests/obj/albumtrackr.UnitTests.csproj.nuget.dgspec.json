@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\albumtrackr\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj": {}
+    "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj": {}
   },
   "projects": {
-    "C:\\albumtrackr\\albumtrackr.API\\albumtrackr.API.csproj": {
+    "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.API\\albumtrackr.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\albumtrackr\\albumtrackr.API\\albumtrackr.API.csproj",
+        "projectUniqueName": "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.API\\albumtrackr.API.csproj",
         "projectName": "albumtrackr.API",
-        "projectPath": "C:\\albumtrackr\\albumtrackr.API\\albumtrackr.API.csproj",
-        "packagesPath": "C:\\Users\\Ryan3\\.nuget\\packages\\",
-        "outputPath": "C:\\albumtrackr\\albumtrackr.API\\obj\\",
+        "projectPath": "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.API\\albumtrackr.API.csproj",
+        "packagesPath": "C:\\Users\\drach\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Ryan3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\drach\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -110,24 +107,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\albumtrackr\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj": {
+    "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\albumtrackr\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj",
+        "projectUniqueName": "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj",
         "projectName": "albumtrackr.UnitTests",
-        "projectPath": "C:\\albumtrackr\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj",
-        "packagesPath": "C:\\Users\\Ryan3\\.nuget\\packages\\",
-        "outputPath": "C:\\albumtrackr\\albumtrackr.UnitTests\\obj\\",
+        "projectPath": "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.UnitTests\\albumtrackr.UnitTests.csproj",
+        "packagesPath": "C:\\Users\\drach\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.UnitTests\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Ryan3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\drach\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -141,8 +135,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\albumtrackr\\albumtrackr.API\\albumtrackr.API.csproj": {
-                "projectPath": "C:\\albumtrackr\\albumtrackr.API\\albumtrackr.API.csproj"
+              "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.API\\albumtrackr.API.csproj": {
+                "projectPath": "C:\\Users\\drach\\Documents\\Year 4 College\\Semester 8\\EAD2\\EAD2CA2\\albumtrackr.API\\albumtrackr.API.csproj"
               }
             }
           }
@@ -208,7 +202,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

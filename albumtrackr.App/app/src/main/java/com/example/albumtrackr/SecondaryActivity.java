@@ -361,7 +361,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
         // taking in artist and name to the JSON object parameters
         RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, SERVICE_URI + id.toString(), new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, SERVICE_URI + id.toString() + "/" + name + "/" + description, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -415,6 +415,16 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                             albumList.setAlbums(albumArrayList);
                             adapter.notifyDataSetChanged();
 
+                            finish();
+
+
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+
+
+
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(SecondaryActivity.this, "Unable to edit description!", Toast.LENGTH_SHORT).show();
@@ -428,6 +438,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         });
 
         queue.add(req);
+
 
     }
 
