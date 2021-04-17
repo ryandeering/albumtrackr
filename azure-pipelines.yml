@@ -77,7 +77,7 @@ stages:
         displayName: Running Unit Tests
         inputs:  
           command: test
-          projects: '**/FourthYearProject.UnitTests'
+          projects: '**/albumtrackr.UnitTests'
           arguments: '--configuration Release'
 
   - stage: Release
