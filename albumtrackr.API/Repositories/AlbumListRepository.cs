@@ -47,16 +47,6 @@ namespace albumtrackr.API.Repositories
 
             if (list == null) return null;
 
-            if (_albumtrackrContext.Albums.Any(a => a.Artist.Equals(album.Artist) && a.Name.Equals(album.Name)))
-            {
-                var newAlbum = _albumtrackrContext.Albums.FirstOrDefault(a =>
-                    a.Artist.Equals(album.Artist) && a.Name.Equals(album.Name));
-
-                list.Albums.Add(newAlbum);
-                await _albumtrackrContext.SaveChangesAsync();
-                return list;
-            }
-
             list.Albums ??= new List<Album>();
 
             var apiKey = _configuration.GetSection("LastFMApiKey").Value;
