@@ -1,7 +1,6 @@
 namespace albumtrackr.API
 {
     using Data;
-    using Repositories;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -10,6 +9,7 @@ namespace albumtrackr.API
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
     using Newtonsoft.Json;
+    using Repositories;
 
     public class Startup
     {

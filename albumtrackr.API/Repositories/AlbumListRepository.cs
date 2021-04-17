@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using albumtrackr.API.Data;
+﻿using albumtrackr.API.Data;
 using albumtrackr.API.DTO;
 using IF.Lastfm.Core.Api;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace albumtrackr.API.Repositories
 {
@@ -147,51 +147,22 @@ namespace albumtrackr.API.Repositories
             return list;
         }
 
-       
-
 
         // Find albumlist by ID, and increment the rating (stars)
         public async Task<AlbumList> StarAlbumList(int albumListId)
         {
+            var list = await _albumtrackrContext.ALists.Include("Albums")
+                .FirstOrDefaultAsync(al => al.Id == albumListId);
 
-            var list = await _albumtrackrContext.ALists.Include("Albums").FirstOrDefaultAsync(al => al.Id == albumListId);
-
-            if (list == null) return null;
-
-            else
+            if (list == null)
             {
-                list.Stars = list.Stars + 1;
-                await _albumtrackrContext.SaveChangesAsync();
-                return list;
-            }
-        }
-
-        // Find albumlist by id, and if list is already starred, return true, else false
-        public async Task<bool> ListAlreadyStarred(int albumListId)
-        {
-            var list = await _albumtrackrContext.ALists.FirstOrDefaultAsync(al => al.Id == albumListId);
-
-            if (list == null) return false;
-
-            if (list.Stars > 0)
-            {
-                var foundStar = true;
-                
-
-                return foundStar;
-
+                return null;
             }
 
-            return false;
-
+            list.Stars += 1;
+            _albumtrackrContext.ALists.Update(list);
+            await _albumtrackrContext.SaveChangesAsync();
+            return list;
         }
-
-
-
-
-
-
-
-
     }
 }

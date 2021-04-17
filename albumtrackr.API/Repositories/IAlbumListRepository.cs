@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using albumtrackr.API.DTO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using albumtrackr.API.DTO;
 
 namespace albumtrackr.API.Repositories
 {
@@ -14,8 +14,7 @@ namespace albumtrackr.API.Repositories
         Task<AlbumList> DeleteList(int id);
         Task<AlbumList> GetById(int id);
         Task<AlbumList> EditDescription(int id, string name, string description);
-        Task<AlbumList> CreateAlbumList(string userName, string name, string description); 
+        Task<AlbumList> CreateAlbumList(string userName, string name, string description);
         Task<AlbumList> StarAlbumList(int albumListId);
-        Task<bool> ListAlreadyStarred(int albumListId);
     }
 }

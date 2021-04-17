@@ -51,6 +51,34 @@ stages:
               artifactName: 'drop'
               artifactType: 'container'
             displayName: Publish artifacts
+            
+  - stage: Testing 
+    displayName: Testing
+
+    jobs:
+    - job: Testing
+      displayName: Run Xunit Tests
+
+      pool:
+          vmImage: $(vmImageName)
+      steps:
+      - task: UseDotNet@2
+        displayName: Force .NET 5
+        inputs:
+          packageType: 'sdk'
+          version: '5.x'
+      - task: DotNetCoreCLI@2
+        displayName: Restore project
+        inputs:
+          command: 'restore'
+          projects: '**/*.csproj'
+          feedsToUse: 'select'
+      - task: DotNetCoreCLI@2
+        displayName: Running Unit Tests
+        inputs:  
+          command: test
+          projects: '**/FourthYearProject.UnitTests'
+          arguments: '--configuration Release'
 
   - stage: Release
     displayName: Release stage

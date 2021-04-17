@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
-using albumtrackr.API.DTO;
-using albumtrackr.API.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-
-namespace albumtrackr.API.Controllers
+﻿namespace albumtrackr.API.Controllers
 {
+    using albumtrackr.API.DTO;
+    using albumtrackr.API.Repositories;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
+
     [Route("api/[controller]")]
     [ApiController]
     public class AlbumListController : Controller
@@ -24,7 +21,6 @@ namespace albumtrackr.API.Controllers
         {
             return Ok(await _albumListRepository.GetLatestLists());
         }
-
 
         [HttpGet("popular/")]
         public async Task<IActionResult> GetPopularLists()
@@ -54,7 +50,6 @@ namespace albumtrackr.API.Controllers
             return Ok(userList);
         }
 
-
         [HttpPost("{id}/album/")]
         public async Task<IActionResult> AddToList(int id, [FromBody] Album album)
         {
@@ -73,6 +68,8 @@ namespace albumtrackr.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAlbumList([FromBody] AlbumList albumList)
         {
+            if (albumList == null) return BadRequest();
+
             var list = await _albumListRepository.CreateAlbumList(albumList.Username, albumList.Name,
                 albumList.Description);
 
@@ -81,17 +78,13 @@ namespace albumtrackr.API.Controllers
             return Ok(list);
         }
 
-
         // star an album by id
         [HttpPost("{albumListId}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]           // not found
-        [ProducesResponseType(StatusCodes.Status204NoContent)]          // ok no content
         public async Task<IActionResult> StarAlbumList(int albumListId)
         {
-
-            if (albumListId == null) return BadRequest();
-
             var userList = await _albumListRepository.StarAlbumList(albumListId);
+
+            if (userList == null) return NotFound();
 
             return Ok(userList);
         }
@@ -99,9 +92,9 @@ namespace albumtrackr.API.Controllers
         [HttpDelete("{id}/album/{aid}")]
         public async Task<IActionResult> DeleteFromList(int id, int aid)
         {
-            if (aid == null) return BadRequest();
-
             var userList = await _albumListRepository.DeleteFromList(id, aid);
+
+            if (userList == null) return NotFound();
 
             return Ok(userList);
         }
@@ -109,9 +102,10 @@ namespace albumtrackr.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteList(int id)
         {
-            if (id == null) return BadRequest();
-
             var userList = await _albumListRepository.DeleteList(id);
+
+            if (userList == null) return NotFound();
+
 
             return Ok(userList);
         }
@@ -119,20 +113,11 @@ namespace albumtrackr.API.Controllers
         [HttpPut("{id}/{name}/{description}")]
         public async Task<IActionResult> EditDescription(int id, string name, string description)
         {
-
             var userList = await _albumListRepository.EditDescription(id, name, description);
+
+            if (userList == null) return NotFound();
 
             return Ok(userList);
         }
-
-       [HttpGet("stars/{albumListId}")]
-        public async Task<bool> ListAlreadyStarred(int albumListId)
-        {
-
-         var userList = await _albumListRepository.ListAlreadyStarred(albumListId);
-
-            return userList;
-        }
-
     }
 }
