@@ -34,6 +34,7 @@ import java.util.HashMap;
 public class SecondaryActivity extends AppCompatActivity implements AddAlbumDialog.DialogListener, AddDescDialog.DialogListenerDescription {
     Integer id;
     Integer albumId;
+    Integer stars;
 
     private AlbumAdapter adapter;
     private RecyclerView album;
@@ -45,10 +46,13 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
     private TextView textView_album_artist;
     private TextView textView_album_name;
+    private TextView textView_stars;
 
     Button albumDelete;
     Button secondaryDelete;
     Button editDescription;
+    Button star;
+    Button starHollow;
     FloatingActionButton addAlbum;
 
 
@@ -67,6 +71,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
         id = intent.getIntExtra("albumListID", 0);
         albumId = intent.getIntExtra("albumID", 0);
+        stars = intent.getIntExtra("stars", 0);
 
         layout1 = findViewById(R.id.secondary_layout);
         layout2 = findViewById(R.id.linearLayout3);
@@ -78,6 +83,10 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         albumDelete = (Button)findViewById(R.id.button_deleteAlbum);
         addAlbum = (FloatingActionButton)findViewById(R.id.fab_add);
         editDescription = (Button)findViewById(R.id.button_edit);
+        star = (Button)findViewById(R.id.button_star);
+        starHollow = (Button)findViewById(R.id.button_unstarred);
+
+
 
 
         getData();
@@ -88,6 +97,13 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         addAlbum();
 
         editDescription();
+
+
+
+        starHollow();
+
+        star();
+
 
 
 
@@ -170,6 +186,9 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // globally
         TextView albumListName = (TextView)findViewById(R.id.textView_albumListName);
 
+
+
+
 //in your OnCreate() method
         albumListName.setText(albumList.getName());
 
@@ -182,6 +201,24 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         albumListDesc.setText(albumList.getDescription());
 
         albumListDesc.setVisibility(View.VISIBLE);
+
+        textView_stars = (TextView)findViewById(R.id.textView_stars);
+
+        stars = albumList.getStars();
+
+
+        textView_stars.setText("Stars: " + stars.toString());
+
+        if (albumList.getStars() >= 1){
+            starHollow.setVisibility(View.INVISIBLE);
+            star.setVisibility(View.VISIBLE);
+        }
+        else {
+            starHollow.setVisibility(View.VISIBLE);
+            star.setVisibility(View.INVISIBLE);
+        }
+
+
 
         // setting adapter to
         // our recycler view.
@@ -382,6 +419,82 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
         return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10+ Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
     }
+
+
+
+
+
+    public void star() {
+
+        star.setOnClickListener(v -> {
+
+            RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVICE_URI + id.toString(),
+                    response -> {
+
+                        textView_stars.setText("Stars: " + stars.toString());
+
+                        Toast.makeText(SecondaryActivity.this, "List Starred!", Toast.LENGTH_LONG).show();
+
+                        finish();
+
+
+
+                        adapter.notifyDataSetChanged();
+
+
+
+
+
+                    }, error -> Toast.makeText(SecondaryActivity.this, "Unable to star list!", Toast.LENGTH_SHORT).show());
+
+            queue.add(stringRequest);
+
+        });
+
+
+    }
+
+    public void starHollow() {
+
+        starHollow.setOnClickListener(v -> {
+            RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVICE_URI + id.toString(),
+                    response -> {
+
+                        textView_stars.setText("Stars: " + stars.toString());
+
+                        Toast.makeText(SecondaryActivity.this, "List Starred!", Toast.LENGTH_LONG).show();
+
+                        finish();
+
+
+
+                        adapter.notifyDataSetChanged();
+
+
+
+
+
+                    }, error -> Toast.makeText(SecondaryActivity.this, "Unable to star list!", Toast.LENGTH_SHORT).show());
+
+            queue.add(stringRequest);
+
+
+        });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     }

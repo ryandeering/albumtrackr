@@ -66,9 +66,12 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager_id);
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        pagerAdapter.AddFragment(new FragmentMine(), "My Album Lists");
-        pagerAdapter.AddFragment(new FragmentPopular(), "Popular Album Lists");
-        pagerAdapter.AddFragment(new FragmentLatest(), "Newest Album Lists");
+        // My Album Lists
+        pagerAdapter.AddFragment(new FragmentMine(), getResources().getString(R.string.my_album_lists));
+        // Popular Album Lists
+        pagerAdapter.AddFragment(new FragmentPopular(), getResources().getString(R.string.pop_lists));
+        // Newest Album Lists
+        pagerAdapter.AddFragment(new FragmentLatest(), getResources().getString(R.string.new_lists));
 
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

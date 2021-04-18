@@ -24,37 +24,36 @@
         android:id="@+id/textView_albumListName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="43dp"
-        android:layout_marginBottom="664dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="29dp"
         android:text="Album List: "
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:textLocale="@string/album_list" />
 
     <TextView
         android:id="@+id/textView_albumListDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="82dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="60dp"
         android:text="Description: "
         android:textSize="12sp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:textLocale="@string/albumlist_desc" />
 
     <TextView
         android:id="@+id/textView_stars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="98dp"
-        android:text="TextView"
-        android:visibility="invisible"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="84dp"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,39 +71,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Button
         android:id="@+id/button_star"
         android:layout_width="46dp"
         android:layout_height="48dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:background="#00000000"
         android:drawableLeft="@drawable/ic_baseline_star_24"
+        android:insetLeft="-16dp"
+        android:layoutDirection="inherit"
         android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_unstarred"
+        android:layout_width="46dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="29dp"
+        android:background="#00000000"
+        android:drawableLeft="@drawable/ic_baseline_star_outline_24"
+        android:insetLeft="-16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="visible"
-        android:text="EDIT"
+        android:layout_width="44dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="51dp"
+        android:background="#00000000"
+        android:drawableLeft="@drawable/ic_baseline_edit_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_delete2"
-        android:layout_width="27dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="207dp"
-        android:layout_marginTop="35dp"
-        android:visibility="visible"
+        android:layout_width="24dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:background="#00000000"
         android:drawableLeft="@drawable/ic_baseline_delete_24"
         android:gravity="center_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
+        android:insetLeft="-16dp"
+        android:insetTop="10dp"
+        android:visibility="visible"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -118,5 +136,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

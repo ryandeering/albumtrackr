@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
@@ -19,6 +20,8 @@ public class AddListDialog  extends AppCompatDialogFragment{
     private DialogListener2 listener2;
 
 
+
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -26,8 +29,11 @@ public class AddListDialog  extends AppCompatDialogFragment{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_dialog_two, null);
 
-        builder.setView(view).setTitle("Add Album List")
-                .setNegativeButton("cancel", (dialog, i) -> {
+
+
+        // Title - "Add List" - internationalised
+        builder.setView(view).setTitle(getResources().getString(R.string.add_album_title))
+                .setNegativeButton(getResources().getString(R.string.cancel), (dialog, i) -> {
 
                 })
                 .setPositiveButton("Ok", (dialog, i) -> {

@@ -13,5 +13,22 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="my_album_lists">My Album lists</string>
+    <string name="popular_album_lists">Popular Album Lists</string>
+    <string name="album_list">Album List:</string>
+    <string name="albumlist_desc">Description:</string>
+    <string name="edit_artist">Artist Name</string>
+    <string name="edit_name">Album Name</string>
+    <string name ="add_album_title">Add Album</string>
+    <string name="imp_dialog_listener">must implement DialogListener</string>
+    <string name="cancel">Cancel</string>
+    <string name="my_lists">My Album Lists</string>
+    <string name="pop_lists">Popular Album Lists</string>
+    <string name="new_lists">Newest Album Lists</string>
+    <string name="add_list">Add Album List</string>
+    <string name="list_name">List Name</string>
+    <string name="list_desc">Description</string>
+    <string name="edit_desc">Edit List Description</string>
+
 
 </resources>

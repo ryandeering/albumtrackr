@@ -13,4 +13,22 @@
     <string name="menu_share">"Cuota "</string>
     <string name="menu_send">Enviar</string>
     <string name="button_delete">" Borrar"</string>
+
+    <string name="my_album_lists">Mis listas de álbumes</string>
+    <string name="popular_album_lists">Listas de álbumes populare</string>
+    <string name="album_list">Lista de álbumes:</string>
+    <string name="albumlist_desc">Descripción:</string>
+    <string name="edit_artist">Nombre del artista</string>
+    <string name="edit_name">Nombre del álbum</string>
+    <string name="add_album_title">Agregar álbum</string>
+    <string name="imp_dialog_listener">debe implementar DialogListener</string>
+    <string name="cancel">Cancelar</string>
+    <string name="my_lists">Mis listas de álbumes</string>
+    <string name="pop_lists">Listas de álbumes populares</string>
+    <string name="new_lists">Nuevas listas de álbumes</string>
+    <string name="add_list">Agregar lista de álbumes</string>
+    <string name="list_name">Lista de nombres</string>
+    <string name="list_desc">Descripción</string>
+    <string name="edit_desc">Editar descripción de lista</string>
+
 </resources>

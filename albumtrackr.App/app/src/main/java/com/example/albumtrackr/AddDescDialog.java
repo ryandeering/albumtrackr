@@ -26,8 +26,9 @@ public class AddDescDialog  extends AppCompatDialogFragment{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_dialog_three, null);
 
-        builder.setView(view).setTitle("Edit List Description")
-                .setNegativeButton("Cancel", (dialog, i) -> {
+        // Title - "Edit List Description" - internationalised
+        builder.setView(view).setTitle(getResources().getString(R.string.edit_desc))
+                .setNegativeButton(getResources().getString(R.string.cancel), (dialog, i) -> {
 
                 })
                 .setPositiveButton("Ok", (dialog, i) -> {

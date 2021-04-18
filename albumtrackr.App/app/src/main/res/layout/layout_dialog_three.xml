@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:hint="List Name" />
+        android:hint="@string/list_name" />
 
     <EditText
         android:id="@+id/edit_list_description"
@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_list_name"
         android:layout_alignParentStart="true"
-        android:hint="Description" />
+        android:hint="@string/list_desc" />
 
 </RelativeLayout>

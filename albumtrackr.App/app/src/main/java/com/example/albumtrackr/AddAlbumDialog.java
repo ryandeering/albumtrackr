@@ -25,10 +25,13 @@ public class AddAlbumDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_dialog, null);
 
-        builder.setView(view).setTitle("Add Album")
-                .setNegativeButton("cancel", (dialog, i) -> {
+        // Title - "Add Album" - internationalised
+        builder.setView(view).setTitle(getResources().getString(R.string.add_list))
+                // Cancel
+                .setNegativeButton(getResources().getString(R.string.cancel), (dialog, i) -> {
 
                 })
+                // Ok
                 .setPositiveButton("Ok", (dialog, i) -> {
 
                     String artist = editTextArtist.getText().toString();
