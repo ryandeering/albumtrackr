@@ -23,7 +23,7 @@ namespace albumtrackr.API.Repositories
 
         public async Task<List<AlbumList>> GetLatestLists()
         {
-            return await _albumtrackrContext.ALists.OrderByDescending(al => al.Created).ToListAsync();
+            return await _albumtrackrContext.ALists.OrderByDescending(al => al.Created).Take(25).ToListAsync();
         }
 
         public async Task<List<AlbumList>> GetMyLists(string userName)
@@ -33,7 +33,7 @@ namespace albumtrackr.API.Repositories
 
         public async Task<List<AlbumList>> GetPopularLists()
         {
-            return await _albumtrackrContext.ALists.OrderByDescending(al => al.Stars).ToListAsync();
+            return await _albumtrackrContext.ALists.OrderByDescending(al => al.Stars).Take(25).ToListAsync();
         }
 
         public async Task<AlbumList> GetById(int id)

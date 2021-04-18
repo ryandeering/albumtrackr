@@ -19,7 +19,7 @@
     <string name="albumlist_desc">Description:</string>
     <string name="edit_artist">Artist Name</string>
     <string name="edit_name">Album Name</string>
-    <string name ="add_album_title">Add Album</string>
+    <string name="add_album_title">Add Album</string>
     <string name="imp_dialog_listener">must implement DialogListener</string>
     <string name="cancel">Cancel</string>
     <string name="my_lists">My Album Lists</string>

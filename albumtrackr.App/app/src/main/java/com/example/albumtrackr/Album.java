@@ -1,8 +1,7 @@
 package com.example.albumtrackr;
 
 // MODEL CLASS - NAME WILL BE CHANGED
-public class Album
-{
+public class Album {
     private Integer id;
     private String artist;
     private String name;
@@ -46,9 +45,7 @@ public class Album
     }
 
 
-
-    public String toString()
-    {
+    public String toString() {
         return artist + name;
     }
 

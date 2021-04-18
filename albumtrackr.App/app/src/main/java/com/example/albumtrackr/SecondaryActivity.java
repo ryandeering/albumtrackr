@@ -1,12 +1,5 @@
 package com.example.albumtrackr;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -47,7 +47,10 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
     private ProgressBar progressBar;
     private String UserId = "";
 
+    private TextView albumListName;
+    private TextView albumListDesc;
     private TextView textView_stars;
+
 
     Button albumDelete;
     Button secondaryDelete;
@@ -185,7 +188,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         album.setLayoutManager(manager);
 
         // globally
-        TextView albumListName = (TextView) findViewById(R.id.textView_albumListName);
+        albumListName = (TextView) findViewById(R.id.textView_albumListName);
 
 
         //in your OnCreate() method
@@ -194,7 +197,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         albumListName.setVisibility(View.VISIBLE);
 
         // globally
-        TextView albumListDesc = (TextView) findViewById(R.id.textView_albumListDesc);
+        albumListDesc = (TextView) findViewById(R.id.textView_albumListDesc);
 
         //in your OnCreate() method
         albumListDesc.setText(albumList.getDescription());
@@ -225,10 +228,14 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
             secondaryDelete.setVisibility(View.VISIBLE);
             addAlbum.setVisibility(View.VISIBLE);
             editDescription.setVisibility(View.VISIBLE);
+            star.setVisibility(View.INVISIBLE);
+            starHollow.setVisibility(View.INVISIBLE);
         } else {
             secondaryDelete.setVisibility(View.INVISIBLE);
             addAlbum.setVisibility(View.INVISIBLE);
             editDescription.setVisibility(View.INVISIBLE);
+            star.setVisibility(View.VISIBLE);
+            starHollow.setVisibility(View.VISIBLE);
         }
     }
 
@@ -270,12 +277,17 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
     public void openDialog() {
         AddAlbumDialog Dialog = new AddAlbumDialog();
         Dialog.show(getSupportFragmentManager(), "example dialog");
-
+        secondaryDelete.setVisibility(View.INVISIBLE);
+        addAlbum.setVisibility(View.INVISIBLE);
+        editDescription.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void applyTexts(String artist, String name) {   // taking in strings from dialogue class
         // Hashmap storing the variables as two strings
+        secondaryDelete.setVisibility(View.VISIBLE);
+        addAlbum.setVisibility(View.VISIBLE);
+        editDescription.setVisibility(View.VISIBLE);
         HashMap<String, String> params = new HashMap<String, String>();
         // applying the variables
         params.put("artist", artist);
@@ -336,12 +348,17 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
     public void openDialog3() {
         AddDescDialog Dialog = new AddDescDialog();
         Dialog.show(getSupportFragmentManager(), "example dialog");
-
+        secondaryDelete.setVisibility(View.INVISIBLE);
+        addAlbum.setVisibility(View.INVISIBLE);
+        editDescription.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void applyListDescription(String name, String description) {   // taking in strings from dialogue class
         // Hashmap storing the variables as two strings
+        secondaryDelete.setVisibility(View.VISIBLE);
+        addAlbum.setVisibility(View.VISIBLE);
+        editDescription.setVisibility(View.VISIBLE);
         HashMap<String, String> params = new HashMap<String, String>();
         // applying the variables
         params.put("name", name);
@@ -360,39 +377,17 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         JSONArray jsonArray = new JSONArray();
                         ArrayList<Album> albumArrayList = new ArrayList<Album>();
 
-
+                        albumList.setDescription(description);
+                        albumList.setName(name);
                         Log.e("toString() error: ", response.toString());
+                        albumListName.setText(albumList.getName());
+                        albumListDesc.setText(albumList.getDescription());
 
-
-                        if (response.optJSONArray("albums") != null) {
-                            jsonArray = response.optJSONArray("albums");
-                        }
-
-
-                        if (jsonArray != null) {
-                            for (int j = 0; j < jsonArray.length(); j++) {
-                                JSONObject obj = jsonArray.getJSONObject(j);
-                                String id = obj.getString("id");
-                                String albumName = obj.getString("name");
-                                String artistName = obj.getString("artist");
-                                String thumbnail = obj.getString("thumbnail");
-                                albumArrayList.add(new Album(Integer.parseInt(id), artistName, albumName, thumbnail));
-                            }
-                        }
-
-
-                        albumList.setAlbums(albumArrayList);
                         adapter.notifyDataSetChanged();
-
-                        finish();
-
-
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+
 
                         // Internationalised - Failure to update description
                         Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.desc_update_fail), Toast.LENGTH_SHORT).show();
@@ -419,12 +414,13 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                     response -> {
 
                         // Internationalised - "Stars: "
+                        stars++;
                         textView_stars.setText(getResources().getString(R.string.stars) + stars.toString());
+
 
                         // Internationalised - Starring list
                         Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_starred), Toast.LENGTH_LONG).show();
 
-                        finish();
 
 
                         adapter.notifyDataSetChanged();
@@ -448,12 +444,12 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                     response -> {
 
                         // Internationalised - "Stars: "
+                        stars++;
                         textView_stars.setText(getResources().getString(R.string.stars) + stars.toString());
 
                         // Internationalised - Starring list
                         Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_starred), Toast.LENGTH_LONG).show();
 
-                        finish();
 
 
                         adapter.notifyDataSetChanged();

@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>  {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     // creating a variable for array list and context.
     private final AlbumList AlbumArrayList;
@@ -53,60 +53,53 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     }
 
 
-
-
-
     @Override
-        public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
-            // setting data to our views of recycler view.
-            Album modal = AlbumArrayList.getAlbums().get(holder.getAdapterPosition());
-            holder.AlbumName.setText(modal.getName());
-            holder.ArtistName.setText(modal.getArtist());
+    public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
+        // setting data to our views of recycler view.
+        Album modal = AlbumArrayList.getAlbums().get(holder.getAdapterPosition());
+        holder.AlbumName.setText(modal.getName());
+        holder.ArtistName.setText(modal.getArtist());
 
-            // Getting the position of the item (the album) then getting the ID in the API request below
-            Album albumToDelete = AlbumArrayList.getAlbums().get(holder.getAdapterPosition());
-            // List ID
-            Integer listID = AlbumArrayList.getId();
-
-
+        // Getting the position of the item (the album) then getting the ID in the API request below
+        Album albumToDelete = AlbumArrayList.getAlbums().get(holder.getAdapterPosition());
+        // List ID
+        Integer listID = AlbumArrayList.getId();
 
 
-            Picasso.get().load(modal.getThumbnail()).into(holder.AlbumCover);
+        Picasso.get().load(modal.getThumbnail()).into(holder.AlbumCover);
 
 
-            if(AlbumArrayList.getUsername().equals(getUserId())){
-                holder.albumDelete.setVisibility(View.VISIBLE);
-            } else {
-                holder.albumDelete.setVisibility(View.INVISIBLE);
-            }
-
-            holder.albumDelete.setOnClickListener(v -> {
-                RequestQueue queue = Volley.newRequestQueue(context);
-                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + listID.toString() + "/album/" + albumToDelete.getId().toString(),
-                        response -> {
-
-                            List<Album> albums = AlbumArrayList.getAlbums();
-                            AlbumArrayList.setAlbums(albums);
-
-                            albums.remove(albumToDelete);
-
-                            // Internationalised - Album deleted
-                            Toast.makeText(context, context.getResources().getString(R.string.album_delete), Toast.LENGTH_LONG).show();
-
-                            notifyDataSetChanged();
-                        }, error -> {
-                    parseVolleyError(error);
-
-                    // Internationalised - Album delete failure
-                    Toast.makeText(context, context.getResources().getString(R.string.album_delete_fail), Toast.LENGTH_SHORT).show();
-                });
-
-                queue.add(stringRequest);
-
-            });
+        if (AlbumArrayList.getUsername().equals(getUserId())) {
+            holder.albumDelete.setVisibility(View.VISIBLE);
+        } else {
+            holder.albumDelete.setVisibility(View.INVISIBLE);
         }
 
+        holder.albumDelete.setOnClickListener(v -> {
+            RequestQueue queue = Volley.newRequestQueue(context);
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, SERVICE_URI + listID.toString() + "/album/" + albumToDelete.getId().toString(),
+                    response -> {
 
+                        List<Album> albums = AlbumArrayList.getAlbums();
+                        AlbumArrayList.setAlbums(albums);
+
+                        albums.remove(albumToDelete);
+
+                        // Internationalised - Album deleted
+                        Toast.makeText(context, context.getResources().getString(R.string.album_delete), Toast.LENGTH_LONG).show();
+
+                        notifyDataSetChanged();
+                    }, error -> {
+                parseVolleyError(error);
+
+                // Internationalised - Album delete failure
+                Toast.makeText(context, context.getResources().getString(R.string.album_delete_fail), Toast.LENGTH_SHORT).show();
+            });
+
+            queue.add(stringRequest);
+
+        });
+    }
 
 
     public void parseVolleyError(VolleyError error) {
@@ -146,11 +139,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             albumDelete = itemView.findViewById(R.id.button_deleteAlbum);
 
 
-
         }
     }
 
-    public String getUserId(){
-        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10+ Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
+    public String getUserId() {
+        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 + Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
     }
 }

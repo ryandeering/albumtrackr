@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="#F6F4F0">
 
         <ImageView
@@ -45,7 +45,7 @@
             android:layout_marginTop="48dp"
             android:padding="5dp"
             android:textColor="@color/black"
-            android:textSize="10sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,11 +53,13 @@
             android:id="@+id/button_deleteAlbum"
             android:layout_width="44dp"
             android:layout_height="38dp"
-            android:layout_marginStart="344dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="31dp"
             android:background="#00000000"
             android:drawableRight="@drawable/ic_baseline_delete_24"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

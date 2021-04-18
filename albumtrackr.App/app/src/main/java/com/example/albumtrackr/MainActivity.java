@@ -4,14 +4,21 @@ package com.example.albumtrackr;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.android.volley.*;
-import com.android.volley.toolbox.*;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 
 
@@ -26,16 +33,12 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
     FloatingActionButton addList;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        addList = (FloatingActionButton)findViewById(R.id.fab_add_list);
+        addList = (FloatingActionButton) findViewById(R.id.fab_add_list);
 
         addAlbumList();
 
@@ -60,11 +63,11 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
     }
 
 
-    public void addAlbumList(){
+    public void addAlbumList() {
         addList.setOnClickListener(v -> openDialog2());
     }
 
-    public void openDialog2(){
+    public void openDialog2() {
         AddListDialog Dialog = new AddListDialog();
         Dialog.show(getSupportFragmentManager(), "example dialog");
 
@@ -99,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
 
     }
 
-    public String getUserId(){
+    public String getUserId() {
 
-        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10+ Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
+        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 + Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
     }
 
 
