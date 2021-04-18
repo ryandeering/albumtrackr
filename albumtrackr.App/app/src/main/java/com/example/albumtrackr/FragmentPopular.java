@@ -29,8 +29,6 @@ public class FragmentPopular extends Fragment {
     View v;
     private RecyclerView popular;
     private final ArrayList<AlbumList> popularAlbumLists = new ArrayList<AlbumList>();
-    private final String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/1";          // or https
-    private final String TAG = "";
 
     public FragmentPopular() {
     }
@@ -38,7 +36,7 @@ public class FragmentPopular extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.popular_fragment,container,false);
+        v = inflater.inflate(R.layout.popular_fragment, container, false);
         popular = (RecyclerView) v.findViewById(R.id.popular_recyclerview);
         buildRecyclerViewList();
 
@@ -46,13 +44,13 @@ public class FragmentPopular extends Fragment {
         popular.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), popular, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
-                AlbumList albumList  = popularAlbumLists.get(position);
+                AlbumList albumList = popularAlbumLists.get(position);
 
                 try {
-                    Intent intent = new Intent(getActivity() , SecondaryActivity.class);
+                    Intent intent = new Intent(getActivity(), SecondaryActivity.class);
                     intent.putExtra("albumListID", albumList.getId());
                     startActivity(intent);
-                } catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Error: ", e.getMessage());
                 }
 
@@ -73,7 +71,7 @@ public class FragmentPopular extends Fragment {
         super.onCreate(savedInstanceState);
         try {
             getLists();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
     }
@@ -87,7 +85,6 @@ public class FragmentPopular extends Fragment {
         // request and then extracting data from each json object.
 
 
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/albumlist/popular/", null, response -> {
             popular.setVisibility(View.VISIBLE);
             // creating a new json object and
@@ -96,7 +93,7 @@ public class FragmentPopular extends Fragment {
                 // we are getting each json object.
 
 
-                if(response != null) {
+                if (response != null) {
                     for (int j = 0; j < response.length(); j++) {
                         JSONObject obj = response.getJSONObject(j);
                         String id = obj.getString("id");
@@ -105,7 +102,7 @@ public class FragmentPopular extends Fragment {
                         String name = obj.getString("name");
                         String description = obj.getString("description");
                         String stars = obj.getString("stars");
-                        popularAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars) ));
+                        popularAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars)));
                     }
                 }
 
@@ -118,10 +115,6 @@ public class FragmentPopular extends Fragment {
         }, error -> Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.fail_get_data), Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
-
-
-
-
 
 
     private void buildRecyclerViewList() {

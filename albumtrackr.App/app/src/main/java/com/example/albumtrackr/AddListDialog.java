@@ -8,18 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class AddListDialog  extends AppCompatDialogFragment{
+public class AddListDialog extends AppCompatDialogFragment {
 
-    private AlbumList albumList;
     private EditText editTextName;
     private EditText editTextDescription;
-    private DialogListener2 listener2;
-
-
+    private DialogListenerAddList listener2;
 
 
     @Override
@@ -27,12 +23,11 @@ public class AddListDialog  extends AppCompatDialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialog_two, null);
-
+        View view = inflater.inflate(R.layout.add_list_dialog_layout, null);
 
 
         // Title - "Add List" - internationalised
-        builder.setView(view).setTitle(getResources().getString(R.string.add_album_title))
+        builder.setView(view).setTitle(getResources().getString(R.string.add_list))
                 .setNegativeButton(getResources().getString(R.string.cancel), (dialog, i) -> {
 
                 })
@@ -54,16 +49,16 @@ public class AddListDialog  extends AppCompatDialogFragment{
     }
 
     @Override
-    public void onAttach(Context context2) {
-        super.onAttach(context2);
+    public void onAttach(Context addListContext) {
+        super.onAttach(addListContext);
         try {
-            listener2 = (DialogListener2) context2;
+            listener2 = (DialogListenerAddList) addListContext;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context2.toString() + "must implement DialogListener");
+            throw new ClassCastException(addListContext.toString() + "must implement DialogListenerAddAlbum");
         }
     }
 
-    public interface DialogListener2{
+    public interface DialogListenerAddList {
         void applyTexts2(String name, String description);
     }
 

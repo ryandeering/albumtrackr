@@ -30,7 +30,7 @@ public class FragmentMine extends Fragment {
     View v;
     private RecyclerView mine;
     private final ArrayList<AlbumList> myAlbumLists = new ArrayList<AlbumList>();
-    private final String SERVICE_URI = "https://albumtrackrapi.azurewebsites.net/api/AlbumList/username/";
+
     public FragmentMine() {
 
 
@@ -39,7 +39,7 @@ public class FragmentMine extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.popular_fragment,container,false);
+        v = inflater.inflate(R.layout.popular_fragment, container, false);
         mine = (RecyclerView) v.findViewById(R.id.popular_recyclerview);
         buildRecyclerViewList();
 
@@ -47,13 +47,13 @@ public class FragmentMine extends Fragment {
         mine.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), mine, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
-                AlbumList albumList  = myAlbumLists.get(position);
+                AlbumList albumList = myAlbumLists.get(position);
 
                 try {
-                    Intent intent = new Intent(getActivity() , SecondaryActivity.class);
+                    Intent intent = new Intent(getActivity(), SecondaryActivity.class);
                     intent.putExtra("albumListID", albumList.getId());
                     startActivity(intent);
-                } catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Error: ", e.getMessage());
                 }
 
@@ -75,7 +75,7 @@ public class FragmentMine extends Fragment {
         try {
 
             getLists();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
 
@@ -96,17 +96,16 @@ public class FragmentMine extends Fragment {
         // request and then extracting data from each json object.
 
 
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/albumlist/username/"+getUserId(), null, response -> {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/albumlist/username/" + getUserId(), null, response -> {
             mine.setVisibility(View.VISIBLE);
             // creating a new json object and
             // getting each object from our json array.
             try {
                 // we are getting each json object.
 
-                if(response != null) {
+                if (response != null) {
 
-                    if(response.length() == 0){
+                    if (response.length() == 0) {
                         // Internationalised - No lists found for user
                         Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.no_lists_found), Toast.LENGTH_LONG).show();
                     }
@@ -119,7 +118,7 @@ public class FragmentMine extends Fragment {
                         String name = obj.getString("name");
                         String description = obj.getString("description");
                         String stars = obj.getString("stars");
-                        myAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars) ));
+                        myAlbumLists.add(new AlbumList(Integer.parseInt(id), username, name, description, created, new ArrayList<Album>(), Integer.valueOf(stars)));
                     }
                 }
 
@@ -153,8 +152,8 @@ public class FragmentMine extends Fragment {
         mine.setAdapter(adapter);
     }
 
-    public String getUserId(){
-        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10+ Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
+    public String getUserId() {
+        return Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 + Build.TAGS.length() % 10 + Build.TYPE + Build.USER.length() % 10;
     }
 
 

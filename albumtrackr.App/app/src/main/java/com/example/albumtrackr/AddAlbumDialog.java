@@ -1,5 +1,6 @@
 package com.example.albumtrackr;
 
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -12,10 +13,9 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class AddAlbumDialog extends AppCompatDialogFragment {
 
-    private Album album;
     private EditText editTextName;
     private EditText editTextArtist;
-    private DialogListener listener;
+    private DialogListenerAddAlbum listener;
 
 
     @Override
@@ -23,10 +23,10 @@ public class AddAlbumDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialog, null);
+        View view = inflater.inflate(R.layout.add_album_dialog_layout, null);
 
         // Title - "Add Album" - internationalised
-        builder.setView(view).setTitle(getResources().getString(R.string.add_list))
+        builder.setView(view).setTitle(getResources().getString(R.string.add_album_title))
                 // Cancel
                 .setNegativeButton(getResources().getString(R.string.cancel), (dialog, i) -> {
 
@@ -48,16 +48,16 @@ public class AddAlbumDialog extends AppCompatDialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Context addAlbumContext) {
+        super.onAttach(addAlbumContext);
         try {
-            listener = (DialogListener) context;
+            listener = (DialogListenerAddAlbum) addAlbumContext;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement DialogListener");
+            throw new ClassCastException(addAlbumContext.toString() + "must implement DialogListenerAddAlbum");
         }
     }
 
-    public interface DialogListener{
+    public interface DialogListenerAddAlbum {
         void applyTexts(String artist, String name);
     }
 

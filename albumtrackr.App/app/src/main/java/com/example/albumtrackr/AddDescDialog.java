@@ -11,12 +11,11 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class AddDescDialog  extends AppCompatDialogFragment{
+public class AddDescDialog extends AppCompatDialogFragment {
 
     private EditText editListDescription;
     private EditText editListName;
     private DialogListenerDescription listenerDescription;
-
 
 
     @Override
@@ -24,7 +23,7 @@ public class AddDescDialog  extends AppCompatDialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialog_three, null);
+        View view = inflater.inflate(R.layout.add_desc_dialog_layout, null);
 
         // Title - "Edit List Description" - internationalised
         builder.setView(view).setTitle(getResources().getString(R.string.edit_desc))
@@ -47,16 +46,16 @@ public class AddDescDialog  extends AppCompatDialogFragment{
     }
 
     @Override
-    public void onAttach(Context context2) {
-        super.onAttach(context2);
+    public void onAttach(Context descriptionContext) {
+        super.onAttach(descriptionContext);
         try {
-            listenerDescription = (DialogListenerDescription) context2;
+            listenerDescription = (DialogListenerDescription) descriptionContext;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context2.toString() + "must implement DialogListener");
+            throw new ClassCastException(descriptionContext.toString() + "must implement DialogListenerAddAlbum");
         }
     }
 
-    public interface DialogListenerDescription{
+    public interface DialogListenerDescription {
         void applyListDescription(String name, String description);
     }
 

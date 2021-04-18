@@ -1,31 +1,17 @@
 // add Internet permission
-
 package com.example.albumtrackr;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
-import android.widget.Button;
-import android.widget.ProgressBar;
-
 import com.google.android.material.tabs.TabLayout;
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -33,27 +19,12 @@ import java.util.HashMap;
 // implementation 'com.android.volley:volley:1.1.1'
 // implementation 'com.google.code.gson:gson:2.8.5'
 
-public class MainActivity extends AppCompatActivity implements AddListDialog.DialogListener2 {
+public class MainActivity extends AppCompatActivity implements AddListDialog.DialogListenerAddList {
 
-    private final String TAG = "";
     //https://www.geeksforgeeks.org/how-to-extract-data-from-json-array-in-android-using-volley-library/
-
-    private RecyclerView album;
-    private RecyclerView AlbumList;
-    private AlbumList albumList;
-    private final ArrayList<AlbumList> lists = new ArrayList<AlbumList>();
-    private ProgressBar progressBar;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
-
-
-
 
     FloatingActionButton addList;
 
-    AlbumAdapter albumAdapt;
-
-    Button btnAddAlbum;
 
 
 
@@ -115,11 +86,6 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
                 response -> {
                     try {
 
-                        String id = response.getString("id");
-                            String username = response.getString("username");
-                            String created = response.getString("created");
-                            String name1 = response.getString("name");
-                            String description1 = response.getString("description");
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
 

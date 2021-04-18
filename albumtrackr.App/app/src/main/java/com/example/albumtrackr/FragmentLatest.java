@@ -36,7 +36,7 @@ public class FragmentLatest extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.popular_fragment,container,false);
+        v = inflater.inflate(R.layout.popular_fragment, container, false);
         latest = (RecyclerView) v.findViewById(R.id.popular_recyclerview);
         buildRecyclerViewList();
 
@@ -44,13 +44,13 @@ public class FragmentLatest extends Fragment {
         latest.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), latest, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
-                AlbumList albumList  = latestAlbumLists.get(position);
+                AlbumList albumList = latestAlbumLists.get(position);
 
                 try {
-                    Intent intent = new Intent(getActivity() , SecondaryActivity.class);
+                    Intent intent = new Intent(getActivity(), SecondaryActivity.class);
                     intent.putExtra("albumListID", albumList.getId());
                     startActivity(intent);
-                } catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Error: ", e.getMessage());
                 }
 
@@ -71,11 +71,9 @@ public class FragmentLatest extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-
-
         try {
             getLists();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
 
@@ -91,7 +89,6 @@ public class FragmentLatest extends Fragment {
         // request and then extracting data from each json object.
 
 
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://albumtrackrapi.azurewebsites.net/api/AlbumList/", null, response -> {
             latest.setVisibility(View.VISIBLE);
             // creating a new json object and
@@ -100,7 +97,7 @@ public class FragmentLatest extends Fragment {
                 // we are getting each json object.
 
 
-                if(response != null) {
+                if (response != null) {
                     for (int j = 0; j < response.length(); j++) {
                         JSONObject obj = response.getJSONObject(j);
                         String id = obj.getString("id");
@@ -123,10 +120,6 @@ public class FragmentLatest extends Fragment {
         }, error -> Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.fail_get_data), Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
-
-
-
-
 
 
     private void buildRecyclerViewList() {
