@@ -33,7 +33,7 @@ namespace albumtrackr.API.Repositories
 
         public async Task<List<AlbumList>> GetPopularLists()
         {
-            return await _albumtrackrContext.ALists.OrderBy(al => al.Stars).ToListAsync();
+            return await _albumtrackrContext.ALists.OrderByDescending(al => al.Stars).ToListAsync();
         }
 
         public async Task<AlbumList> GetById(int id)
