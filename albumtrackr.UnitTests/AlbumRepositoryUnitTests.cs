@@ -1,3 +1,4 @@
+using System;
 using albumtrackr.API.Data;
 using albumtrackr.API.DTO;
 using albumtrackr.API.Repositories;
@@ -20,7 +21,7 @@ namespace albumtrackr.UnitTests
         {
             var albumListTestData = GenFu.GenFu.ListOf<AlbumList>(3);
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Get Latest Lists Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -50,7 +51,7 @@ namespace albumtrackr.UnitTests
             GenFu.GenFu.Configure<AlbumList>().Fill(al => al.Username, "TESTID");
             var albumListTestData = GenFu.GenFu.ListOf<AlbumList>(3);
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Get My Lists Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -78,7 +79,7 @@ namespace albumtrackr.UnitTests
         {
             var albumListTestData = GenFu.GenFu.ListOf<AlbumList>(3);
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Get Popular Lists Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -97,7 +98,7 @@ namespace albumtrackr.UnitTests
             context.SaveChanges();
             var repo = new AlbumListRepository(context, configuration);
 
-            Assert.Equal(repo.GetPopularLists().Result, albumListTestData.OrderBy(al => al.Stars));
+            Assert.Equal(repo.GetPopularLists().Result, albumListTestData.OrderByDescending(al => al.Stars));
             context.ChangeTracker.Clear();
         }
 
@@ -106,7 +107,7 @@ namespace albumtrackr.UnitTests
         {
             var albumListTestData = GenFu.GenFu.ListOf<AlbumList>(3);
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Get By Id Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -137,13 +138,16 @@ namespace albumtrackr.UnitTests
         [Fact]
         public async Task DeleteFromList_Test()
         {
+            var i = 1000;
+            GenFu.GenFu.Configure<Album>()
+                .Fill(a => a.Id, () => i++);
 
             GenFu.GenFu.Configure<AlbumList>().Fill(al => al.Albums);
             var album = GenFu.GenFu.New<AlbumList>();
             album.Albums = GenFu.GenFu.ListOf<Album>(5);
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Delete From List Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -178,7 +182,7 @@ namespace albumtrackr.UnitTests
             album.Albums = GenFu.GenFu.ListOf<Album>(5);
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Delete List Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -210,7 +214,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Creating List Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -243,7 +247,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Edit Description Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -275,7 +279,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Edit Description Fail Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -306,7 +310,7 @@ namespace albumtrackr.UnitTests
             var album = GenFu.GenFu.New<AlbumList>();
 
             var options = new DbContextOptionsBuilder<AlbumtrackrContext>()
-                .UseInMemoryDatabase("Star Album Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
