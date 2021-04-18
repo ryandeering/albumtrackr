@@ -1,5 +1,7 @@
 package com.example.albumtrackr;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -68,6 +71,10 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         setContentView(R.layout.activity_secondary);
         Intent intent = getIntent();
 
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         id = intent.getIntExtra("albumListID", 0);
         albumId = intent.getIntExtra("albumID", 0);
@@ -108,6 +115,17 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getData() {
@@ -164,7 +182,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Toast.makeText(SecondaryActivity.this, "Fail to get the data..", Toast.LENGTH_SHORT).show());
+            // Internationalised - Failure to retrieve data
+        }, error -> Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.fail_get_data), Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
 
@@ -206,8 +225,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
         stars = albumList.getStars();
 
-
-        textView_stars.setText("Stars: " + stars.toString());
+        // Internationalised - "Stars: "
+        textView_stars.setText(getResources().getString(R.string.stars) + stars.toString());
 
         if (albumList.getStars() >= 1){
             starHollow.setVisibility(View.INVISIBLE);
@@ -246,7 +265,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
                         lists.removeIf(albumList -> albumList.getId().equals(id));
-                        Toast.makeText(SecondaryActivity.this, "List Deleted!", Toast.LENGTH_LONG).show();
+                        // Internationalised - Deleting list
+                        Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_delete), Toast.LENGTH_LONG).show();
 
                         finish();
 
@@ -254,7 +274,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
 
-                    }, error -> Toast.makeText(SecondaryActivity.this, "Unable to delete list!", Toast.LENGTH_SHORT).show());
+                        // Internationalised - Failure to delete list
+                    }, error -> Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_delete_fail), Toast.LENGTH_SHORT).show());
 
             queue.add(stringRequest);
 
@@ -288,7 +309,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                 response -> {
                     try {
                         VolleyLog.v("Response:%n %s", response.toString(4));
-                        Toast.makeText(SecondaryActivity.this, "Album added!", Toast.LENGTH_LONG).show();
+                        // Internationalised - Adding album
+                        Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.album_added), Toast.LENGTH_LONG).show();
 
                         JSONArray starsActual = new JSONArray();
                         JSONArray jsonArray = new JSONArray();
@@ -326,7 +348,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                     } catch (JSONException e) {
                         e.printStackTrace();
 
-                        Toast.makeText(SecondaryActivity.this, "Unable to add album. Not found in Last.FM database.", Toast.LENGTH_LONG).show();
+                        // Internationalised - Failure to add album
+                        Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.album_add_fail), Toast.LENGTH_LONG).show();
                     }
                 }, error -> VolleyLog.e("Error: ", error.getMessage()));
 
@@ -359,7 +382,9 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                 response -> {
                     try {
                         VolleyLog.v("Response:%n %s", response.toString(4));
-                        Toast.makeText(SecondaryActivity.this, "Description Updated!", Toast.LENGTH_LONG).show();
+
+                        // Internationalised - Description update
+                        Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.desc_update), Toast.LENGTH_LONG).show();
 
                         JSONArray starsActual = new JSONArray();
                         JSONArray jsonArray = new JSONArray();
@@ -407,7 +432,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(SecondaryActivity.this, "Unable to edit description!", Toast.LENGTH_SHORT).show();
+                        // Internationalised - Failure to update description
+                        Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.desc_update_fail), Toast.LENGTH_SHORT).show();
                     }
                 }, error -> VolleyLog.e("Error: ", error.getMessage()));
 
@@ -432,9 +458,11 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
             StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVICE_URI + id.toString(),
                     response -> {
 
-                        textView_stars.setText("Stars: " + stars.toString());
+                        // Internationalised - "Stars: "
+                        textView_stars.setText(getResources().getString(R.string.stars) + stars.toString());
 
-                        Toast.makeText(SecondaryActivity.this, "List Starred!", Toast.LENGTH_LONG).show();
+                        // Internationalised - Starring list
+                        Toast.makeText(SecondaryActivity.this,  getResources().getString(R.string.list_starred), Toast.LENGTH_LONG).show();
 
                         finish();
 
@@ -446,7 +474,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
 
-                    }, error -> Toast.makeText(SecondaryActivity.this, "Unable to star list!", Toast.LENGTH_SHORT).show());
+                        // Internationalised - Failure to star list
+                    }, error -> Toast.makeText(SecondaryActivity.this,  getResources().getString(R.string.list_star_fail), Toast.LENGTH_SHORT).show());
 
             queue.add(stringRequest);
 
@@ -462,9 +491,11 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
             StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVICE_URI + id.toString(),
                     response -> {
 
-                        textView_stars.setText("Stars: " + stars.toString());
+                        // Internationalised - "Stars: "
+                        textView_stars.setText(getResources().getString(R.string.stars) + stars.toString());
 
-                        Toast.makeText(SecondaryActivity.this, "List Starred!", Toast.LENGTH_LONG).show();
+                        // Internationalised - Starring list
+                        Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_starred), Toast.LENGTH_LONG).show();
 
                         finish();
 
@@ -476,7 +507,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
 
 
-                    }, error -> Toast.makeText(SecondaryActivity.this, "Unable to star list!", Toast.LENGTH_SHORT).show());
+                        // Internationalised - Failure to star list
+                    }, error -> Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_star_fail), Toast.LENGTH_SHORT).show());
 
             queue.add(stringRequest);
 

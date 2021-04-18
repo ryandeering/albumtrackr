@@ -43,7 +43,7 @@ public class FragmentMine extends Fragment {
         mine = (RecyclerView) v.findViewById(R.id.popular_recyclerview);
         buildRecyclerViewList();
 
-        // row click listener
+        // Row click listener
         mine.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), mine, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
@@ -54,7 +54,7 @@ public class FragmentMine extends Fragment {
                     intent.putExtra("albumListID", albumList.getId());
                     startActivity(intent);
                 } catch (Exception e){
-                    Log.e("aaaaaaa fuck my life", e.getMessage());
+                    Log.e("Error: ", e.getMessage());
                 }
 
 
@@ -76,7 +76,7 @@ public class FragmentMine extends Fragment {
 
             getLists();
         } catch (Exception e){
-            Log.e("aaaaaaa fuck my life", e.getMessage());
+            Log.e("Error: ", e.getMessage());
         }
 
     }
@@ -107,7 +107,8 @@ public class FragmentMine extends Fragment {
                 if(response != null) {
 
                     if(response.length() == 0){
-                        Toast.makeText(getActivity().getApplicationContext(), "No lists were found by you.", Toast.LENGTH_LONG).show();
+                        // Internationalised - No lists found for user
+                        Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.no_lists_found), Toast.LENGTH_LONG).show();
                     }
 
                     for (int j = 0; j < response.length(); j++) {
@@ -127,7 +128,8 @@ public class FragmentMine extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Toast.makeText(getActivity().getApplicationContext(), "Failed to get the data.", Toast.LENGTH_SHORT).show());
+            // Internationalised - Failure to retrieve data
+        }, error -> Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.fail_get_data), Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
 

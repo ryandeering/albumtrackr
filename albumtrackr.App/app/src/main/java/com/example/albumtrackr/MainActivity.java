@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+
+
+
     FloatingActionButton addList;
 
     AlbumAdapter albumAdapt;
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AddListDialog.Dia
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout_id);

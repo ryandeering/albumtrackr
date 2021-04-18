@@ -16,7 +16,9 @@
         android:background="@color/colorPrimary"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/colorPrimaryDark"
-        app:tabMode="fixed"></com.google.android.material.tabs.TabLayout>
+        app:tabMode="fixed">
+
+    </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_id"
@@ -34,4 +36,5 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         app:srcCompat="@android:drawable/ic_input_add" />
+
 </LinearLayout>

@@ -11,8 +11,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="381dp"
-        android:layout_height="100dp">
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#F6F4F0">
 
         <ImageView
             android:id="@+id/AlbumCover"
@@ -52,7 +53,7 @@
             android:id="@+id/button_deleteAlbum"
             android:layout_width="44dp"
             android:layout_height="38dp"
-            android:layout_marginStart="332dp"
+            android:layout_marginStart="344dp"
             android:layout_marginTop="4dp"
             android:background="#00000000"
             android:drawableRight="@drawable/ic_baseline_delete_24"

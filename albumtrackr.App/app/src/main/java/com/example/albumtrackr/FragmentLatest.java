@@ -40,7 +40,7 @@ public class FragmentLatest extends Fragment {
         latest = (RecyclerView) v.findViewById(R.id.popular_recyclerview);
         buildRecyclerViewList();
 
-        // row click listener
+        // Row click listener
         latest.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), latest, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
@@ -51,7 +51,7 @@ public class FragmentLatest extends Fragment {
                     intent.putExtra("albumListID", albumList.getId());
                     startActivity(intent);
                 } catch (Exception e){
-                    Log.e("aaaaaaa fuck my life", e.getMessage());
+                    Log.e("Error: ", e.getMessage());
                 }
 
 
@@ -76,7 +76,7 @@ public class FragmentLatest extends Fragment {
         try {
             getLists();
         } catch (Exception e){
-            Log.e("aaaaaaa fuck my life", e.getMessage());
+            Log.e("Error: ", e.getMessage());
         }
 
 
@@ -119,8 +119,8 @@ public class FragmentLatest extends Fragment {
                 e.printStackTrace();
             }
 
-
-        }, error -> Toast.makeText(getActivity().getApplicationContext(), "Fail to get the data..", Toast.LENGTH_SHORT).show());
+            // Internationalised - Failure to retrieve data
+        }, error -> Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.fail_get_data), Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
 

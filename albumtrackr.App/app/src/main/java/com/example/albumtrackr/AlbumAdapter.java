@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>  {
 
     // creating a variable for array list and context.
     private final AlbumList AlbumArrayList;
@@ -90,18 +90,24 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
                             albums.remove(albumToDelete);
 
-                            Toast.makeText(context, "Album Deleted!", Toast.LENGTH_LONG).show();
+                            // Internationalised - Album deleted
+                            Toast.makeText(context, context.getResources().getString(R.string.album_delete), Toast.LENGTH_LONG).show();
 
                             notifyDataSetChanged();
                         }, error -> {
                     parseVolleyError(error);
-                    Toast.makeText(context, "Unable to delete album!", Toast.LENGTH_SHORT).show();
+
+                    // Internationalised - Album delete failure
+                    Toast.makeText(context, context.getResources().getString(R.string.album_delete_fail), Toast.LENGTH_SHORT).show();
                 });
 
                 queue.add(stringRequest);
 
             });
         }
+
+
+
 
     public void parseVolleyError(VolleyError error) {
         try {

@@ -53,7 +53,7 @@ public class FragmentPopular extends Fragment {
                     intent.putExtra("albumListID", albumList.getId());
                     startActivity(intent);
                 } catch (Exception e){
-                    Log.e("aaaaaaa fuck my life", e.getMessage());
+                    Log.e("Error: ", e.getMessage());
                 }
 
 
@@ -74,7 +74,7 @@ public class FragmentPopular extends Fragment {
         try {
             getLists();
         } catch (Exception e){
-            Log.e("aaaaaaa fuck my life", e.getMessage());
+            Log.e("Error: ", e.getMessage());
         }
     }
 
@@ -114,7 +114,8 @@ public class FragmentPopular extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Toast.makeText(getActivity().getApplicationContext(), "Fail to get the data..", Toast.LENGTH_SHORT).show());
+            // Internationalised - Failure to retrieve data
+        }, error -> Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.fail_get_data), Toast.LENGTH_SHORT).show());
         queue.add(jsonArrayRequest);
     }
 

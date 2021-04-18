@@ -29,6 +29,19 @@
     <string name="list_name">List Name</string>
     <string name="list_desc">Description</string>
     <string name="edit_desc">Edit List Description</string>
+    <string name="stars">"Stars: "</string>
+    <string name="fail_get_data">Failed to get the data...</string>
+    <string name="list_delete">List deleted!</string>
+    <string name="list_delete_fail">Unable to delete list!</string>
+    <string name="album_added">Album added!</string>
+    <string name="album_add_fail">Unable to add album. Not found in Last.fm database.</string>
+    <string name="desc_update">Description updated!</string>
+    <string name="desc_update_fail">Unable to update description!</string>
+    <string name="list_starred">List starred!</string>
+    <string name="list_star_fail">Unable to star list!</string>
+    <string name="album_delete">Album deleted!</string>
+    <string name="album_delete_fail">Unable to delete album!</string>
+    <string name="no_lists_found">No lists were found by you.</string>
 
 
 </resources>

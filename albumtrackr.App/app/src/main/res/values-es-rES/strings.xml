@@ -30,5 +30,18 @@
     <string name="list_name">Lista de nombres</string>
     <string name="list_desc">Descripción</string>
     <string name="edit_desc">Editar descripción de lista</string>
+    <string name="stars">"Estrellas: "</string>
+    <string name="list_delete">¡Lista eliminada!</string>
+    <string name="fail_get_data">No se pudieron obtener los datos...</string>
+    <string name="list_delete_fail">¡No se puede borrar la lista!</string>
+    <string name="album_added">¡Álbum añadido!</string>
+    <string name="album_add_fail">No se pudo agregar el álbum. No se encuentra en la base de datos de Last.fm.</string>
+    <string name="desc_update">Descripción actualizada!</string>
+    <string name="desc_update_fail">" ¡No se puede actualizar la descripción!"</string>
+    <string name="list_starred">" ¡Lista con estrellas!"</string>
+    <string name="list_star_fail">" ¡No se puede destacar la lista!"</string>
+    <string name="album_delete">" ¡Álbum eliminado!"</string>
+    <string name="album_delete_fail">" ¡No se pudo borrar el álbum!"</string>
+    <string name="no_lists_found">Usted no encontró ninguna lista.</string>
 
 </resources>
