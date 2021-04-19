@@ -79,7 +79,7 @@ namespace albumtrackr.API.Controllers
         }
 
         // star an album by id
-        [HttpPost("{albumListId}")]
+        [HttpPut("{albumListId}")]
         public async Task<IActionResult> StarAlbumList(int albumListId)
         {
             var userList = await _albumListRepository.StarAlbumList(albumListId);
