@@ -410,7 +410,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         star.setOnClickListener(v -> {
 
             RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVICE_URI + id.toString(),
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, SERVICE_URI + id.toString(),
                     response -> {
 
                         // Internationalised - "Stars: "
@@ -440,7 +440,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
 
         starHollow.setOnClickListener(v -> {
             RequestQueue queue = Volley.newRequestQueue(SecondaryActivity.this);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVICE_URI + id.toString(),
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, SERVICE_URI + id.toString(),
                     response -> {
 
                         // Internationalised - "Stars: "
