@@ -243,3 +243,4 @@ C:\albumtrackr\albumtrackr.UnitTests\obj\Release\net5.0\albumtrackr.UnitTests.dl
 C:\albumtrackr\albumtrackr.UnitTests\obj\Release\net5.0\ref\albumtrackr.UnitTests.dll
 C:\albumtrackr\albumtrackr.UnitTests\obj\Release\net5.0\albumtrackr.UnitTests.pdb
 C:\albumtrackr\albumtrackr.UnitTests\obj\Release\net5.0\albumtrackr.UnitTests.genruntimeconfig.cache
+C:\albumtrackr\albumtrackr.UnitTests\bin\Release\net5.0\swagger.json
