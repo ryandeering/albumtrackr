@@ -108,8 +108,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
-                return true;
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -211,14 +211,6 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
         // Internationalised - "Stars: "
         textView_stars.setText(getResources().getString(R.string.stars) + stars.toString());
 
-        if (albumList.getStars() >= 1) {
-            starHollow.setVisibility(View.INVISIBLE);
-            star.setVisibility(View.VISIBLE);
-        } else {
-            starHollow.setVisibility(View.VISIBLE);
-            star.setVisibility(View.INVISIBLE);
-        }
-
 
         // setting adapter to
         // our recycler view.
@@ -237,6 +229,19 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
             star.setVisibility(View.VISIBLE);
             starHollow.setVisibility(View.VISIBLE);
         }
+
+        if (albumList.getStars() >= 1) {
+            starHollow.setVisibility(View.INVISIBLE);
+            star.setVisibility(View.VISIBLE);
+
+
+        } else {
+            starHollow.setVisibility(View.VISIBLE);
+            star.setVisibility(View.INVISIBLE);
+
+
+        }
+
     }
 
 
@@ -422,8 +427,8 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_starred), Toast.LENGTH_LONG).show();
 
 
-
                         adapter.notifyDataSetChanged();
+
 
 
                         // Internationalised - Failure to star list
@@ -451,7 +456,7 @@ public class SecondaryActivity extends AppCompatActivity implements AddAlbumDial
                         Toast.makeText(SecondaryActivity.this, getResources().getString(R.string.list_starred), Toast.LENGTH_LONG).show();
 
 
-
+                        star.setVisibility(View.VISIBLE);
                         adapter.notifyDataSetChanged();
 
 
