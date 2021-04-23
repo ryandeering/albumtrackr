@@ -10,6 +10,8 @@
 
 <p>An Android app using an ASP.NET Core Web API backend, albumtrackr was designed and built for an assignment by Ryan Deering and James Lynam. The app supports CRUD capabilities being able to store your favourite albums in your own individual lists, no matter what the theme. We use the Inflatable Friends Last.fm .NET SDK for easy integration of the Last.fm API into the backend to grab your favourite album's metadata. </p>
 
+<p><b>We recieved an A grade for our efforts.</b></p>
+
 This project sports a couple of things:
 
 * An Azure DevOps pipeline, with Continous Deployment to an Azure app service hosting our API
